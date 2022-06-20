@@ -15,9 +15,6 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 file(GLOB HEADER "*.h")
 file(GLOB SOURCE "*.cpp")
-set(INTERFCE 
-		../interface/plugin.h
-	)
 #set(PROJECT_SOURCES
 #        main.cpp
 #        mainwindow.cpp
@@ -29,9 +26,8 @@ add_library(${PROJECT_NAME} SHARED ${HEADER} ${SOURCE})
 # For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 
 target_include_directories(${PROJECT_NAME} PUBLIC
-/home/cht/cpp/myplugin/interface/
-	)
-
+	../interface/
+)
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES

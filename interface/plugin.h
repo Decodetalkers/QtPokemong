@@ -4,9 +4,8 @@
 #include <QWidget>
 
 class QtPluginInterface {
-	public:
-		virtual ~QtPluginInterface();
-		virtual QWidget *thebutton() = 0;
+public:
+  virtual QWidget *thebutton() = 0;
 };
 
 #define PluginInterface_id "MainInterface"

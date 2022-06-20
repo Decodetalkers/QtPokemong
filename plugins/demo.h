@@ -1,7 +1,7 @@
 #ifndef PLUGIN_DEMO
 #define PLUGIN_DEMO
 #include <QtPlugin>
-#include <../interface/plugin.h>
+#include <plugin.h>
 
 class pluginDemo : public QObject,public QtPluginInterface {
 	Q_OBJECT 
