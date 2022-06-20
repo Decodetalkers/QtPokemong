@@ -8,7 +8,12 @@
 #include <QPushButton>
 #include <QWidget>
 #include <interface/plugin.h>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include "game.h"
 Temp::Temp(QWidget *parent) : QWidget(parent) {
+	QVBoxLayout *root = new QVBoxLayout();
+	root->addWidget(new Enermy());
   grid = new QGridLayout;
 	grid->setAlignment(Qt::AlignmentFlag::AlignCenter);
   QPushButton *b1 = new QPushButton("a");
@@ -16,7 +21,9 @@ Temp::Temp(QWidget *parent) : QWidget(parent) {
   grid->addWidget(b1, 0, 0, 1, 1);
   grid->addWidget(a1, 0, 1, 1, 1);
   loadPlugins();
-  setLayout(grid);
+	root->addLayout(grid);
+	root->addWidget(new Player());
+  setLayout(root);
 }
 void Temp::loadPlugins() {
   QDir pluginsDir = QDir(QCoreApplication::applicationDirPath());
