@@ -3,14 +3,17 @@
 
 #include <QMainWindow>
 #include <QGridLayout>
-
-class Temp :public QWidget {
+#include <QPushButton>
+#include <QStackedWidget>
+class GamePanel :public QWidget {
 	Q_OBJECT
 public:
-		Temp(QWidget *parent = nullptr);
+		GamePanel(QWidget *parent = nullptr);
 		void loadPlugins();
 private:
 		QGridLayout *grid;
+signals:
+    void exit();
 };
 
 class MainWindow : public QMainWindow
@@ -20,5 +23,9 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+private:
+    GamePanel *panel;
+    QPushButton *mainlay;
+    QStackedWidget *aboveall;
 };
 #endif // MAINWINDOW_H

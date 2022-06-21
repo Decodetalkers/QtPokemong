@@ -15,29 +15,32 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Network)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Concurrent)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
 
 
 
 file(GLOB HEADER "*.h")
 file(GLOB SOURCE "*.cpp")
-set(INTERFCE 
-		interface/plugin.h
-	)
+SET(RCC_FILES res.qrc)
 
 add_executable(
 	${PROJECT_NAME}
 	${HEADER}
 	${SOURCE}
-	${INTERFCE}
+  ${RCC_FILES}
 )
 
 
 add_subdirectory(plugins)
+target_include_directories(${PROJECT_NAME} PUBLIC
+	../interface/
+)
 target_link_libraries(
 	myplugin PRIVATE
 	Qt${QT_VERSION_MAJOR}::Widgets
 	Qt${QT_VERSION_MAJOR}::Network
 	Qt${QT_VERSION_MAJOR}::Concurrent
+	Qt${QT_VERSION_MAJOR}::Core
 )
 
 set_target_properties(myplugin PROPERTIES
