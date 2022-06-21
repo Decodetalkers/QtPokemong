@@ -1,17 +1,19 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
 #include <QGridLayout>
+#include <QMainWindow>
 #include <QPushButton>
 #include <QStackedWidget>
-class GamePanel :public QWidget {
-	Q_OBJECT
+class GamePanel : public QWidget
+{
+    Q_OBJECT
 public:
-		GamePanel(QWidget *parent = nullptr);
-		void loadPlugins();
+    GamePanel(QWidget *parent = nullptr);
+    void loadPlugins();
+
 private:
-		QGridLayout *grid;
+    QGridLayout *grid;
 signals:
     void exit();
 };
@@ -23,9 +25,10 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
 private:
     GamePanel *panel;
     QPushButton *mainlay;
     QStackedWidget *aboveall;
 };
-#endif // MAINWINDOW_H
+#endif  // MAINWINDOW_H

@@ -3,16 +3,16 @@
 #include <QtPlugin>
 #include <plugin.h>
 
-class pluginDemo : public QObject,public QtPluginInterface {
-	Q_OBJECT 
-	Q_PLUGIN_METADATA(IID PluginInterface_id)
-	Q_INTERFACES(QtPluginInterface)
+class pluginDemo : public QObject, public QtPluginInterface
+{
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID PluginInterface_id)
+    Q_INTERFACES(QtPluginInterface)
 
 public:
-	pluginDemo(){};
-	~pluginDemo(){};
-	virtual QWidget *thebutton() override;
+    pluginDemo(){};
+    ~pluginDemo(){};
+    virtual QWidget *thebutton() override;
 };
 
-#endif // !PLUGIN_DEMO
-
+#endif  // !PLUGIN_DEMO
