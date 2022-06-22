@@ -15,6 +15,7 @@
 #include <QWidget>
 #include <QtConcurrent>
 #include <optional>
+#include <QScopedPointer>
 #include "pokemengwidgets/linerbar.h"
 const QString baseurl = "https://raw.githubusercontent.com/PokeAPI/sprites/"
                         "master/sprites/pokemon/%1.png";
@@ -31,11 +32,11 @@ QFuture<QByteArray> downloads(const QUrl url)
             QObject::connect(before, &QNetworkReply::finished, &loop, &QEventLoop::quit);
             loop.exec();
         }
-        auto res = before->readAll();
+		auto newbefore = QScopedPointer(before);
+        auto res = newbefore->readAll();
         if (before->error() != QNetworkReply::NoError) {
             qDebug() << "error";
         }
-        before->deleteLater();
         QThread::sleep(1);
         return res;
     });

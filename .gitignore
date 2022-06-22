@@ -3,3 +3,4 @@ mybuild
 .cache
 compile_commands.json
 neovim.json
+CMakeLists.txt.user

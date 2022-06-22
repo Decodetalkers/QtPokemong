@@ -31,7 +31,7 @@ GamePanel::GamePanel(QWidget *parent)
     grid->addWidget(b1, 0, 0, 1, 1);
     grid->addWidget(a1, 0, 1, 1, 1);
     loadPlugins();
-	root->addWidget(new PokemonMap);
+	//root->addWidget(new PokemonMap);
     root->addLayout(grid);
     root->addWidget(new Player());
     setLayout(root);
@@ -64,16 +64,21 @@ void GamePanel::loadPlugins()
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
+
     aboveall = new QStackedWidget(this);
     panel = new GamePanel(this);
     aboveall->addWidget(panel);
-    mainlay = new QPushButton("start");
+    mainlay = new PokemonMap(this);
+	//mainlay->installEventFilter(this);
     aboveall->addWidget(mainlay);
     aboveall->setCurrentIndex(1);
     setCentralWidget(aboveall);
-
+	mainlay->setFocus();
     connect(panel, &GamePanel::exit, this, [&] { aboveall->setCurrentIndex(1); });
-    connect(mainlay, &QPushButton::clicked, this, [&] { aboveall->setCurrentIndex(0); });
+    connect(mainlay, &PokemonMap::meetenermy, this, [&] { 
+			//panel = new GamePanel(this);
+			aboveall->setCurrentIndex(0);
+	});
 }
 
 MainWindow::~MainWindow() {}

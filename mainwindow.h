@@ -5,6 +5,7 @@
 #include <QMainWindow>
 #include <QPushButton>
 #include <QStackedWidget>
+#include "pokemengwidgets/pokemengmap.h"
 class GamePanel : public QWidget
 {
     Q_OBJECT
@@ -28,7 +29,7 @@ public:
 
 private:
     GamePanel *panel;
-    QPushButton *mainlay;
+    PokemonMap *mainlay;
     QStackedWidget *aboveall;
 };
 #endif  // MAINWINDOW_H
