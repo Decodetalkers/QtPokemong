@@ -15,6 +15,7 @@
 #include <QWidget>
 #include <QtConcurrent>
 #include <optional>
+#include "pokemengwidgets/linerbar.h"
 const QString baseurl = "https://raw.githubusercontent.com/PokeAPI/sprites/"
                         "master/sprites/pokemon/%1.png";
 const QString loadinged = ":/resources/yousaki.jpg";
@@ -66,11 +67,12 @@ Player::Player(QWidget *parent)
     panel->addLayout(buttons);
     QVBoxLayout *hp = new QVBoxLayout();
     {
-        QSlider *hpline = new QSlider(Qt::Horizontal);
-        hpline->setRange(0, 100);
-        hpline->setValue(50);
-		hpline->setFixedWidth(600);
-        hpline->setEnabled(false);
+		Linerbar *hpline = new Linerbar();
+        //QSlider *hpline = new QSlider(Qt::Horizontal);
+        //hpline->setRange(0, 100);
+        //hpline->setValue(50);
+        //hpline->setFixedWidth(600);
+        //hpline->setEnabled(false);
         QLabel *hplabel = new QLabel(QString("hp = %1").arg(hps));
         hplabel->setAlignment(Qt::AlignRight);
         hp->addWidget(hpline);
@@ -116,10 +118,11 @@ Enermy::Enermy(QWidget *parent)
     QHBoxLayout *panel = new QHBoxLayout();
     QVBoxLayout *hp = new QVBoxLayout();
     {
-        QSlider *hpline = new QSlider(Qt::Horizontal);
-        hpline->setRange(0, 100);
-        hpline->setValue(50);
-        hpline->setEnabled(false);
+		Linerbar *hpline = new Linerbar();
+        //QSlider *hpline = new QSlider(Qt::Horizontal);
+        //hpline->setRange(0, 100);
+        //hpline->setValue(50);
+        //hpline->setEnabled(false);
         QLabel *hplabel = new QLabel(QString("hp = %1").arg(hps));
         hp->addWidget(hpline);
         hp->addWidget(hplabel);

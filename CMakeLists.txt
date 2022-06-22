@@ -21,12 +21,14 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
 
 file(GLOB HEADER "*.h")
 file(GLOB SOURCE "*.cpp")
+file(GLOB POKEMONG "pokemengwidgets/*")
 SET(RCC_FILES res.qrc)
 
 add_executable(
 	${PROJECT_NAME}
 	${HEADER}
 	${SOURCE}
+	${POKEMONG}
   ${RCC_FILES}
 )
 

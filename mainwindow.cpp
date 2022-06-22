@@ -13,6 +13,7 @@
 #include <QVBoxLayout>
 #include <QWidget>
 #include <interface/plugin.h>
+#include "pokemengwidgets/pokemengmap.h"
 GamePanel::GamePanel(QWidget *parent)
     : QWidget(parent)
 {
@@ -30,6 +31,7 @@ GamePanel::GamePanel(QWidget *parent)
     grid->addWidget(b1, 0, 0, 1, 1);
     grid->addWidget(a1, 0, 1, 1, 1);
     loadPlugins();
+	root->addWidget(new PokemonMap);
     root->addLayout(grid);
     root->addWidget(new Player());
     setLayout(root);
