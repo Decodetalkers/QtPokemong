@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "game.h"
+#include "pokemengwidgets/pokemengmap.h"
 #include <QCoreApplication>
 #include <QDebug>
 #include <QDir>
@@ -13,28 +14,56 @@
 #include <QVBoxLayout>
 #include <QWidget>
 #include <interface/plugin.h>
-#include "pokemengwidgets/pokemengmap.h"
+#include <QStringListModel>
+#include <QListView>
 GamePanel::GamePanel(QWidget *parent)
     : QWidget(parent)
 {
     QVBoxLayout *root = new QVBoxLayout();
-    root->addWidget(new Enermy());
+    enermy = new Enermy();
+    root->addWidget(enermy);
     grid = new QGridLayout;
     grid->setAlignment(Qt::AlignmentFlag::AlignCenter);
     QPushButton *b1 = new QPushButton("a");
     connect(b1, &QPushButton::clicked, this, [&] { emit exit(); });
-    QPushButton *a1 = new QPushButton("b");
+
+    QHBoxLayout *middle = new QHBoxLayout();
+
     {
-        a1->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        b1->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        QPushButton *a1 = new QPushButton("b");
+        {
+            a1->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+            b1->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        }
+        grid->addWidget(b1, 0, 0, 1, 1);
+        grid->addWidget(a1, 0, 1, 1, 1);
+        middle->addLayout(grid);
+        loadPlugins();
+
+		auto mymodel = new QStringListModel(this);
+		QStringList List;
+		List << "Fir" << "Thu" << "Wesday";
+		mymodel->setStringList(List);
+		auto mylistview = new QListView();
+		mylistview->setModel(mymodel);
+		middle->addWidget(mylistview);
     }
-    grid->addWidget(b1, 0, 0, 1, 1);
-    grid->addWidget(a1, 0, 1, 1, 1);
-    loadPlugins();
-	//root->addWidget(new PokemonMap);
-    root->addLayout(grid);
-    root->addWidget(new Player());
+    // root->addWidget(new PokemonMap);
+    // root->addLayout(grid);
+    player = new Player();
+    root->addLayout(middle);
+	root->addWidget(player);
+    connect(player, &Player::attack, enermy, &Enermy::beenattack);
+    connect(enermy, &Enermy::attack, player, &Player::beenattack);
+	connect(player, &Player::beendefeated, this , [&] {emit exit();});
+	connect(enermy, &Enermy::beendefeated, this , [&] {emit exit();});
+
     setLayout(root);
+}
+void GamePanel::refresh() {
+	enermy->reflash();
+	player->reflash();
+	update();
 }
 void GamePanel::loadPlugins()
 {
@@ -64,21 +93,22 @@ void GamePanel::loadPlugins()
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-
     aboveall = new QStackedWidget(this);
     panel = new GamePanel(this);
     aboveall->addWidget(panel);
     mainlay = new PokemonMap(this);
-	//mainlay->installEventFilter(this);
+    // mainlay->installEventFilter(this);
     aboveall->addWidget(mainlay);
     aboveall->setCurrentIndex(1);
     setCentralWidget(aboveall);
-	mainlay->setFocus();
+    mainlay->setFocus();
     connect(panel, &GamePanel::exit, this, [&] { aboveall->setCurrentIndex(1); });
-    connect(mainlay, &PokemonMap::meetenermy, this, [&] { 
-			//panel = new GamePanel(this);
-			aboveall->setCurrentIndex(0);
-	});
+    connect(mainlay, &PokemonMap::meetenermy, this, [&] {
+        // panel = new GamePanel(this);
+		panel->refresh();
+        aboveall->setCurrentIndex(0);
+
+    });
 }
 
 MainWindow::~MainWindow() {}

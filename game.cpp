@@ -1,4 +1,5 @@
 #include "game.h"
+#include "pokemengwidgets/linerbar.h"
 #include <QDebug>
 #include <QFutureWatcher>
 #include <QGridLayout>
@@ -10,13 +11,11 @@
 #include <QObject>
 #include <QPushButton>
 #include <QRandomGenerator>
+#include <QScopedPointer>
 #include <QSlider>
 #include <QVBoxLayout>
 #include <QWidget>
 #include <QtConcurrent>
-#include <optional>
-#include <QScopedPointer>
-#include "pokemengwidgets/linerbar.h"
 const QString baseurl = "https://raw.githubusercontent.com/PokeAPI/sprites/"
                         "master/sprites/pokemon/%1.png";
 const QString loadinged = ":/resources/yousaki.jpg";
@@ -32,7 +31,7 @@ QFuture<QByteArray> downloads(const QUrl url)
             QObject::connect(before, &QNetworkReply::finished, &loop, &QEventLoop::quit);
             loop.exec();
         }
-		auto newbefore = QScopedPointer(before);
+        auto newbefore = QScopedPointer(before);
         auto res = newbefore->readAll();
         if (before->error() != QNetworkReply::NoError) {
             qDebug() << "error";
@@ -40,6 +39,29 @@ QFuture<QByteArray> downloads(const QUrl url)
         QThread::sleep(1);
         return res;
     });
+}
+void Player::beenattack(int attack)
+{
+    yourturn = true;
+    hps = attack >= hps ? 0 : hps - attack;
+    hpline->lifeupdate(hps);
+    hplabel->setText(QString("hp = %1").arg(hps));
+    update();
+    // dead
+    if (hps == 0) {
+        QFutureWatcher<void> *watcher = new QFutureWatcher<void>(this);
+        connect(watcher, &QFutureWatcher<void>::finished, this, [watcher, this] {
+            watcher->deleteLater();
+            emit beendefeated();
+        });
+        watcher->setFuture(QtConcurrent::run([=] { QThread::sleep(2); }));
+    }
+}
+void Player::reflash() {
+	hps = 100;
+	hpline->lifeupdate(hps);
+    hplabel->setText(QString("hp = %1").arg(hps));
+    update();
 }
 Player::Player(QWidget *parent)
     : QWidget(parent)
@@ -68,13 +90,13 @@ Player::Player(QWidget *parent)
     panel->addLayout(buttons);
     QVBoxLayout *hp = new QVBoxLayout();
     {
-		Linerbar *hpline = new Linerbar();
-        //QSlider *hpline = new QSlider(Qt::Horizontal);
-        //hpline->setRange(0, 100);
-        //hpline->setValue(50);
-        //hpline->setFixedWidth(600);
-        //hpline->setEnabled(false);
-        QLabel *hplabel = new QLabel(QString("hp = %1").arg(hps));
+        hpline = new Linerbar();
+        // QSlider *hpline = new QSlider(Qt::Horizontal);
+        // hpline->setRange(0, 100);
+        // hpline->setValue(50);
+        // hpline->setFixedWidth(600);
+        // hpline->setEnabled(false);
+        hplabel = new QLabel(QString("hp = %1").arg(hps));
         hplabel->setAlignment(Qt::AlignRight);
         hp->addWidget(hpline);
         hp->addWidget(hplabel);
@@ -93,9 +115,16 @@ Player::Player(QWidget *parent)
         auto a = QRandomGenerator::global()->bounded(100);
         download(QUrl(QString(baseurl).arg(a)));
     });
+    connect(bb, &QPushButton::clicked, this, [&] {
+        if (yourturn)
+            emit attack(10);
+        yourturn = false;
+    });
     // auto a = QRandomGenerator::global()->bounded(100);
     // download(QUrl(QString(baseurl).arg(a)));
 }
+
+// download new pixmap from www
 void Player::download(const QUrl url)
 {
     QFutureWatcher<QByteArray> *watcher = new QFutureWatcher<QByteArray>(this);
@@ -119,12 +148,12 @@ Enermy::Enermy(QWidget *parent)
     QHBoxLayout *panel = new QHBoxLayout();
     QVBoxLayout *hp = new QVBoxLayout();
     {
-		Linerbar *hpline = new Linerbar();
-        //QSlider *hpline = new QSlider(Qt::Horizontal);
-        //hpline->setRange(0, 100);
-        //hpline->setValue(50);
-        //hpline->setEnabled(false);
-        QLabel *hplabel = new QLabel(QString("hp = %1").arg(hps));
+        hpline = new Linerbar();
+        // QSlider *hpline = new QSlider(Qt::Horizontal);
+        // hpline->setRange(0, 100);
+        // hpline->setValue(50);
+        // hpline->setEnabled(false);
+        hplabel = new QLabel(QString("hp = %1").arg(hps));
         hp->addWidget(hpline);
         hp->addWidget(hplabel);
     }
@@ -154,4 +183,35 @@ void Enermy::loading()
         enermy->setPixmap(image);
     });
     watcher->setFuture(get);
+}
+
+void Enermy::reflash() {
+	hps = 100;
+	hpline->lifeupdate(hps);
+    hplabel->setText(QString("hp = %1").arg(hps));
+    update();
+	loading();
+}
+void Enermy::beenattack(int attacked)
+{
+    hps = attacked >= hps ? 0 : hps - attacked;
+    hpline->lifeupdate(hps);
+    hplabel->setText(QString("hp = %1").arg(hps));
+    update();  // dead
+    if (hps == 0) {
+        QFutureWatcher<void> *watcher = new QFutureWatcher<void>(this);
+        connect(watcher, &QFutureWatcher<void>::finished, this, [watcher, this] {
+            watcher->deleteLater();
+            emit beendefeated();
+        });
+        watcher->setFuture(QtConcurrent::run([=] { QThread::sleep(2); }));
+    } else {
+        QFutureWatcher<void> *watcher = new QFutureWatcher<void>(this);
+        connect(watcher, &QFutureWatcher<void>::finished, this, [watcher, this] {
+            auto a = QRandomGenerator::global()->bounded(30);
+            watcher->deleteLater();
+            emit attack(a);
+        });
+        watcher->setFuture(QtConcurrent::run([=] { QThread::sleep(2); }));
+    }
 }

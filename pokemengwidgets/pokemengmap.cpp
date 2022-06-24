@@ -15,7 +15,7 @@ PokemonMap::PokemonMap(QWidget *parent)
     qrand = QRandomGenerator::global();
     QTimer *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, [&] {
-        for (int i = 0; i < 6; ++i) {
+        for (int i = 0; i < 16; ++i) {
             enermys[i] = {qrand->bounded(30), qrand->bounded(60)};
         }
     });

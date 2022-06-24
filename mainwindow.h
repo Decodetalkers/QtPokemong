@@ -1,20 +1,24 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "pokemengwidgets/pokemengmap.h"
+#include "game.h"
 #include <QGridLayout>
 #include <QMainWindow>
 #include <QPushButton>
 #include <QStackedWidget>
-#include "pokemengwidgets/pokemengmap.h"
 class GamePanel : public QWidget
 {
     Q_OBJECT
 public:
     GamePanel(QWidget *parent = nullptr);
     void loadPlugins();
+    void refresh();
 
 private:
     QGridLayout *grid;
+	Enermy *enermy;
+	Player *player;
 signals:
     void exit();
 };

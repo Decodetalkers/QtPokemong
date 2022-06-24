@@ -3,7 +3,7 @@
 #include <QPainter>
 #include <QPainterPath>
 #include <QPen>
-const QColor green = QColor(30,100,0);
+const QColor green = QColor(30, 100, 0);
 Linerbar::Linerbar(QWidget *parent)
     : QWidget(parent)
 {
@@ -24,4 +24,9 @@ void Linerbar::paintEvent(QPaintEvent *event)
     QPainterPath blood;
     blood.addRoundedRect(QRectF(10, 10, width() * len, 50), 10, 10);
     painter.fillPath(blood, green);
+}
+void Linerbar::lifeupdate(int newlife)
+{
+    life = newlife;
+    update();
 }
