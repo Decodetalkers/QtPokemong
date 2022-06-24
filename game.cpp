@@ -1,24 +1,43 @@
 #include "game.h"
 #include "pokemengwidgets/linerbar.h"
+#include <QAbstractItemModel>
 #include <QDebug>
 #include <QFutureWatcher>
-#include <QGridLayout>
 #include <QHBoxLayout>
-#include <QImage>
 #include <QLabel>
+#include <QListView>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QObject>
 #include <QPushButton>
 #include <QRandomGenerator>
 #include <QScopedPointer>
-#include <QSlider>
-#include <QVBoxLayout>
+#include <QStringListModel>
 #include <QWidget>
+// QT_BEGIN_NAMESPACE
+// class QGridLayout;
+// class QHBoxLayout;
+// class QIMage;
+// class QLabel;
+// class QModelIndex;
+// class QSlider;
+// class QStackedWidget;
+// class QVBoxLayout;
+// QT_END_NAMESPACE
+
+//#include <QTableView>
+
 #include <QtConcurrent>
 const QString baseurl = "https://raw.githubusercontent.com/PokeAPI/sprites/"
                         "master/sprites/pokemon/%1.png";
 const QString loadinged = ":/resources/yousaki.jpg";
+
+Switch::Switch(QWidget *parent, QLayout *mainlayout)
+    : QWidget(parent)
+{
+    setLayout(mainlayout);
+}
+
 QFuture<QByteArray> downloads(const QUrl url)
 {
     return QtConcurrent::run([=] {
@@ -52,15 +71,18 @@ void Player::beenattack(int attack)
         QFutureWatcher<void> *watcher = new QFutureWatcher<void>(this);
         connect(watcher, &QFutureWatcher<void>::finished, this, [watcher, this] {
             watcher->deleteLater();
+            yourturn = false;
             emit beendefeated();
         });
         watcher->setFuture(QtConcurrent::run([=] { QThread::sleep(2); }));
     }
 }
-void Player::reflash() {
-	hps = 100;
-	hpline->lifeupdate(hps);
+void Player::reflash()
+{
+    hps = 100;
+    hpline->lifeupdate(hps);
     hplabel->setText(QString("hp = %1").arg(hps));
+    yourturn = true;
     update();
 }
 Player::Player(QWidget *parent)
@@ -87,7 +109,23 @@ Player::Player(QWidget *parent)
     dd->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     buttons->addWidget(dd, 1, 1, 1, 1);
 
-    panel->addLayout(buttons);
+    Switch *theswitch = new Switch(this, buttons);
+
+    QTabWidget *selections = new QTabWidget(this);
+    selections->addTab(theswitch, "first");
+    mymodel = new QStringListModel(this);
+    QStringList List;
+    List << "Fir"
+         << "Thu"
+         << "Wesday";
+    mymodel->setStringList(List);
+    auto mylistview = new QListView();
+    auto mylistview2 = new QListView();
+    mylistview->setModel(mymodel);
+    mylistview2->setModel(mymodel);
+    selections->addTab(mylistview, "Second");
+    selections->addTab(mylistview2, "Third");
+    panel->addWidget(selections);
     QVBoxLayout *hp = new QVBoxLayout();
     {
         hpline = new Linerbar();
@@ -109,6 +147,7 @@ Player::Player(QWidget *parent)
     player->setFixedWidth(200);
     player->setFixedHeight(200);
     panel->addWidget(player);
+
     setLayout(panel);
 
     connect(aa, &QPushButton::clicked, this, [&] {
@@ -119,6 +158,11 @@ Player::Player(QWidget *parent)
         if (yourturn)
             emit attack(10);
         yourturn = false;
+    });
+    connect(cc, &QPushButton::clicked, this, [&] {
+        mymodel->insertRow(mymodel->rowCount());
+        auto index = mymodel->index(mymodel->rowCount() - 1, 0);
+        mymodel->setData(index, "test");
     });
     // auto a = QRandomGenerator::global()->bounded(100);
     // download(QUrl(QString(baseurl).arg(a)));
@@ -185,12 +229,13 @@ void Enermy::loading()
     watcher->setFuture(get);
 }
 
-void Enermy::reflash() {
-	hps = 100;
-	hpline->lifeupdate(hps);
+void Enermy::reflash()
+{
+    hps = 100;
+    hpline->lifeupdate(hps);
     hplabel->setText(QString("hp = %1").arg(hps));
     update();
-	loading();
+    loading();
 }
 void Enermy::beenattack(int attacked)
 {

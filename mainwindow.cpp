@@ -7,15 +7,15 @@
 #include <QGridLayout>
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QListView>
 #include <QObject>
 #include <QPluginLoader>
 #include <QPushButton>
 #include <QStackedWidget>
+#include <QStringListModel>
 #include <QVBoxLayout>
 #include <QWidget>
 #include <interface/plugin.h>
-#include <QStringListModel>
-#include <QListView>
 GamePanel::GamePanel(QWidget *parent)
     : QWidget(parent)
 {
@@ -28,7 +28,6 @@ GamePanel::GamePanel(QWidget *parent)
     connect(b1, &QPushButton::clicked, this, [&] { emit exit(); });
 
     QHBoxLayout *middle = new QHBoxLayout();
-
     {
         QPushButton *a1 = new QPushButton("b");
         {
@@ -40,30 +39,33 @@ GamePanel::GamePanel(QWidget *parent)
         middle->addLayout(grid);
         loadPlugins();
 
-		auto mymodel = new QStringListModel(this);
-		QStringList List;
-		List << "Fir" << "Thu" << "Wesday";
-		mymodel->setStringList(List);
-		auto mylistview = new QListView();
-		mylistview->setModel(mymodel);
-		middle->addWidget(mylistview);
+        auto mymodel = new QStringListModel(this);
+        QStringList List;
+        List << "Fir"
+             << "Thu"
+             << "Wesday";
+        mymodel->setStringList(List);
+        auto mylistview = new QListView();
+        mylistview->setModel(mymodel);
+        middle->addWidget(mylistview);
     }
     // root->addWidget(new PokemonMap);
     // root->addLayout(grid);
     player = new Player();
     root->addLayout(middle);
-	root->addWidget(player);
+    root->addWidget(player);
     connect(player, &Player::attack, enermy, &Enermy::beenattack);
     connect(enermy, &Enermy::attack, player, &Player::beenattack);
-	connect(player, &Player::beendefeated, this , [&] {emit exit();});
-	connect(enermy, &Enermy::beendefeated, this , [&] {emit exit();});
+    connect(player, &Player::beendefeated, this, [&] { emit exit(); });
+    connect(enermy, &Enermy::beendefeated, this, [&] { emit exit(); });
 
     setLayout(root);
 }
-void GamePanel::refresh() {
-	enermy->reflash();
-	player->reflash();
-	update();
+void GamePanel::refresh()
+{
+    enermy->reflash();
+    player->reflash();
+    update();
 }
 void GamePanel::loadPlugins()
 {
@@ -105,10 +107,13 @@ MainWindow::MainWindow(QWidget *parent)
     connect(panel, &GamePanel::exit, this, [&] { aboveall->setCurrentIndex(1); });
     connect(mainlay, &PokemonMap::meetenermy, this, [&] {
         // panel = new GamePanel(this);
-		panel->refresh();
+        panel->refresh();
         aboveall->setCurrentIndex(0);
-
     });
 }
 
-MainWindow::~MainWindow() {}
+MainWindow::~MainWindow()
+{
+    delete panel;
+    delete mainlay;
+}

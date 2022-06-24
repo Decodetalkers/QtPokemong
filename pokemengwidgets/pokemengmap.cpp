@@ -1,5 +1,5 @@
 #include "pokemengmap.h"
-#include <QDebug>
+//#include <QDebug>
 #include <QPainter>
 #include <QPainterPath>
 #include <QPixmap>
@@ -11,6 +11,7 @@ const QString playerred = ":/resources/red.png";
 PokemonMap::PokemonMap(QWidget *parent)
     : QWidget(parent)
 {
+	//[0] make it can be focused by clicked
     setFocusPolicy(Qt::ClickFocus);
     qrand = QRandomGenerator::global();
     QTimer *timer = new QTimer(this);
