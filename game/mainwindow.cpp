@@ -15,7 +15,10 @@
 #include <QStringListModel>
 #include <QVBoxLayout>
 #include <QWidget>
+//#include "backendinterface.h"
+#include <interface/myinterface.h>
 #include <interface/plugin.h>
+#include <QDBusInterface>
 GamePanel::GamePanel(QWidget *parent)
     : QWidget(parent)
 {
@@ -39,7 +42,7 @@ GamePanel::GamePanel(QWidget *parent)
         middle->addLayout(grid);
         loadPlugins();
 
-        auto mymodel = new QStringListModel(this);
+        mymodel = new QStringListModel(this);
         QStringList List;
         List << "Fir"
              << "Thu"
@@ -58,8 +61,19 @@ GamePanel::GamePanel(QWidget *parent)
     connect(enermy, &Enermy::attack, player, &Player::beenattack);
     connect(player, &Player::beendefeated, this, [&] { emit exit(); });
     connect(enermy, &Enermy::beendefeated, this, [&] { emit exit(); });
+    QDBusInterface *iface = new QDBusInterface(SERVICE_NAME, "/", "mime.example.test", QDBusConnection::sessionBus());
 
+    //org::example::qtdbus::pingexample::ping *iface =
+    //    new org::example::qtdbus::pingexample::ping(SERVICE_NAME, "/", QDBusConnection::sessionBus(), this);
+	connect(iface, SIGNAL(weather(QString)),this, SLOT(getweather(QString)));
     setLayout(root);
+}
+void GamePanel::getweather(QString weather)
+{
+    qDebug() << weather;
+	mymodel->insertRow(mymodel->rowCount());
+        auto index = mymodel->index(mymodel->rowCount() - 1, 0);
+        mymodel->setData(index, weather);
 }
 void GamePanel::refresh()
 {

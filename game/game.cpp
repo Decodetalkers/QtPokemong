@@ -14,18 +14,6 @@
 #include <QScopedPointer>
 #include <QStringListModel>
 #include <QWidget>
-// QT_BEGIN_NAMESPACE
-// class QGridLayout;
-// class QHBoxLayout;
-// class QIMage;
-// class QLabel;
-// class QModelIndex;
-// class QSlider;
-// class QStackedWidget;
-// class QVBoxLayout;
-// QT_END_NAMESPACE
-
-//#include <QTableView>
 
 #include <QtConcurrent>
 const QString baseurl = "https://raw.githubusercontent.com/PokeAPI/sprites/"

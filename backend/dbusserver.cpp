@@ -28,6 +28,7 @@ QString Pong::ping(const QString &arg)
     qDebug() << d->GetQptrTag();
     printf("has get\n");
     qDebug() << arg;
+	emit weather(arg);
     // QMetaObject::invokeMethod(QCoreApplication::instance(), "quit");
     return QString("ping %1 get called").arg(arg);
 }
@@ -43,7 +44,8 @@ int main(int argc, char *argv[])
         exit(1);
     }
     Pong pong;
-    QDBusConnection::sessionBus().registerObject("/", &pong, QDBusConnection::ExportAllSlots);
+    //QDBusConnection::sessionBus().registerObject("/", &pong, QDBusConnection::ExportAllSlots);
+    QDBusConnection::sessionBus().registerObject("/", &pong, QDBusConnection::ExportAllContents);
     app.exec();
     return 0;
 }

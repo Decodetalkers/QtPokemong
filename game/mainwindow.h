@@ -7,6 +7,7 @@
 #include <QMainWindow>
 #include <QPushButton>
 #include <QStackedWidget>
+#include <QStringListModel>
 class GamePanel : public QWidget
 {
     Q_OBJECT
@@ -14,8 +15,10 @@ public:
     GamePanel(QWidget *parent = nullptr);
     void loadPlugins();
     void refresh();
-
+private slots:
+	void getweather(QString weather);
 private:
+	QStringListModel *mymodel;
     QGridLayout *grid;
 	Enermy *enermy;
 	Player *player;

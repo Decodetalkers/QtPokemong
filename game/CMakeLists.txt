@@ -17,18 +17,18 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Network)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Concurrent)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
-
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS DBus)
 
 
 file(GLOB HEADER "*.h")
-file(GLOB SOURCE "*.cpp")
+file(GLOB RSOURCE "*.cpp")
 file(GLOB POKEMONG "pokemengwidgets/*")
 SET(RCC_FILES res.qrc)
 
 add_executable(
 	${PROJECT_NAME}
 	${HEADER}
-	${SOURCE}
+	${RSOURCE}
 	${POKEMONG}
   ${RCC_FILES}
 )
@@ -44,6 +44,7 @@ target_link_libraries(
 	Qt${QT_VERSION_MAJOR}::Network
 	Qt${QT_VERSION_MAJOR}::Concurrent
 	Qt${QT_VERSION_MAJOR}::Core
+	Qt${QT_VERSION_MAJOR}::DBus
 )
 
 set_target_properties(myplugin PROPERTIES
