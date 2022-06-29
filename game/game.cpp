@@ -1,20 +1,24 @@
 #include "game.h"
 #include "pokemengwidgets/linerbar.h"
+#include "pokemengwidgets/pokemongtable.h"
 #include <QAbstractItemModel>
 #include <QDebug>
 #include <QFutureWatcher>
-#include <QHBoxLayout>
-#include <QLabel>
-#include <QListView>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QObject>
-#include <QPushButton>
 #include <QRandomGenerator>
 #include <QScopedPointer>
 #include <QStringListModel>
-#include <QWidget>
-
+#include <QtWidgets>
+//#include <QAbstractTableModel>
+QT_BEGIN_NAMESPACE
+class QLabel;
+class QListView;
+class QHBoxLayout;
+class QPushButton;
+class QTableWidget;
+QT_END_NAMESPACE
 #include <QtConcurrent>
 const QString baseurl = "https://raw.githubusercontent.com/PokeAPI/sprites/"
                         "master/sprites/pokemon/%1.png";
@@ -109,10 +113,30 @@ Player::Player(QWidget *parent)
     mymodel->setStringList(List);
     auto mylistview = new QListView();
     auto mylistview2 = new QListView();
+
     mylistview->setModel(mymodel);
     mylistview2->setModel(mymodel);
     selections->addTab(mylistview, "Second");
     selections->addTab(mylistview2, "Third");
+	// experiment
+    QTableWidget *table = new QTableWidget(2, 2);
+	//table->horizontalHeader()->setVisible(false);
+	table->verticalHeader()->setVisible(false);
+    table->setItemDelegate(new PokemonTableDelegate);
+    table->setHorizontalHeaderLabels({"icon", "name"});
+    QTableWidgetItem *item0 = new QTableWidgetItem;
+	item0->setFlags(item0->flags() ^ Qt::ItemIsEditable);
+    item0->setData(0, QVariant::fromValue(PokemongIcon()));
+    table->setItem(0, 0, item0);
+    table->setItem(0, 1, new QTableWidgetItem("Pokemon"));
+    QTableWidgetItem *item1 = new QTableWidgetItem;
+	item1->setFlags(item1->flags() ^ Qt::ItemIsEditable);
+    table->setItem(1, 0, item1);
+    table->setItem(1, 1, new QTableWidgetItem("Pokemon"));
+    item1->setData(0, QVariant::fromValue(PokemongIcon()));
+	selections->addTab(table,"Forth");
+
+	// experiment end
     panel->addWidget(selections);
     QVBoxLayout *hp = new QVBoxLayout();
     {

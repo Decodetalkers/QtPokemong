@@ -2,23 +2,28 @@
 #include "game.h"
 #include "pokemengwidgets/pokemengmap.h"
 #include <QCoreApplication>
+#include <QDBusInterface>
 #include <QDebug>
 #include <QDir>
-#include <QGridLayout>
-#include <QHBoxLayout>
-#include <QLabel>
-#include <QListView>
 #include <QObject>
 #include <QPluginLoader>
-#include <QPushButton>
-#include <QStackedWidget>
 #include <QStringListModel>
 #include <QVBoxLayout>
 #include <QWidget>
-//#include "backendinterface.h"
+#include <QtWidgets>
 #include <interface/myinterface.h>
 #include <interface/plugin.h>
-#include <QDBusInterface>
+QT_BEGIN_NAMESPACE
+class QGridLayout;
+class QHBoxLayout;
+class QLabel;
+class QPushButton;
+class QStackedWidget;
+class QListView;
+class QTimer;
+QT_END_NAMESPACE
+
+
 GamePanel::GamePanel(QWidget *parent)
     : QWidget(parent)
 {
@@ -62,18 +67,30 @@ GamePanel::GamePanel(QWidget *parent)
     connect(player, &Player::beendefeated, this, [&] { emit exit(); });
     connect(enermy, &Enermy::beendefeated, this, [&] { emit exit(); });
     QDBusInterface *iface = new QDBusInterface(SERVICE_NAME, "/", "mime.example.test", QDBusConnection::sessionBus());
+    timer = new QTimer(this);
+    if (iface->isValid()) {
+        connect(iface, SIGNAL(weather(QString)), this, SLOT(getweather(QString)));
+    } else {
+        connect(timer, &QTimer::timeout, this, [&] {
+            QDBusInterface *iface = new QDBusInterface(SERVICE_NAME, "/", "mime.example.test", QDBusConnection::sessionBus());
+            if (iface->isValid()) {
+                connect(iface, SIGNAL(weather(QString)), this, SLOT(getweather(QString)));
+                timer->stop();
+            }
+        });
+        timer->start(10);
+    }
+    // org::example::qtdbus::pingexample::ping *iface =
+    //     new org::example::qtdbus::pingexample::ping(SERVICE_NAME, "/", QDBusConnection::sessionBus(), this);
 
-    //org::example::qtdbus::pingexample::ping *iface =
-    //    new org::example::qtdbus::pingexample::ping(SERVICE_NAME, "/", QDBusConnection::sessionBus(), this);
-	connect(iface, SIGNAL(weather(QString)),this, SLOT(getweather(QString)));
     setLayout(root);
 }
 void GamePanel::getweather(QString weather)
 {
     qDebug() << weather;
-	mymodel->insertRow(mymodel->rowCount());
-        auto index = mymodel->index(mymodel->rowCount() - 1, 0);
-        mymodel->setData(index, weather);
+    mymodel->insertRow(mymodel->rowCount());
+    auto index = mymodel->index(mymodel->rowCount() - 1, 0);
+    mymodel->setData(index, weather);
 }
 void GamePanel::refresh()
 {

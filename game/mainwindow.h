@@ -22,6 +22,7 @@ private:
     QGridLayout *grid;
 	Enermy *enermy;
 	Player *player;
+	QTimer *timer;
 signals:
     void exit();
 };
