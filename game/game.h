@@ -30,6 +30,11 @@ signals:
 	 */
     void attack(int);
     void beendefeated();
+	/*
+	 * @brief try to catch the pokemon
+	 */
+	void trycatch();
+	void sendmessage(const QString message);
 public slots:
     void beenattack(int attack);
 	void updatepokemonmodel(PokemongIcon pokemon, QString name);
@@ -54,6 +59,7 @@ signals:
     void attack(int);
 	void beencatched(PokemongIcon pokemon, QString name);
     void beendefeated();
+	void sendmessage(const QString message);
 public slots:
     void beenattack(int attack);
 	void trybecatched();

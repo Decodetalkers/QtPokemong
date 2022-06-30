@@ -67,16 +67,28 @@ GamePanel::GamePanel(QWidget *parent)
     connect(player, &Player::beendefeated, this, [&] { emit exit(); });
     connect(enermy, &Enermy::beendefeated, this, [&] { emit exit(); });
     connect(enermy, &Enermy::beencatched, player, &Player::updatepokemonmodel);
-    connect(a1, &QPushButton::clicked, enermy, &Enermy::trybecatched);
+    connect(player, &Player::trycatch, enermy, &Enermy::trybecatched);
+    connect(player, &Player::sendmessage, this, &GamePanel::messagesupdate);
+    connect(enermy, &Enermy::sendmessage, this, &GamePanel::messagesupdate);
+    // connect(a1, &QPushButton::clicked, enermy, &Enermy::trybecatched);
     setLayout(root);
 }
-void GamePanel::getweather(QString weather)
+void GamePanel::messagesupdate(QString message)
 {
-    qDebug() << weather;
     mymodel->insertRow(mymodel->rowCount());
     auto index = mymodel->index(mymodel->rowCount() - 1, 0);
-    mymodel->setData(index, weather);
+    mymodel->setData(index, message);
 }
+// TODO , weather will change the attack action
+void GamePanel::getweather(QString weather)
+{
+    // qDebug() << weather;
+    mymodel->insertRow(mymodel->rowCount());
+    auto index = mymodel->index(mymodel->rowCount() - 1, 0);
+    mymodel->setData(index, QString("Weather become %1").arg(weather));
+}
+
+// refresh the state of players
 void GamePanel::refresh()
 {
     enermy->reflash();
@@ -111,7 +123,7 @@ void GamePanel::loadPlugins()
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-	// above the stack
+    // above the stack
     aboveall = new QStackedWidget(this);
     panel = new GamePanel(this);
     aboveall->addWidget(panel);
@@ -135,14 +147,14 @@ MainWindow::MainWindow(QWidget *parent)
         connect(timer, &QTimer::timeout, this, [&] {
             QDBusInterface *iface = new QDBusInterface(SERVICE_NAME, "/", "mime.example.test", QDBusConnection::sessionBus());
             if (iface->isValid()) {
-				// get the weather of pokemeng
+                // get the weather of pokemeng
                 connect(iface, SIGNAL(weather(QString)), panel, SLOT(getweather(QString)));
-				// get the meetenermy action
+                // get the meetenermy action
                 connect(iface, SIGNAL(meetenermy()), this, SLOT(battle()));
                 timer->stop();
             }
         });
-		// every ten second tick once to get the message
+        // every ten second tick once to get the message
         timer->start(10);
     }
 }

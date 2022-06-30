@@ -62,7 +62,9 @@ void Player::beenattack(int attack)
     hplabel->setText(QString("hp = %1").arg(hps));
     update();
     // dead
+    emit sendmessage(QString("Player is damaged and lost %1 life!").arg(attack));
     if (hps == 0) {
+		emit sendmessage(QString("Player is dead!"));
         QFutureWatcher<void> *watcher = new QFutureWatcher<void>(this);
         connect(watcher, &QFutureWatcher<void>::finished, this, [watcher, this] {
             watcher->deleteLater();
@@ -169,14 +171,23 @@ Player::Player(QWidget *parent)
         download(QUrl(QString(baseurl).arg(a)));
     });
     connect(bb, &QPushButton::clicked, this, [&] {
-        if (yourturn)
+        if (yourturn) {
+            emit sendmessage(QString("Player attack the enermy !"));
             emit attack(10);
-        yourturn = false;
+            yourturn = false;
+        }
     });
     connect(cc, &QPushButton::clicked, this, [&] {
         mymodel->insertRow(mymodel->rowCount());
         auto index = mymodel->index(mymodel->rowCount() - 1, 0);
         mymodel->setData(index, "test");
+    });
+    connect(dd, &QPushButton::clicked, this, [&] {
+        if (yourturn) {
+            yourturn = false;
+            emit sendmessage(QString("Player try to catch pokemong"));
+            emit trycatch();
+        }
     });
     // auto a = QRandomGenerator::global()->bounded(100);
     // download(QUrl(QString(baseurl).arg(a)));
@@ -262,9 +273,17 @@ void Enermy::trybecatched()
 {
     auto a = QRandomGenerator::global()->bounded(100);
     if (a % 3 == 0) {
+        emit sendmessage(QString("Pokemon is catched!"));
         emit beencatched(PokemongIcon(a), "NewPokemong");
         QFutureWatcher<void> *watcher = new QFutureWatcher<void>(this);
         connect(watcher, &QFutureWatcher<void>::finished, this, [watcher, this] { emit beendefeated(); });
+        watcher->setFuture(QtConcurrent::run([=] { QThread::sleep(5); }));
+    } else {
+        QFutureWatcher<void> *watcher = new QFutureWatcher<void>(this);
+        connect(watcher, &QFutureWatcher<void>::finished, this, [watcher, this] {
+            emit sendmessage(QString("Pokemon catched failed!"));
+            emit attack(10);
+        });
         watcher->setFuture(QtConcurrent::run([=] { QThread::sleep(2); }));
     }
 }
@@ -277,12 +296,14 @@ void Enermy::beenattack(int attacked)
     update();  // dead
     if (hps == 0) {
         QFutureWatcher<void> *watcher = new QFutureWatcher<void>(this);
+        emit sendmessage(QString("Pokemon is defeated"));
         connect(watcher, &QFutureWatcher<void>::finished, this, [watcher, this] {
             watcher->deleteLater();
             emit beendefeated();
         });
         watcher->setFuture(QtConcurrent::run([=] { QThread::sleep(2); }));
     } else {
+        emit sendmessage(QString("Pokemon cattack player!"));
         QFutureWatcher<void> *watcher = new QFutureWatcher<void>(this);
         connect(watcher, &QFutureWatcher<void>::finished, this, [watcher, this] {
             auto a = QRandomGenerator::global()->bounded(30);

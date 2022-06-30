@@ -18,6 +18,7 @@ public:
     void refresh();
 public slots:
 	void getweather(QString weather);
+	void messagesupdate(QString message);
 private:
 	QStringListModel *mymodel;
     QGridLayout *grid;

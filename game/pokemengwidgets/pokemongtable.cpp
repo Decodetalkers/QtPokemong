@@ -1,7 +1,34 @@
 #include "pokemongtable.h"
+#include <QFutureWatcher>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QtConcurrent>
 #include <QtWidgets>
-
+const QString baseurl = "https://raw.githubusercontent.com/PokeAPI/sprites/"
+                        "master/sprites/pokemon/%1.png";
 const QString loadinged = ":/resources/yousaki.jpg";
+// dowmload the picture
+//QFuture<QByteArray> download(const QUrl url)
+//{
+//    return QtConcurrent::run([=] {
+//        QNetworkAccessManager qam = QNetworkAccessManager();
+//        QNetworkRequest request(url);
+//        auto before = qam.get(request);
+//        // await , oh ,sorry , cpp does have await now ,:(;
+//        {
+//            QEventLoop loop;
+//            QObject::connect(before, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+//            loop.exec();
+//        }
+//        auto newbefore = QScopedPointer(before);
+//        auto res = newbefore->readAll();
+//        if (before->error() != QNetworkReply::NoError) {
+//            qDebug() << "error";
+//        }
+//        QThread::sleep(1);
+//        return res;
+//    });
+//}
 void PokemonTableDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     if (index.data().canConvert<PokemongIcon>()) {
@@ -31,8 +58,18 @@ void PokemongIcon::paint(QPainter *painter, const QStyleOptionViewItem &option, 
 {
     Q_UNUSED(option)
     // painter->save();
+    //QFuture<QByteArray> t1 = download(QString(baseurl).arg(id));
     QPixmap image = QPixmap(loadinged).scaled(100, 100);
     painter->drawPixmap(option.rect.x(), option.rect.y(), image);
+    //QFutureWatcher<QByteArray> *watcher = new QFutureWatcher<QByteArray>();
+    //QObject::connect(watcher, &QFutureWatcher<QByteArray>::finished,  [watcher, painter,option] {
+    //    watcher->deleteLater();
+    //    auto array = watcher->result();
+    //    QPixmap image;
+    //    image.loadFromData(array);
+	//	painter->drawPixmap(option.rect.x(), option.rect.y(), image);
+	//});
+	//watcher->setFuture(t1);
     // painter->restore();
 }
 
@@ -84,20 +121,20 @@ void PokeMonModel::populateData(const QList<PokemongIcon> &newids, const QList<Q
 }
 
 // row can be insert
-bool PokeMonModel::insertRows(int row, int count,const QModelIndex & parent) {
-	beginInsertRows(QModelIndex(), row, row + count - 1);
-	endInsertRows();
-	return true;
-	  
+bool PokeMonModel::insertRows(int row, int count, const QModelIndex &parent)
+{
+    beginInsertRows(QModelIndex(), row, row + count - 1);
+    endInsertRows();
+    return true;
 }
 
-void PokeMonModel::updatedata(const PokemongIcon id, const QString name) {
-	insertRow(0);
-	auto idsnew = ids;
-	auto namesnew = names;
-	ids.clear();
-	names.clear();
-	ids << id << idsnew;
-	names << name << namesnew;
-	
+void PokeMonModel::updatedata(const PokemongIcon id, const QString name)
+{
+    insertRow(0);
+    auto idsnew = ids;
+    auto namesnew = names;
+    ids.clear();
+    names.clear();
+    ids << id << idsnew;
+    names << name << namesnew;
 }
