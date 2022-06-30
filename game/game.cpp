@@ -1,6 +1,4 @@
 #include "game.h"
-#include "pokemengwidgets/linerbar.h"
-#include "pokemengwidgets/pokemongtable.h"
 #include <QAbstractItemModel>
 #include <QDebug>
 #include <QFutureWatcher>
@@ -10,8 +8,8 @@
 #include <QRandomGenerator>
 #include <QScopedPointer>
 #include <QStringListModel>
+#include <QtConcurrent>
 #include <QtWidgets>
-//#include <QAbstractTableModel>
 QT_BEGIN_NAMESPACE
 class QLabel;
 class QListView;
@@ -20,9 +18,12 @@ class QPushButton;
 class QTableWidget;
 class QTableView;
 QT_END_NAMESPACE
-#include <QtConcurrent>
+
+// The baseurl from row github
 const QString baseurl = "https://raw.githubusercontent.com/PokeAPI/sprites/"
                         "master/sprites/pokemon/%1.png";
+
+// logined image
 const QString loadinged = ":/resources/yousaki.jpg";
 
 Switch::Switch(QWidget *parent, QLayout *mainlayout)
@@ -31,6 +32,7 @@ Switch::Switch(QWidget *parent, QLayout *mainlayout)
     setLayout(mainlayout);
 }
 
+// dowmload the picture
 QFuture<QByteArray> downloads(const QUrl url)
 {
     return QtConcurrent::run([=] {
@@ -119,36 +121,33 @@ Player::Player(QWidget *parent)
     mylistview2->setModel(mymodel);
     selections->addTab(mylistview, "Second");
     selections->addTab(mylistview2, "Third");
-	// experiment
-    
-	QTableView *table = new QTableView();
-	table->setItemDelegate(new PokemonTableDelegate);
-	table->horizontalHeader()->setDefaultSectionSize(100);
-	table->verticalHeader()->setDefaultSectionSize(100);
-	table->verticalHeader()->setVisible(false);
-	table->horizontalHeader()->setVisible(false);
-	QList<PokemongIcon> icons;
-	icons << PokemongIcon() << PokemongIcon();
-	QList<QString> names;
-	names << "shadoxi" << "gamma";
-	PokeMonModel *pokemonmodel = new PokeMonModel(this);
-	pokemonmodel->populateData(icons, names);
-	table->setModel(pokemonmodel);
-	table->horizontalHeader()->setStretchLastSection(true);
-	//table->verticalHeader()->setStretchLastSection(true);
-	selections->addTab(table, "Forth");
+    // experiment
 
+    QTableView *table = new QTableView();
+    table->setItemDelegate(new PokemonTableDelegate);
+    table->horizontalHeader()->setDefaultSectionSize(100);
+    table->verticalHeader()->setDefaultSectionSize(100);
+    table->verticalHeader()->setVisible(false);
+    table->horizontalHeader()->setVisible(false);
+    QList<PokemongIcon> icons;
+    icons << PokemongIcon() << PokemongIcon() << PokemongIcon();
+    QList<QString> names;
+    names << "shadoxi"
+          << "gamma"
+          << "omega";
+    pokemonmodel = new PokeMonModel(this);
+    pokemonmodel->populateData(icons, names);
 
-	// experiment end
+    table->setModel(pokemonmodel);
+    table->horizontalHeader()->setStretchLastSection(true);
+    // table->verticalHeader()->setStretchLastSection(true);
+    selections->addTab(table, "Forth");
+
+    // experiment end
     panel->addWidget(selections);
     QVBoxLayout *hp = new QVBoxLayout();
     {
         hpline = new Linerbar();
-        // QSlider *hpline = new QSlider(Qt::Horizontal);
-        // hpline->setRange(0, 100);
-        // hpline->setValue(50);
-        // hpline->setFixedWidth(600);
-        // hpline->setEnabled(false);
         hplabel = new QLabel(QString("hp = %1").arg(hps));
         hplabel->setAlignment(Qt::AlignRight);
         hp->addWidget(hpline);
@@ -201,6 +200,12 @@ void Player::download(const QUrl url)
     });
     watcher->setFuture(t1);
 }
+
+// update the data, and show one more line
+void Player::updatepokemonmodel(PokemongIcon pokemon, QString name)
+{
+    pokemonmodel->updatedata(pokemon, name);
+}
 Enermy::Enermy(QWidget *parent)
     : QWidget(parent)
 {
@@ -208,10 +213,6 @@ Enermy::Enermy(QWidget *parent)
     QVBoxLayout *hp = new QVBoxLayout();
     {
         hpline = new Linerbar();
-        // QSlider *hpline = new QSlider(Qt::Horizontal);
-        // hpline->setRange(0, 100);
-        // hpline->setValue(50);
-        // hpline->setEnabled(false);
         hplabel = new QLabel(QString("hp = %1").arg(hps));
         hp->addWidget(hpline);
         hp->addWidget(hplabel);
@@ -229,9 +230,11 @@ Enermy::Enermy(QWidget *parent)
     loading();
 }
 
+// loading the new pokemong
 void Enermy::loading()
 {
     auto a = QRandomGenerator::global()->bounded(100);
+    pokemonid = a;
     QFutureWatcher<QByteArray> *watcher = new QFutureWatcher<QByteArray>(this);
     QFuture<QByteArray> get = downloads(QUrl(QString(baseurl).arg(a)));
     connect(watcher, &QFutureWatcher<QByteArray>::finished, this, [watcher, this] {
@@ -244,6 +247,7 @@ void Enermy::loading()
     watcher->setFuture(get);
 }
 
+// re enter
 void Enermy::reflash()
 {
     hps = 100;
@@ -252,6 +256,19 @@ void Enermy::reflash()
     update();
     loading();
 }
+
+// try to catch it
+void Enermy::trybecatched()
+{
+    auto a = QRandomGenerator::global()->bounded(100);
+    if (a % 3 == 0) {
+        emit beencatched(PokemongIcon(a), "NewPokemong");
+        QFutureWatcher<void> *watcher = new QFutureWatcher<void>(this);
+        connect(watcher, &QFutureWatcher<void>::finished, this, [watcher, this] { emit beendefeated(); });
+        watcher->setFuture(QtConcurrent::run([=] { QThread::sleep(2); }));
+    }
+}
+// if attacked , to back or not back
 void Enermy::beenattack(int attacked)
 {
     hps = attacked >= hps ? 0 : hps - attacked;

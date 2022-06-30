@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include "pokemengwidgets/pokemengmap.h"
+#include "pokemengwidgets/pokemongtable.h"
 #include "game.h"
 #include <QGridLayout>
 #include <QMainWindow>
@@ -15,16 +16,17 @@ public:
     GamePanel(QWidget *parent = nullptr);
     void loadPlugins();
     void refresh();
-private slots:
+public slots:
 	void getweather(QString weather);
 private:
 	QStringListModel *mymodel;
     QGridLayout *grid;
 	Enermy *enermy;
 	Player *player;
-	QTimer *timer;
+
 signals:
     void exit();
+	//void catchpokemong(PokemongIcon, QString);
 };
 
 class MainWindow : public QMainWindow
@@ -34,10 +36,13 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
+private slots:
+	void battle();
 private:
     GamePanel *panel;
     PokemonMap *mainlay;
     QStackedWidget *aboveall;
+
+	QTimer *timer;
 };
 #endif  // MAINWINDOW_H

@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include "pokemengwidgets/linerbar.h"
+#include "pokemengwidgets/pokemongtable.h"
 //#include <QLabel>
 #include <QNetworkAccessManager>
 #include <QStringListModel>
@@ -31,7 +32,7 @@ signals:
     void beendefeated();
 public slots:
     void beenattack(int attack);
-
+	void updatepokemonmodel(PokemongIcon pokemon, QString name);
 private:
     QLabel *player;
     QLabel *hplabel;
@@ -40,9 +41,7 @@ private:
     int hps = 100;
     bool yourturn = true;
 	QStringListModel *mymodel;
-    // QHBoxLayout *panel;
-    // QHBoxLayout *themap;
-    // QNetworkAccessManager qnam;
+	PokeMonModel *pokemonmodel;
 };
 
 class Enermy : public QWidget
@@ -53,13 +52,15 @@ public:
     void reflash();
 signals:
     void attack(int);
+	void beencatched(PokemongIcon pokemon, QString name);
     void beendefeated();
 public slots:
     void beenattack(int attack);
-
+	void trybecatched();
 private:
     QLabel *enermy;
     QLabel *hplabel;
+	int pokemonid = 0;
     Linerbar *hpline;
     void loading();
     int hps = 100;

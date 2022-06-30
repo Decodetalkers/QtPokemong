@@ -23,7 +23,6 @@ class QListView;
 class QTimer;
 QT_END_NAMESPACE
 
-
 GamePanel::GamePanel(QWidget *parent)
     : QWidget(parent)
 {
@@ -35,15 +34,16 @@ GamePanel::GamePanel(QWidget *parent)
     QPushButton *b1 = new QPushButton("a");
     connect(b1, &QPushButton::clicked, this, [&] { emit exit(); });
 
+    QPushButton *a1 = new QPushButton("b");
     QHBoxLayout *middle = new QHBoxLayout();
     {
-        QPushButton *a1 = new QPushButton("b");
-        {
-            a1->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-            b1->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        }
+        a1->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        b1->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         grid->addWidget(b1, 0, 0, 1, 1);
         grid->addWidget(a1, 0, 1, 1, 1);
+        // connect(a1, &QPushButton::clicked, this, [&] {
+        //	emit catchpokemong(PokemongIcon(), "ss");
+        // });
         middle->addLayout(grid);
         loadPlugins();
 
@@ -66,23 +66,8 @@ GamePanel::GamePanel(QWidget *parent)
     connect(enermy, &Enermy::attack, player, &Player::beenattack);
     connect(player, &Player::beendefeated, this, [&] { emit exit(); });
     connect(enermy, &Enermy::beendefeated, this, [&] { emit exit(); });
-    QDBusInterface *iface = new QDBusInterface(SERVICE_NAME, "/", "mime.example.test", QDBusConnection::sessionBus());
-    timer = new QTimer(this);
-    if (iface->isValid()) {
-        connect(iface, SIGNAL(weather(QString)), this, SLOT(getweather(QString)));
-    } else {
-        connect(timer, &QTimer::timeout, this, [&] {
-            QDBusInterface *iface = new QDBusInterface(SERVICE_NAME, "/", "mime.example.test", QDBusConnection::sessionBus());
-            if (iface->isValid()) {
-                connect(iface, SIGNAL(weather(QString)), this, SLOT(getweather(QString)));
-                timer->stop();
-            }
-        });
-        timer->start(10);
-    }
-    // org::example::qtdbus::pingexample::ping *iface =
-    //     new org::example::qtdbus::pingexample::ping(SERVICE_NAME, "/", QDBusConnection::sessionBus(), this);
-
+    connect(enermy, &Enermy::beencatched, player, &Player::updatepokemonmodel);
+    connect(a1, &QPushButton::clicked, enermy, &Enermy::trybecatched);
     setLayout(root);
 }
 void GamePanel::getweather(QString weather)
@@ -126,6 +111,7 @@ void GamePanel::loadPlugins()
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
+	// above the stack
     aboveall = new QStackedWidget(this);
     panel = new GamePanel(this);
     aboveall->addWidget(panel);
@@ -141,8 +127,35 @@ MainWindow::MainWindow(QWidget *parent)
         panel->refresh();
         aboveall->setCurrentIndex(0);
     });
+    QDBusInterface *iface = new QDBusInterface(SERVICE_NAME, "/", "mime.example.test", QDBusConnection::sessionBus());
+    timer = new QTimer(this);
+    if (iface->isValid()) {
+        connect(iface, SIGNAL(weather(QString)), panel, SLOT(getweather(QString)));
+    } else {
+        connect(timer, &QTimer::timeout, this, [&] {
+            QDBusInterface *iface = new QDBusInterface(SERVICE_NAME, "/", "mime.example.test", QDBusConnection::sessionBus());
+            if (iface->isValid()) {
+				// get the weather of pokemeng
+                connect(iface, SIGNAL(weather(QString)), panel, SLOT(getweather(QString)));
+				// get the meetenermy action
+                connect(iface, SIGNAL(meetenermy()), this, SLOT(battle()));
+                timer->stop();
+            }
+        });
+		// every ten second tick once to get the message
+        timer->start(10);
+    }
 }
 
+// meet the enermy
+void MainWindow::battle()
+{
+    int index = aboveall->currentIndex();
+    if (index == 1) {
+        panel->refresh();
+        aboveall->setCurrentIndex(0);
+    }
+}
 MainWindow::~MainWindow()
 {
     delete panel;

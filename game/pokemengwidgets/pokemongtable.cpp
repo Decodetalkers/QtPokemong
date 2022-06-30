@@ -41,6 +41,7 @@ int PokeMonModel::rowCount(const QModelIndex &parent) const
     Q_UNUSED(parent);
     return ids.length();
 }
+
 int PokeMonModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
@@ -80,4 +81,23 @@ void PokeMonModel::populateData(const QList<PokemongIcon> &newids, const QList<Q
     names.clear();
     names = newnames;
     return;
+}
+
+// row can be insert
+bool PokeMonModel::insertRows(int row, int count,const QModelIndex & parent) {
+	beginInsertRows(QModelIndex(), row, row + count - 1);
+	endInsertRows();
+	return true;
+	  
+}
+
+void PokeMonModel::updatedata(const PokemongIcon id, const QString name) {
+	insertRow(0);
+	auto idsnew = ids;
+	auto namesnew = names;
+	ids.clear();
+	names.clear();
+	ids << id << idsnew;
+	names << name << namesnew;
+	
 }

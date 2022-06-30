@@ -1,5 +1,6 @@
 #include "dbusserver.h"
 #include <QDebug>
+#include <QRandomGenerator>
 #include <QtDBus/QtDBus>
 #include <interface/myinterface.h>
 #include <stdio.h>
@@ -20,7 +21,22 @@ private:
 Pong::Pong()
     : d_ptr(new PongPrivate(this))
 {
+    startTimer(20000);
 }
+
+void Pong::timerEvent(QTimerEvent *event)
+{
+    Q_UNUSED(event);
+    auto a = QRandomGenerator::global()->bounded(100);
+    if (a > 70) {
+        emit meetenermy();
+    } else if (a > 50) {
+        emit weather("SandStorm");
+    } else if (a > 40) {
+        emit weather("Rain");
+    }
+}
+
 Pong::~Pong() {}
 QString Pong::ping(const QString &arg)
 {
@@ -28,7 +44,7 @@ QString Pong::ping(const QString &arg)
     qDebug() << d->GetQptrTag();
     printf("has get\n");
     qDebug() << arg;
-	emit weather(arg);
+    emit weather(arg);
     // QMetaObject::invokeMethod(QCoreApplication::instance(), "quit");
     return QString("ping %1 get called").arg(arg);
 }
@@ -44,7 +60,7 @@ int main(int argc, char *argv[])
         exit(1);
     }
     Pong pong;
-    //QDBusConnection::sessionBus().registerObject("/", &pong, QDBusConnection::ExportAllSlots);
+    // QDBusConnection::sessionBus().registerObject("/", &pong, QDBusConnection::ExportAllSlots);
     QDBusConnection::sessionBus().registerObject("/", &pong, QDBusConnection::ExportAllContents);
     app.exec();
     return 0;
