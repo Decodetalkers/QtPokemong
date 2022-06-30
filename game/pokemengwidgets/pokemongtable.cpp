@@ -15,7 +15,11 @@ void PokemonTableDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
 QSize PokemonTableDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     Q_UNUSED(option);
-    return QSize(40, 40);
+    if (index.data().canConvert<PokemongIcon>()) {
+        return QSize(100, 100);
+    } else {
+        return QStyledItemDelegate::sizeHint(option, index);
+    }
 }
 
 PokemongIcon::PokemongIcon(int id)
@@ -25,9 +29,55 @@ PokemongIcon::PokemongIcon(int id)
 
 void PokemongIcon::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-	Q_UNUSED(option)
-    //painter->save();
-    QPixmap image = QPixmap(loadinged).scaled(40, 40);
+    Q_UNUSED(option)
+    // painter->save();
+    QPixmap image = QPixmap(loadinged).scaled(100, 100);
     painter->drawPixmap(option.rect.x(), option.rect.y(), image);
-    //painter->restore();
+    // painter->restore();
+}
+
+int PokeMonModel::rowCount(const QModelIndex &parent) const
+{
+    Q_UNUSED(parent);
+    return ids.length();
+}
+int PokeMonModel::columnCount(const QModelIndex &parent) const
+{
+    Q_UNUSED(parent);
+    return 2;
+}
+PokeMonModel::PokeMonModel(QObject *parent)
+    : QAbstractTableModel(parent)
+{
+}
+QVariant PokeMonModel::data(const QModelIndex &index, int role) const
+{
+    if (!index.isValid() || role != Qt::DisplayRole) {
+        return QVariant();
+    }
+    if (index.column() == 0) {
+        return QVariant::fromValue(ids[index.row()]);
+    } else if (index.column() == 1) {
+        return names[index.row()];
+    }
+    return QVariant();
+}
+QVariant PokeMonModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if (role == Qt::DisplayRole && orientation == Qt::Horizontal) {
+        if (section == 0) {
+            return QString("Id");
+        } else if (section == 1) {
+            return QString("Name");
+        }
+    }
+    return QVariant();
+}
+void PokeMonModel::populateData(const QList<PokemongIcon> &newids, const QList<QString> &newnames)
+{
+    ids.clear();
+    ids = newids;
+    names.clear();
+    names = newnames;
+    return;
 }
