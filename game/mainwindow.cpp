@@ -70,7 +70,6 @@ GamePanel::GamePanel(QWidget *parent)
     connect(player, &Player::trycatch, enermy, &Enermy::trybecatched);
     connect(player, &Player::sendmessage, this, &GamePanel::messagesupdate);
     connect(enermy, &Enermy::sendmessage, this, &GamePanel::messagesupdate);
-    // connect(a1, &QPushButton::clicked, enermy, &Enermy::trybecatched);
     setLayout(root);
 }
 void GamePanel::messagesupdate(QString message)

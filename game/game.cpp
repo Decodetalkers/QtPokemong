@@ -50,7 +50,7 @@ QFuture<QByteArray> downloads(const QUrl url)
         if (before->error() != QNetworkReply::NoError) {
             qDebug() << "error";
         }
-        QThread::sleep(1);
+        QThread::sleep(3);
         return res;
     });
 }
@@ -64,7 +64,7 @@ void Player::beenattack(int attack)
     // dead
     emit sendmessage(QString("Player is damaged and lost %1 life!").arg(attack));
     if (hps == 0) {
-		emit sendmessage(QString("Player is dead!"));
+        emit sendmessage(QString("Player is dead!"));
         QFutureWatcher<void> *watcher = new QFutureWatcher<void>(this);
         connect(watcher, &QFutureWatcher<void>::finished, this, [watcher, this] {
             watcher->deleteLater();
@@ -110,37 +110,23 @@ Player::Player(QWidget *parent)
 
     QTabWidget *selections = new QTabWidget(this);
     selections->addTab(theswitch, "first");
-    mymodel = new QStringListModel(this);
-    QStringList List;
-    List << "Fir"
-         << "Thu"
-         << "Wesday";
-    mymodel->setStringList(List);
-    auto mylistview = new QListView();
-    auto mylistview2 = new QListView();
-
-    mylistview->setModel(mymodel);
-    mylistview2->setModel(mymodel);
-    selections->addTab(mylistview, "Second");
-    selections->addTab(mylistview2, "Third");
-    // experiment
 
     QTableView *table = new QTableView();
     table->setItemDelegate(new PokemonTableDelegate);
+    table->setSelectionBehavior(QAbstractItemView::SelectRows);
     table->horizontalHeader()->setDefaultSectionSize(100);
     table->verticalHeader()->setDefaultSectionSize(100);
     table->verticalHeader()->setVisible(false);
     table->horizontalHeader()->setVisible(false);
     QList<PokemongIcon> icons;
-    icons << PokemongIcon() << PokemongIcon() << PokemongIcon();
+    icons << PokemongIcon();
     QList<QString> names;
-    names << "shadoxi"
-          << "gamma"
-          << "omega";
+    names << "shadoxi";
     pokemonmodel = new PokeMonModel(this);
     pokemonmodel->populateData(icons, names);
 
     table->setModel(pokemonmodel);
+    table->setEditTriggers(QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked);
     table->horizontalHeader()->setStretchLastSection(true);
     // table->verticalHeader()->setStretchLastSection(true);
     selections->addTab(table, "Forth");
@@ -177,11 +163,7 @@ Player::Player(QWidget *parent)
             yourturn = false;
         }
     });
-    connect(cc, &QPushButton::clicked, this, [&] {
-        mymodel->insertRow(mymodel->rowCount());
-        auto index = mymodel->index(mymodel->rowCount() - 1, 0);
-        mymodel->setData(index, "test");
-    });
+
     connect(dd, &QPushButton::clicked, this, [&] {
         if (yourturn) {
             yourturn = false;
@@ -274,10 +256,15 @@ void Enermy::trybecatched()
     auto a = QRandomGenerator::global()->bounded(100);
     if (a % 3 == 0) {
         emit sendmessage(QString("Pokemon is catched!"));
-        emit beencatched(PokemongIcon(a), "NewPokemong");
-        QFutureWatcher<void> *watcher = new QFutureWatcher<void>(this);
-        connect(watcher, &QFutureWatcher<void>::finished, this, [watcher, this] { emit beendefeated(); });
-        watcher->setFuture(QtConcurrent::run([=] { QThread::sleep(5); }));
+
+        QFutureWatcher<QByteArray> *watcher = new QFutureWatcher<QByteArray>(this);
+        connect(watcher, &QFutureWatcher<QByteArray>::finished, this, [watcher, this] {
+            auto array = watcher->result();
+            emit beencatched(PokemongIcon(QVariant::fromValue(array)), "NewPokemong");
+            watcher->deleteLater();
+            emit beendefeated();
+        });
+        watcher->setFuture(downloads(QString(baseurl).arg(pokemonid)));
     } else {
         QFutureWatcher<void> *watcher = new QFutureWatcher<void>(this);
         connect(watcher, &QFutureWatcher<void>::finished, this, [watcher, this] {

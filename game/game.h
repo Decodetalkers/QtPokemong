@@ -45,7 +45,7 @@ private:
     void download(const QUrl url);
     int hps = 100;
     bool yourturn = true;
-	QStringListModel *mymodel;
+	//QStringListModel *mymodel;
 	PokeMonModel *pokemonmodel;
 };
 

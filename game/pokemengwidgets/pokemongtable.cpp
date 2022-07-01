@@ -2,43 +2,51 @@
 #include <QFutureWatcher>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
+#include <QVariant>
 #include <QtConcurrent>
 #include <QtWidgets>
+#include <optional>
 const QString baseurl = "https://raw.githubusercontent.com/PokeAPI/sprites/"
                         "master/sprites/pokemon/%1.png";
 const QString loadinged = ":/resources/yousaki.jpg";
 // dowmload the picture
-//QFuture<QByteArray> download(const QUrl url)
-//{
-//    return QtConcurrent::run([=] {
-//        QNetworkAccessManager qam = QNetworkAccessManager();
-//        QNetworkRequest request(url);
-//        auto before = qam.get(request);
-//        // await , oh ,sorry , cpp does have await now ,:(;
-//        {
-//            QEventLoop loop;
-//            QObject::connect(before, &QNetworkReply::finished, &loop, &QEventLoop::quit);
-//            loop.exec();
-//        }
-//        auto newbefore = QScopedPointer(before);
-//        auto res = newbefore->readAll();
-//        if (before->error() != QNetworkReply::NoError) {
-//            qDebug() << "error";
-//        }
-//        QThread::sleep(1);
-//        return res;
-//    });
-//}
+QFuture<QByteArray> download(const QUrl url)
+{
+    return QtConcurrent::run([=] {
+        QNetworkAccessManager qam = QNetworkAccessManager();
+        QNetworkRequest request(url);
+        auto before = qam.get(request);
+        // await , oh ,sorry , cpp does have await now ,:(;
+        {
+            QEventLoop loop;
+            QObject::connect(before, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+            loop.exec();
+        }
+        auto newbefore = QScopedPointer(before);
+        auto res = newbefore->readAll();
+        if (before->error() != QNetworkReply::NoError) {
+            qDebug() << "error";
+        }
+        QThread::sleep(1);
+        return res;
+    });
+}
+
+// paint the table
 void PokemonTableDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
+    // if is pokemong , drawPixmap
     if (index.data().canConvert<PokemongIcon>()) {
         PokemongIcon icon = qvariant_cast<PokemongIcon>(index.data());
+
         icon.paint(painter, option, index);
+
     } else {
         QStyledItemDelegate::paint(painter, option, index);
     }
 }
-// TODO use the value in index
+
+// set the sizeHint
 QSize PokemonTableDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     Q_UNUSED(option);
@@ -49,28 +57,24 @@ QSize PokemonTableDelegate::sizeHint(const QStyleOptionViewItem &option, const Q
     }
 }
 
-PokemongIcon::PokemongIcon(int id)
-    : id(id)
+PokemonTableDelegate::~PokemonTableDelegate() {}
+PokemongIcon::PokemongIcon(QVariant icon)
+    : icon(icon)
 {
 }
 
 void PokemongIcon::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     Q_UNUSED(option)
-    // painter->save();
-    //QFuture<QByteArray> t1 = download(QString(baseurl).arg(id));
-    QPixmap image = QPixmap(loadinged).scaled(100, 100);
-    painter->drawPixmap(option.rect.x(), option.rect.y(), image);
-    //QFutureWatcher<QByteArray> *watcher = new QFutureWatcher<QByteArray>();
-    //QObject::connect(watcher, &QFutureWatcher<QByteArray>::finished,  [watcher, painter,option] {
-    //    watcher->deleteLater();
-    //    auto array = watcher->result();
-    //    QPixmap image;
-    //    image.loadFromData(array);
-	//	painter->drawPixmap(option.rect.x(), option.rect.y(), image);
-	//});
-	//watcher->setFuture(t1);
-    // painter->restore();
+    if (!icon.value<bool>()) {
+        QPixmap image = QPixmap(loadinged).scaled(100, 100);
+        painter->drawPixmap(option.rect.x(), option.rect.y(), image);
+    } else {
+        auto buffer = icon.value<QByteArray>();
+        QPixmap image;
+        image.loadFromData(buffer);
+        painter->drawPixmap(option.rect.x(), option.rect.y(), image);
+    }
 }
 
 int PokeMonModel::rowCount(const QModelIndex &parent) const
@@ -127,14 +131,35 @@ bool PokeMonModel::insertRows(int row, int count, const QModelIndex &parent)
     endInsertRows();
     return true;
 }
-
+// is a new pokemon is catched
 void PokeMonModel::updatedata(const PokemongIcon id, const QString name)
 {
-    insertRow(0);
     auto idsnew = ids;
     auto namesnew = names;
     ids.clear();
     names.clear();
     ids << id << idsnew;
     names << name << namesnew;
+    insertRow(0);
+}
+// set flags if is icon
+Qt::ItemFlags PokeMonModel::flags(const QModelIndex &index) const
+{
+    if (index.data().canConvert<PokemongIcon>()) {
+        return Qt::NoItemFlags;
+    } else {
+        return (Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsEnabled);
+    }
+}
+// here to reset the names
+bool PokeMonModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    Q_UNUSED(role)
+    // qDebug() << index.column();
+    // qDebug() << index.row();
+    if (index.column() == 1) {
+        names[index.row()] = value.value<QString>();
+        return true;
+    }
+    return false;
 }
