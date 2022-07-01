@@ -22,6 +22,7 @@ QFuture<QByteArray> download(const QUrl url)
             QObject::connect(before, &QNetworkReply::finished, &loop, &QEventLoop::quit);
             loop.exec();
         }
+		// it will alive in the scope
         auto newbefore = QScopedPointer(before);
         auto res = newbefore->readAll();
         if (before->error() != QNetworkReply::NoError) {
