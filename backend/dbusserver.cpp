@@ -11,11 +11,12 @@ public:
     PongPrivate(Pong *q)
         : q_ptr(q){};
     ~PongPrivate(){};
-    Pong *const q_ptr;
+
     QString GetQptrTag() const { return QString("%1 from %2").arg(q_ptr->tag, tag); }
 
 private:
     Q_DECLARE_PUBLIC(Pong)
+    Pong *const q_ptr;
     QString tag{"PongPrivate"};
 };
 Pong::Pong()
@@ -23,7 +24,7 @@ Pong::Pong()
 {
     startTimer(20000);
 }
-
+// TODO: need log
 void Pong::timerEvent(QTimerEvent *event)
 {
     Q_UNUSED(event);

@@ -1,5 +1,4 @@
 #include "pokemengmap.h"
-//#include <QDebug>
 #include <QPainter>
 #include <QPainterPath>
 #include <QPixmap>

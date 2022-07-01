@@ -15,6 +15,8 @@ public:
 
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 };
+
+// TODO use Q_Q and Q_D to hide the class
 class PokemongIcon
 {
 public:

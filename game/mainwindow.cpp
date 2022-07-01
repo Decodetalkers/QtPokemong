@@ -5,11 +5,8 @@
 #include <QDBusInterface>
 #include <QDebug>
 #include <QDir>
-#include <QObject>
 #include <QPluginLoader>
 #include <QStringListModel>
-#include <QVBoxLayout>
-#include <QWidget>
 #include <QtWidgets>
 #include <interface/myinterface.h>
 #include <interface/plugin.h>
@@ -21,6 +18,7 @@ class QPushButton;
 class QStackedWidget;
 class QListView;
 class QTimer;
+class QVBoxLayout;
 QT_END_NAMESPACE
 
 GamePanel::GamePanel(QWidget *parent)
@@ -34,6 +32,7 @@ GamePanel::GamePanel(QWidget *parent)
     QPushButton *b1 = new QPushButton("a");
     connect(b1, &QPushButton::clicked, this, [&] { emit exit(); });
 
+    // TODO , change it to battle map
     QPushButton *a1 = new QPushButton("b");
     QHBoxLayout *middle = new QHBoxLayout();
     {
@@ -41,24 +40,17 @@ GamePanel::GamePanel(QWidget *parent)
         b1->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         grid->addWidget(b1, 0, 0, 1, 1);
         grid->addWidget(a1, 0, 1, 1, 1);
-        // connect(a1, &QPushButton::clicked, this, [&] {
-        //	emit catchpokemong(PokemongIcon(), "ss");
-        // });
         middle->addLayout(grid);
         loadPlugins();
 
         mymodel = new QStringListModel(this);
         QStringList List;
-        List << "Fir"
-             << "Thu"
-             << "Wesday";
+        List << "Game Start";
         mymodel->setStringList(List);
         auto mylistview = new QListView();
         mylistview->setModel(mymodel);
         middle->addWidget(mylistview);
     }
-    // root->addWidget(new PokemonMap);
-    // root->addLayout(grid);
     player = new Player();
     root->addLayout(middle);
     root->addWidget(player);
@@ -94,6 +86,8 @@ void GamePanel::refresh()
     player->reflash();
     update();
 }
+
+// TODO move plugins to the map
 void GamePanel::loadPlugins()
 {
     QDir pluginsDir = QDir(QCoreApplication::applicationDirPath());
@@ -101,12 +95,7 @@ void GamePanel::loadPlugins()
         return;
     int count = 0;
     foreach (QString filename, pluginsDir.entryList(QDir::Files)) {
-        // qDebug() << "test";
-        // qDebug() << pluginsDir.absoluteFilePath(filename);
         QPluginLoader pluginLoader(pluginsDir.absoluteFilePath(filename));
-        // if (!pluginLoader.load()) {
-        //   qDebug() << pluginLoader.errorString();
-        // }
         QObject *plugin = pluginLoader.instance();
         if (plugin) {
             // qDebug() << "gamma";
