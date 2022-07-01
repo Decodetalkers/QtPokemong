@@ -27,3 +27,4 @@ target_link_libraries(
 	Qt5::Core
 	Qt5::DBus
 )
+install(TARGETS ${BIN_NAME} DESTINATION bin)

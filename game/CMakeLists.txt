@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(myplugin VERSION 0.1 LANGUAGES CXX)
+project(pokemongbattle VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -39,7 +39,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 	../include/
 )
 target_link_libraries(
-	myplugin PRIVATE
+	${PROJECT_NAME} PRIVATE
 	Qt${QT_VERSION_MAJOR}::Widgets
 	Qt${QT_VERSION_MAJOR}::Network
 	Qt${QT_VERSION_MAJOR}::Concurrent
@@ -47,13 +47,16 @@ target_link_libraries(
 	Qt${QT_VERSION_MAJOR}::DBus
 )
 
-set_target_properties(myplugin PROPERTIES
+set_target_properties(${PROJECT_NAME} PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
     MACOSX_BUNDLE TRUE
 
 )
+
+#bin
+install(TARGETS ${BIN_NAME} DESTINATION bin)
 
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(myplugin)
