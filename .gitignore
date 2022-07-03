@@ -4,3 +4,7 @@ mybuild
 compile_commands.json
 neovim.json
 CMakeLists.txt.user
+CMakeFiles
+cmake_install.cmake
+Makefile
+CMakeCache.txt
