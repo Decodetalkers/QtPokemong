@@ -3,9 +3,9 @@
 
 #include "pokemengwidgets/linerbar.h"
 #include "pokemengwidgets/pokemongtable.h"
-//#include <QLabel>
 #include <QNetworkAccessManager>
 #include <QStringListModel>
+// use namespace to import these 
 QT_BEGIN_NAMESPACE
 class QLabel;
 class QHBoxLayout;

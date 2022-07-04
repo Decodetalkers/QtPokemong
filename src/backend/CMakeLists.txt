@@ -21,7 +21,7 @@ add_executable(
 	dbusserver.cpp
 	)
 target_include_directories(${PROJECT_NAME} PUBLIC
-	../include/
+	../../include/
 )
 target_link_libraries(
 	${PROJECT_NAME} PRIVATE

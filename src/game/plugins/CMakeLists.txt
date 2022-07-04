@@ -26,7 +26,7 @@ add_library(${PROJECT_NAME} SHARED ${HEADER} ${RSOURCE})
 # For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 
 target_include_directories(${PROJECT_NAME} PUBLIC
-	../../include/
+	../../../include/
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 
