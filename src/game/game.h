@@ -5,6 +5,7 @@
 #include "pokemengwidgets/pokemongtable.h"
 #include <QNetworkAccessManager>
 #include <QStringListModel>
+#include <QSharedPointer>
 // use namespace to import these 
 QT_BEGIN_NAMESPACE
 class QLabel;
@@ -21,7 +22,7 @@ class Player : public QWidget
 {
     Q_OBJECT
 public:
-    Player(QWidget *parent = nullptr);
+    Player(QWidget *parent = nullptr, QSharedPointer<PokeMonModel> model = QSharedPointer<PokeMonModel>(new PokeMonModel()));
     void reflash();
 signals:
 	/*
@@ -46,7 +47,7 @@ private:
     int hps = 100;
     bool yourturn = true;
 	//QStringListModel *mymodel;
-	PokeMonModel *pokemonmodel;
+	QSharedPointer<PokeMonModel> pokemonmodel;
 };
 
 class Enermy : public QWidget

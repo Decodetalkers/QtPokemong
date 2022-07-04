@@ -1,0 +1,10 @@
+[Unit]
+Description=Run foo weekly
+
+[Timer]
+OnBootSec=0min
+OnCalendar=*:*:0,15,30,45
+Unit=pokemongbackend.service
+
+[Install]
+WantedBy=timers.target

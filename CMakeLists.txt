@@ -6,7 +6,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 if(CMAKE_BUILD_TYPE STRLESS_EQUAL "Debug")
-	set(STARTTEST on)
+	set(STARTTEST ON)
 endif ()
 #add_executable(cmake_study src/main.cpp src/header.h)
 add_subdirectory(src/game)

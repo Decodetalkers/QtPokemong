@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "game.h"
 #include "pokemengwidgets/pokemengmap.h"
+#include "pokemengwidgets/pokemongtable.h"
+#include <QSharedPointer>
 #include <QCoreApplication>
 #include <QDBusInterface>
 #include <QDebug>
@@ -52,7 +54,7 @@ GamePanel::GamePanel(QWidget *parent)
         mylistview->setModel(messagemodel);
         middle->addWidget(mylistview);
     }
-    player = new Player();
+    player = new Player(this, QSharedPointer<PokeMonModel>(new PokeMonModel(this)));
     root->addLayout(middle);
     root->addWidget(player);
 	// attack

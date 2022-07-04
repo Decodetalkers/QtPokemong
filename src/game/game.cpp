@@ -84,8 +84,9 @@ void Player::reflash()
     yourturn = true;
     update();
 }
-Player::Player(QWidget *parent)
-    : QWidget(parent)
+Player::Player(QWidget *parent, QSharedPointer<PokeMonModel> model)
+    : QWidget(parent),
+	pokemonmodel(model)
 {
     QHBoxLayout *panel = new QHBoxLayout();
 
@@ -124,10 +125,10 @@ Player::Player(QWidget *parent)
     icons << PokemongIcon();
     QList<QString> names;
     names << "shadoxi";
-    pokemonmodel = new PokeMonModel(this);
+    //pokemonmodel = new PokeMonModel(this);
     pokemonmodel->populateData(icons, names);
 
-    table->setModel(pokemonmodel);
+    table->setModel(pokemonmodel.data());
     table->setEditTriggers(QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked);
     table->horizontalHeader()->setStretchLastSection(true);
     // table->verticalHeader()->setStretchLastSection(true);
