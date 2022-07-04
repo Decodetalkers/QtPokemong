@@ -1,12 +1,13 @@
 #include "pokemengmap.h"
+#include <QDebug>
 #include <QPainter>
 #include <QPainterPath>
 #include <QPixmap>
 #include <QRandomGenerator>
 #include <QTimer>
-#include <qglobal.h>
 const QString grass = ":/resources/grass.jpg";
 const QString playerred = ":/resources/red.png";
+const QColor white = QColor(255, 255, 255);
 PokemonMap::PokemonMap(QWidget *parent)
     : QWidget(parent)
 {
@@ -18,6 +19,7 @@ PokemonMap::PokemonMap(QWidget *parent)
         for (int i = 0; i < 16; ++i) {
             enermys[i] = {qrand->bounded(30), qrand->bounded(60)};
         }
+        hasmessage = false;
     });
     timer->start(100);
     setMinimumSize(500, 500);
@@ -38,9 +40,26 @@ void PokemonMap::paintEvent(QPaintEvent *event)
     QPixmap player = QPixmap(playerred).scaled(scalesize, scalesize);
     painter.drawPixmap(startpointx, startpointy, image);
     painter.drawPixmap(playerposition.x() * scalesize + startpointx, playerposition.y() * scalesize + startpointy, player);
+
+    // message draw
+	// it will draw a white message block on the right corner of the page
+    if (hasmessage) {
+        QPainterPath messagetext;
+        messagetext.addRoundedRect(QRectF(size().width() - 100, 0, 100, 50), 0, 0);
+		painter.setPen(QPen(white, 10));
+		painter.fillPath(messagetext, white);
+		painter.setPen(QPen(Qt::black, 10));
+        painter.drawText(size().width() - 100, 25, message);
+    }
     // painter.drawPixmap
 }
 
+void PokemonMap::drawmessageupdate(QString weather)
+{
+    hasmessage = true;
+    this->message = weather;
+    update();
+}
 void PokemonMap::keyPressEvent(QKeyEvent *event)
 {
     // qDebug() << "Hello";

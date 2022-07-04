@@ -260,7 +260,8 @@ void Enermy::trybecatched()
         QFutureWatcher<QByteArray> *watcher = new QFutureWatcher<QByteArray>(this);
         connect(watcher, &QFutureWatcher<QByteArray>::finished, this, [watcher, this] {
             auto array = watcher->result();
-            emit beencatched(PokemongIcon(QVariant::fromValue(array)), "NewPokemong");
+			// here pokemon send be catched message to player
+            emit beencatched(PokemongIcon(QVariant::fromValue(array),this->pokemonid), "NewPokemong");
             watcher->deleteLater();
             emit beendefeated();
         });

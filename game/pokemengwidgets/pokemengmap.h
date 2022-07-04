@@ -9,6 +9,8 @@ class PokemonMap : public QWidget
 public:
     PokemonMap(QWidget *parent = nullptr);
 
+public slots:
+	void drawmessageupdate(QString weather);
 protected:
     void paintEvent(QPaintEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
@@ -36,6 +38,8 @@ private:
         {1, 1},
     };
     QPoint playerposition = {0, 0};
+    bool hasmessage = false;
+    QString message = "";
 };
 
 #endif  // !POKEMONGMAP_H

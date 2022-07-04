@@ -59,8 +59,9 @@ QSize PokemonTableDelegate::sizeHint(const QStyleOptionViewItem &option, const Q
 }
 
 PokemonTableDelegate::~PokemonTableDelegate() {}
-PokemongIcon::PokemongIcon(QVariant icon)
-    : icon(icon)
+PokemongIcon::PokemongIcon(QVariant icon,int id)
+    : icon(icon),
+	id(id)
 {
 }
 

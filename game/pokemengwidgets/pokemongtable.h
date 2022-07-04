@@ -20,12 +20,14 @@ public:
 class PokemongIcon
 {
 public:
-    explicit PokemongIcon(QVariant icon = QVariant(false));
+    explicit PokemongIcon(QVariant icon = QVariant(false), int id = 0);
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
     QVariant pokemonid() const { return icon; }
+    int getid() const { return id; }
 
 private:
     QVariant icon;
+    int id;
 };
 
 // declare to a metatype
