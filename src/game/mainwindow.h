@@ -20,7 +20,7 @@ public slots:
 	void getweather(QString weather);
 	void messagesupdate(QString message);
 private:
-	QStringListModel *mymodel;
+	QStringListModel *messagemodel;
     QGridLayout *grid;
 	Enermy *enermy;
 	Player *player;

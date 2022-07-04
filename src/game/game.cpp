@@ -10,6 +10,8 @@
 #include <QStringListModel>
 #include <QtConcurrent>
 #include <QtWidgets>
+#include <QGSettings/QGSettings>
+
 QT_BEGIN_NAMESPACE
 class QLabel;
 class QListView;

@@ -18,7 +18,9 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Network)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Concurrent)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS DBus)
+find_package(PkgConfig REQUIRED)
 
+pkg_check_modules(QGSettings REQUIRED gsettings-qt)
 
 file(GLOB HEADER "*.h")
 file(GLOB RSOURCE "*.cpp")

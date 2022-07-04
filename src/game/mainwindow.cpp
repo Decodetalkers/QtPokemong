@@ -42,13 +42,14 @@ GamePanel::GamePanel(QWidget *parent)
         grid->addWidget(a1, 0, 1, 1, 1);
         middle->addLayout(grid);
         loadPlugins();
-
-        mymodel = new QStringListModel(this);
+        
+        // make a model for the message
+        messagemodel = new QStringListModel(this);
         QStringList List;
         List << "Game Start";
-        mymodel->setStringList(List);
+        messagemodel->setStringList(List);
         auto mylistview = new QListView();
-        mylistview->setModel(mymodel);
+        mylistview->setModel(messagemodel);
         middle->addWidget(mylistview);
     }
     player = new Player();
@@ -74,16 +75,16 @@ GamePanel::GamePanel(QWidget *parent)
 }
 void GamePanel::messagesupdate(QString message)
 {
-    mymodel->insertRow(mymodel->rowCount());
-    auto index = mymodel->index(mymodel->rowCount() - 1, 0);
-    mymodel->setData(index, message);
+    messagemodel->insertRow(messagemodel->rowCount());
+    auto index = messagemodel->index(messagemodel->rowCount() - 1, 0);
+    messagemodel->setData(index, message);
 }
 // TODO , weather will change the attack action
 void GamePanel::getweather(QString weather)
 {
-    mymodel->insertRow(mymodel->rowCount());
-    auto index = mymodel->index(mymodel->rowCount() - 1, 0);
-    mymodel->setData(index, QString("Weather become %1").arg(weather));
+    messagemodel->insertRow(messagemodel->rowCount());
+    auto index = messagemodel->index(messagemodel->rowCount() - 1, 0);
+    messagemodel->setData(index, QString("Weather become %1").arg(weather));
 }
 
 // refresh the state of players
