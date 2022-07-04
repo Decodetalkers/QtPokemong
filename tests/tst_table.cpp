@@ -1,7 +1,7 @@
 #include "linerbar.h"
 #include <gtest/gtest.h>
 
-class Tst_lifeUpdate : public testing::Test
+class Tst_Table : public testing::Test
 {
 public:
     void SetUp() override { obj = new Linerbar(); }
@@ -22,8 +22,9 @@ public:
 //    // Expect equality.
 //    EXPECT_EQ(7 * 6, 42);
 //}
-TEST_F(Tst_lifeUpdate, linerbartest) 
+TEST_F(Tst_Table, tabletest) 
 {
 	obj->lifeupdate(100);
 	obj->lifeupdate(10);
 }
+

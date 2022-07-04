@@ -21,7 +21,9 @@ private:
 };
 Pong::Pong()
     : d_ptr(new PongPrivate(this))
+    , timer(QScopedPointer<QElapsedTimer>(new QElapsedTimer()))
 {
+    timer->start();
     startTimer(20000);
 }
 // TODO: need log
@@ -36,12 +38,18 @@ void Pong::timerEvent(QTimerEvent *event)
     } else if (a > 40) {
         emit weather("Rain");
     }
+    auto duration = timer->elapsed();
+    if (duration > 1000000) {
+        QMetaObject::invokeMethod(QCoreApplication::instance(), "quit");
+    }
 }
 
 Pong::~Pong() {}
 QString Pong::ping(const QString &arg)
 {
     Q_D(const Pong);
+	// if is pinged, reset
+    timer->restart();
     qDebug() << d->GetQptrTag();
     printf("has get\n");
     qDebug() << arg;
