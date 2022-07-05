@@ -12,7 +12,11 @@ public:
         : q_ptr(q){};
     ~PongPrivate(){};
 
-    QString GetQptrTag() const { return QString("%1 from %2").arg(q_ptr->tag, tag); }
+    QString GetQptrTag() const
+    {
+        Q_Q(const Pong);
+        return QString("%1 from %2").arg(q->tag, tag);
+    }
 
 private:
     Q_DECLARE_PUBLIC(Pong)
@@ -39,6 +43,7 @@ void Pong::timerEvent(QTimerEvent *event)
         emit weather("Rain");
     }
     auto duration = timer->elapsed();
+	// if duration is over 1000000
     if (duration > 1000000) {
         QMetaObject::invokeMethod(QCoreApplication::instance(), "quit");
     }
@@ -48,7 +53,7 @@ Pong::~Pong() {}
 QString Pong::ping(const QString &arg)
 {
     Q_D(const Pong);
-	// if is pinged, reset
+    // if is pinged, reset
     timer->restart();
     qDebug() << d->GetQptrTag();
     printf("has get\n");

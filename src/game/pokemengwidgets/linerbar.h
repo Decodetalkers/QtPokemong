@@ -1,5 +1,4 @@
-#ifndef LINERBAR_H
-#define LINERBAR_H
+#pragma once
 
 #include <QWidget>
 #include <QPaintEvent>
@@ -16,4 +15,3 @@ private:
     int life = 100;
 };
 
-#endif // !LINERBAR_H

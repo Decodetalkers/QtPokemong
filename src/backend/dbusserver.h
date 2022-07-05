@@ -1,5 +1,4 @@
-#ifndef DBUSSERVER_H
-#define DBUSSERVER_H
+#pragma once
 #include <QElapsedTimer>
 #include <QScopedPointer>
 #include <QtCore/QObject>
@@ -31,4 +30,3 @@ protected:
 private:
     Q_DECLARE_PRIVATE(Pong)
 };
-#endif  // !DBUSSERVER_H

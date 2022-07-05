@@ -1,5 +1,4 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
 
 #include "pokemengwidgets/pokemengmap.h"
 #include "pokemengwidgets/pokemongtable.h"
@@ -46,4 +45,3 @@ private:
 
 	QTimer *timer;
 };
-#endif  // MAINWINDOW_H

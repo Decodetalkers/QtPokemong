@@ -1,5 +1,4 @@
-#ifndef POKEMONGTABLE_H
-#define POKEMONGTABLE_H
+#pragma once
 
 #include <QAbstractTableModel>
 #include <QDirIterator>
@@ -56,4 +55,3 @@ private:
     QList<QString> names;
 };
 
-#endif  // !POKEMONGTABLE_H

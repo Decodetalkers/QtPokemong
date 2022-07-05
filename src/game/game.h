@@ -1,5 +1,4 @@
-#ifndef GAME_H
-#define GAME_H
+#pragma once
 
 #include "pokemengwidgets/linerbar.h"
 #include "pokemengwidgets/pokemongtable.h"
@@ -72,4 +71,3 @@ private:
     void loading();
     int hps = 100;
 };
-#endif  // !GAME_H

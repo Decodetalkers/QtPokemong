@@ -1,5 +1,5 @@
-#ifndef PLUGIN_DEMO
-#define PLUGIN_DEMO
+#pragma once
+
 #include <QtPlugin>
 #include <interface/plugin.h>
 
@@ -15,4 +15,3 @@ public:
     virtual QWidget *thebutton() override;
 };
 
-#endif  // !PLUGIN_DEMO

@@ -1,5 +1,5 @@
-#ifndef POKEMONGMAP_H
-#define POKEMONGMAP_H
+#pragma once
+
 #include <QPaintEvent>
 #include <QRandomGenerator>
 #include <QWidget>
@@ -42,4 +42,3 @@ private:
     QString message = "";
 };
 
-#endif  // !POKEMONGMAP_H
