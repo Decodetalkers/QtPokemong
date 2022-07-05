@@ -10,12 +10,12 @@ public:
     PokemonMap(QWidget *parent = nullptr);
 
 public slots:
-	void drawmessageupdate(QString weather);
+	void drawMessageUpdate(QString weather);
 protected:
     void paintEvent(QPaintEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
 signals:
-    void meetenermy();
+    void MeetEnermy();
 
 private:
     QRandomGenerator *qrand;

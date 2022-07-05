@@ -24,7 +24,7 @@ public:
 //}
 TEST_F(Tst_Table, tabletest) 
 {
-	obj->lifeupdate(100);
-	obj->lifeupdate(10);
+	obj->lifeUpdate(100);
+	obj->lifeUpdate(10);
 }
 

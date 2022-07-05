@@ -54,7 +54,7 @@ void PokemonMap::paintEvent(QPaintEvent *event)
     // painter.drawPixmap
 }
 
-void PokemonMap::drawmessageupdate(QString weather)
+void PokemonMap::drawMessageUpdate(QString weather)
 {
     hasmessage = true;
     this->message = weather;
@@ -97,7 +97,7 @@ void PokemonMap::keyPressEvent(QKeyEvent *event)
     }
     for (auto point : enermys) {
         if (playerposition == point) {
-            emit meetenermy();
+            emit MeetEnermy();
         }
     }
     update();

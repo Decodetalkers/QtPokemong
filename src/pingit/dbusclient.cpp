@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     //[1] ping the SERVICES
     QDBusInterface iface(SERVICE_NAME, "/", "mime.example.test", QDBusConnection::sessionBus());
     if (iface.isValid()) {
-        QDBusReply<QString> reply = iface.call("ping", argc > 1 ? argv[1] : "");
+        QDBusReply<QString> reply = iface.call("Ping", argc > 1 ? argv[1] : "");
         if (reply.isValid()) {
             printf("Reply was: %s\n", qPrintable(reply.value()));
             return 0;

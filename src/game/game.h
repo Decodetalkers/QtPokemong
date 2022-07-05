@@ -2,6 +2,7 @@
 
 #include "pokemengwidgets/linerbar.h"
 #include "pokemengwidgets/pokemongtable.h"
+
 #include <QNetworkAccessManager>
 #include <QStringListModel>
 #include <QSharedPointer>
@@ -22,7 +23,7 @@ class Player : public QWidget
     Q_OBJECT
 public:
     Player(QWidget *parent = nullptr, QSharedPointer<PokeMonModel> model = QSharedPointer<PokeMonModel>(new PokeMonModel()));
-    void reflash();
+    void refrash();
 signals:
 	/*
 	 * @brief attacked
@@ -36,8 +37,8 @@ signals:
 	void trycatch();
 	void sendmessage(const QString message);
 public slots:
-    void beenattack(int attack);
-	void updatepokemonmodel(PokemongIcon pokemon, QString name);
+    void beenAttack(int attack);
+	void updatePokemonodel(PokemongIcon pokemon, QString name);
 private:
     QLabel *player;
     QLabel *hplabel;
@@ -54,14 +55,14 @@ class Enermy : public QWidget
     Q_OBJECT
 public:
     Enermy(QWidget *parent = nullptr);
-    void reflash();
+    void refrash();
 signals:
     void attack(int);
 	void beencatched(PokemongIcon pokemon, QString name);
     void beendefeated();
 	void sendmessage(const QString message);
 public slots:
-    void beenattack(int attack);
+    void beenAttack(int attack);
 	void trybecatched();
 private:
     QLabel *enermy;

@@ -1,17 +1,20 @@
-#include "mainwindow.h"
+#include <interface/myinterface.h>
+#include <interface/plugin.h>
+
 #include "game.h"
+#include "mainwindow.h"
 #include "pokemengwidgets/pokemengmap.h"
 #include "pokemengwidgets/pokemongtable.h"
-#include <QSharedPointer>
+
 #include <QCoreApplication>
 #include <QDBusInterface>
 #include <QDebug>
 #include <QDir>
 #include <QPluginLoader>
+#include <QSharedPointer>
 #include <QStringListModel>
 #include <QtWidgets>
-#include <interface/myinterface.h>
-#include <interface/plugin.h>
+
 QT_BEGIN_NAMESPACE
 class QGridLayout;
 class QHBoxLayout;
@@ -44,7 +47,7 @@ GamePanel::GamePanel(QWidget *parent)
         grid->addWidget(a1, 0, 1, 1, 1);
         middle->addLayout(grid);
         loadPlugins();
-        
+
         // make a model for the message
         messagemodel = new QStringListModel(this);
         QStringList List;
@@ -57,32 +60,32 @@ GamePanel::GamePanel(QWidget *parent)
     player = new Player(this, QSharedPointer<PokeMonModel>(new PokeMonModel(this)));
     root->addLayout(middle);
     root->addWidget(player);
-	// attack
-    connect(player, &Player::attack, enermy, &Enermy::beenattack);
-    connect(enermy, &Enermy::attack, player, &Player::beenattack);
+    // attack
+    connect(player, &Player::attack, enermy, &Enermy::beenAttack);
+    connect(enermy, &Enermy::attack, player, &Player::beenAttack);
 
-	// defeated
+    // defeated
     connect(player, &Player::beendefeated, this, [&] { emit exit(); });
     connect(enermy, &Enermy::beendefeated, this, [&] { emit exit(); });
 
-	// catched
-    connect(enermy, &Enermy::beencatched, player, &Player::updatepokemonmodel);
-	// try to catch
+    // catched
+    connect(enermy, &Enermy::beencatched, player, &Player::updatePokemonodel);
+    // try to catch
     connect(player, &Player::trycatch, enermy, &Enermy::trybecatched);
 
-	// send message to the GamePanel
-    connect(player, &Player::sendmessage, this, &GamePanel::messagesupdate);
-    connect(enermy, &Enermy::sendmessage, this, &GamePanel::messagesupdate);
+    // send message to the GamePanel
+    connect(player, &Player::sendmessage, this, &GamePanel::messagesUpdate);
+    connect(enermy, &Enermy::sendmessage, this, &GamePanel::messagesUpdate);
     setLayout(root);
 }
-void GamePanel::messagesupdate(QString message)
+void GamePanel::messagesUpdate(QString message)
 {
     messagemodel->insertRow(messagemodel->rowCount());
     auto index = messagemodel->index(messagemodel->rowCount() - 1, 0);
     messagemodel->setData(index, message);
 }
 // TODO , weather will change the attack action
-void GamePanel::getweather(QString weather)
+void GamePanel::getWeather(QString weather)
 {
     messagemodel->insertRow(messagemodel->rowCount());
     auto index = messagemodel->index(messagemodel->rowCount() - 1, 0);
@@ -92,8 +95,8 @@ void GamePanel::getweather(QString weather)
 // refresh the state of players
 void GamePanel::refresh()
 {
-    enermy->reflash();
-    player->reflash();
+    enermy->refrash();
+    player->refrash();
     update();
 }
 
@@ -132,7 +135,7 @@ MainWindow::MainWindow(QWidget *parent)
     setCentralWidget(aboveall);
     mainlay->setFocus();
     connect(panel, &GamePanel::exit, this, [&] { aboveall->setCurrentIndex(1); });
-    connect(mainlay, &PokemonMap::meetenermy, this, [&] {
+    connect(mainlay, &PokemonMap::MeetEnermy, this, [&] {
         // panel = new GamePanel(this);
         panel->refresh();
         aboveall->setCurrentIndex(0);
@@ -140,17 +143,18 @@ MainWindow::MainWindow(QWidget *parent)
     QDBusInterface *iface = new QDBusInterface(SERVICE_NAME, "/", "mime.example.test", QDBusConnection::sessionBus());
     timer = new QTimer(this);
     if (iface->isValid()) {
-		connect(iface, SIGNAL(weather(QString)), mainlay, SLOT(drawmessageupdate(QString)));
-        connect(iface, SIGNAL(weather(QString)), panel, SLOT(getweather(QString)));
+        connect(iface, SIGNAL(Weather(QString)), mainlay, SLOT(drawMessageUpdate(QString)));
+        connect(iface, SIGNAL(Weather(QString)), panel, SLOT(getWeather(QString)));
+        connect(iface, SIGNAL(MeetEnermy()), this, SLOT(battle()));
     } else {
         connect(timer, &QTimer::timeout, this, [&] {
             QDBusInterface *iface = new QDBusInterface(SERVICE_NAME, "/", "mime.example.test", QDBusConnection::sessionBus());
             if (iface->isValid()) {
                 // get the weather of pokemeng
-				connect(iface, SIGNAL(weather(QString)), mainlay, SLOT(drawmessageupdate(QString)));
-                connect(iface, SIGNAL(weather(QString)), panel, SLOT(getweather(QString)));
+                connect(iface, SIGNAL(Weather(QString)), mainlay, SLOT(drawMessageUpdate(QString)));
+                connect(iface, SIGNAL(Weather(QString)), panel, SLOT(getWeather(QString)));
                 // get the meetenermy action
-                connect(iface, SIGNAL(meetenermy()), this, SLOT(battle()));
+                connect(iface, SIGNAL(MeetEnermy()), this, SLOT(battle()));
 
                 timer->stop();
             }

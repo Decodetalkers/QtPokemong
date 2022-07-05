@@ -56,11 +56,11 @@ QFuture<QByteArray> downloads(const QUrl url)
         return res;
     });
 }
-void Player::beenattack(int attack)
+void Player::beenAttack(int attack)
 {
     yourturn = true;
     hps = attack >= hps ? 0 : hps - attack;
-    hpline->lifeupdate(hps);
+    hpline->lifeUpdate(hps);
     hplabel->setText(QString("hp = %1").arg(hps));
     update();
     // dead
@@ -76,10 +76,10 @@ void Player::beenattack(int attack)
         watcher->setFuture(QtConcurrent::run([=] { QThread::sleep(2); }));
     }
 }
-void Player::reflash()
+void Player::refrash()
 {
     hps = 100;
-    hpline->lifeupdate(hps);
+    hpline->lifeUpdate(hps);
     hplabel->setText(QString("hp = %1").arg(hps));
     yourturn = true;
     update();
@@ -198,9 +198,9 @@ void Player::download(const QUrl url)
 }
 
 // update the data, and show one more line
-void Player::updatepokemonmodel(PokemongIcon pokemon, QString name)
+void Player::updatePokemonodel(PokemongIcon pokemon, QString name)
 {
-    pokemonmodel->updatedata(pokemon, name);
+    pokemonmodel->updateData(pokemon, name);
 }
 Enermy::Enermy(QWidget *parent)
     : QWidget(parent)
@@ -244,10 +244,10 @@ void Enermy::loading()
 }
 
 // re enter
-void Enermy::reflash()
+void Enermy::refrash()
 {
     hps = 100;
-    hpline->lifeupdate(hps);
+    hpline->lifeUpdate(hps);
     hplabel->setText(QString("hp = %1").arg(hps));
     update();
     loading();
@@ -279,10 +279,10 @@ void Enermy::trybecatched()
     }
 }
 // if attacked , to back or not back
-void Enermy::beenattack(int attacked)
+void Enermy::beenAttack(int attacked)
 {
     hps = attacked >= hps ? 0 : hps - attacked;
-    hpline->lifeupdate(hps);
+    hpline->lifeUpdate(hps);
     hplabel->setText(QString("hp = %1").arg(hps));
     update();  // dead
     if (hps == 0) {

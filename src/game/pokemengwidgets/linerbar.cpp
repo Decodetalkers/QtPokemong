@@ -1,4 +1,5 @@
 #include "linerbar.h"
+
 #include <QDebug>
 #include <QPainter>
 #include <QPainterPath>
@@ -13,7 +14,7 @@ Linerbar::Linerbar(QWidget *parent)
 // [1] a linerbar
 void Linerbar::paintEvent(QPaintEvent *event)
 {
-    float len = life / 100.0;
+    float len = m_life / 100.0;
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
     painter.setRenderHint(QPainter::TextAntialiasing);
@@ -25,8 +26,8 @@ void Linerbar::paintEvent(QPaintEvent *event)
     blood.addRoundedRect(QRectF(10, 10, width() * len, 50), 10, 10);
     painter.fillPath(blood, green);
 }
-void Linerbar::lifeupdate(int newlife)
+void Linerbar::lifeUpdate(int newlife)
 {
-    life = newlife;
+    m_life = newlife;
     update();
 }

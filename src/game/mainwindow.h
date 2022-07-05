@@ -3,6 +3,7 @@
 #include "pokemengwidgets/pokemengmap.h"
 #include "pokemengwidgets/pokemongtable.h"
 #include "game.h"
+
 #include <QGridLayout>
 #include <QMainWindow>
 #include <QPushButton>
@@ -16,8 +17,8 @@ public:
     void loadPlugins();
     void refresh();
 public slots:
-	void getweather(QString weather);
-	void messagesupdate(QString message);
+	void getWeather(QString weather);
+	void messagesUpdate(QString message);
 private:
 	QStringListModel *messagemodel;
     QGridLayout *grid;

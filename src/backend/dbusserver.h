@@ -14,14 +14,14 @@ public:
     ~Pong();
     QString tag{"MainWindow"};
 public slots:
-    Q_SCRIPTABLE QString ping(const QString &arg);
+    Q_SCRIPTABLE QString Ping(const QString &arg);
 
 private:
     QScopedPointer<QElapsedTimer> timer;
     void timerEvent(QTimerEvent *event) override;
 Q_SIGNALS:
-    Q_SCRIPTABLE void weather(const QString);
-    Q_SCRIPTABLE void meetenermy();
+    Q_SCRIPTABLE void Weather(const QString);
+    Q_SCRIPTABLE void MeetEnermy();
 
 protected:
     // scopepointer
