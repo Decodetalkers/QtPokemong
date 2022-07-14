@@ -95,7 +95,7 @@ void GamePanel::getWeather(QString weather)
 // refresh the state of players
 void GamePanel::refresh()
 {
-    enermy->refrash();
+    enermy->refresh();
     player->refrash();
     update();
 }

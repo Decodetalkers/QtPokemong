@@ -55,7 +55,7 @@ class Enermy : public QWidget
     Q_OBJECT
 public:
     Enermy(QWidget *parent = nullptr);
-    void refrash();
+    void refresh();
 signals:
     void attack(int);
 	void beencatched(PokemongIcon pokemon, QString name);

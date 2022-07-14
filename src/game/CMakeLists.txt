@@ -39,6 +39,7 @@ add_executable(
 add_subdirectory(plugins)
 target_include_directories(${PROJECT_NAME} PUBLIC
 	../../include/
+	${QGSettings_INCLUED_DIRS}
 )
 target_link_libraries(
 	${PROJECT_NAME} PRIVATE
@@ -47,6 +48,7 @@ target_link_libraries(
 	Qt${QT_VERSION_MAJOR}::Concurrent
 	Qt${QT_VERSION_MAJOR}::Core
 	Qt${QT_VERSION_MAJOR}::DBus
+  ${QGSettings_LIBRARIES}
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES

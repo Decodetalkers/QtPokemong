@@ -244,7 +244,7 @@ void Enermy::loading()
 }
 
 // re enter
-void Enermy::refrash()
+void Enermy::refresh()
 {
     hps = 100;
     hpline->lifeUpdate(hps);

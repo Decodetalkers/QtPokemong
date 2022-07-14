@@ -1,7 +1,6 @@
 <!DOCTYPE RCC>
 <RCC>
     <qresource prefix="/">
-        <file>resources/yousaki.jpg</file>
         <file>resources/grass.jpg</file>
         <file>resources/red.png</file>
     </qresource>
