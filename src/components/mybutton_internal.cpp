@@ -1,7 +1,7 @@
 #include <QDebug>
 #include <QEvent>
 #include <QPainter>
-#include <mybutton.h>
+#include <mywidgets/mybutton.h>
 #include <mybutton_internal.h>
 MybuttonToggle::MybuttonToggle(MyButton *parent)
     : QWidget(parent)

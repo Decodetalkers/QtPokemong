@@ -54,4 +54,3 @@ private:
     QList<PokemongIcon> m_ids;
     QList<QString> m_names;
 };
-

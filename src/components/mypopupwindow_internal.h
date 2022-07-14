@@ -75,7 +75,7 @@ class MyPopWindowDialog : public QWidget
     Q_PROPERTY(int offset WRITE setOffset READ offset)
 
 public:
-    explicit MyPopWindowDialog(MyPopWindow *dialog, QWidget *parent = 0);
+    explicit MyPopWindowDialog(MyPopWindow *dialog, QWidget *parent = nullptr);
     ~MyPopWindowDialog();
 
     void setOffset(int offset);

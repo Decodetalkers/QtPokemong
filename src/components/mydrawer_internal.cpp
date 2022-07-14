@@ -1,5 +1,5 @@
 #include "mydrawer_internal.h"
-#include <mydrawer.h>
+#include <mywidgets/mydrawer.h>
 
 #include <QPainter>
 #include <QPropertyAnimation>

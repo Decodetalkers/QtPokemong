@@ -1,5 +1,8 @@
 #pragma once
 
+//#include "mywidgets/mydrawer.h"
+#include <mywidgets/mydrawer.h>
+
 #include <QPaintEvent>
 #include <QRandomGenerator>
 #include <QWidget>
@@ -37,6 +40,7 @@ private:
         {1, 1},
         {1, 1},
     };
+    MyDrawer *mydrawer;
     QPoint playerposition = {0, 0};
     bool hasmessage = false;
     QString message = "";

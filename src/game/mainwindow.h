@@ -4,6 +4,8 @@
 #include "pokemengwidgets/pokemongtable.h"
 #include "game.h"
 
+#include <mywidgets/mybattlemap.h>
+
 #include <QGridLayout>
 #include <QMainWindow>
 #include <QPushButton>
@@ -14,14 +16,15 @@ class GamePanel : public QWidget
     Q_OBJECT
 public:
     GamePanel(QWidget *parent = nullptr);
-    void loadPlugins();
+    //void loadPlugins();
     void refresh();
 public slots:
 	void getWeather(QString weather);
 	void messagesUpdate(QString message);
 private:
 	QStringListModel *messagemodel;
-    QGridLayout *grid;
+	MyBattleMap *battlemap;
+    //QGridLayout *grid;
 	Enermy *enermy;
 	Player *player;
 

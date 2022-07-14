@@ -5,7 +5,7 @@
 #include <QMouseEvent>
 #include <QPainter>
 #include <QVBoxLayout>
-#include <mydrawer.h>
+#include <mywidgets/mydrawer.h>
 /*!
  *  @class MyDrawerPrivate
  *  @internal

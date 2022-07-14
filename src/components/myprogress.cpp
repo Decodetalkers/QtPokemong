@@ -1,4 +1,4 @@
-#include "myprogress.h"
+#include "mywidgets/myprogress.h"
 #include "myprogress_internal.h"
 #include "myprogress_p.h"
 #include <QPainter>

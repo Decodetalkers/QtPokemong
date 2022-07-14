@@ -4,9 +4,9 @@
 #include "pokemengwidgets/pokemongtable.h"
 
 #include <QNetworkAccessManager>
-#include <QStringListModel>
 #include <QSharedPointer>
-// use namespace to import these 
+#include <QStringListModel>
+// use namespace to import these
 QT_BEGIN_NAMESPACE
 class QLabel;
 class QHBoxLayout;
@@ -16,7 +16,7 @@ class Switch : public QWidget
 {
     Q_OBJECT
 public:
-    Switch(QWidget *parent , QLayout *mainlayout);
+    Switch(QWidget *parent, QLayout *mainlayout);
 };
 class Player : public QWidget
 {
@@ -25,29 +25,30 @@ public:
     Player(QWidget *parent = nullptr, QSharedPointer<PokeMonModel> model = QSharedPointer<PokeMonModel>(new PokeMonModel()));
     void refrash();
 signals:
-	/*
-	 * @brief attacked
-	 * @param how much is attacked
-	 */
+    /*
+     * @brief attacked
+     * @param how much is attacked
+     */
     void attack(int);
     void beendefeated();
-	/*
-	 * @brief try to catch the pokemon
-	 */
-	void trycatch();
-	void sendmessage(const QString message);
+    /*
+     * @brief try to catch the pokemon
+     */
+    void trycatch();
+    void sendmessage(const QString message);
 public slots:
     void beenAttack(int attack);
-	void updatePokemonodel(PokemongIcon pokemon, QString name);
+    void updatePokemonodel(PokemongIcon pokemon, QString name);
+
 private:
+    void download(const QUrl url);
     QLabel *player;
     QLabel *hplabel;
     Linerbar *hpline;
-    void download(const QUrl url);
     int hps = 100;
     bool yourturn = true;
-	//QStringListModel *mymodel;
-	QSharedPointer<PokeMonModel> pokemonmodel;
+    // QStringListModel *mymodel;
+    QSharedPointer<PokeMonModel> pokemonmodel;
 };
 
 class Enermy : public QWidget
@@ -58,16 +59,17 @@ public:
     void refresh();
 signals:
     void attack(int);
-	void beencatched(PokemongIcon pokemon, QString name);
+    void beencatched(PokemongIcon pokemon, QString name);
     void beendefeated();
-	void sendmessage(const QString message);
+    void sendmessage(const QString message);
 public slots:
     void beenAttack(int attack);
-	void trybecatched();
+    void trybecatched();
+
 private:
     QLabel *enermy;
     QLabel *hplabel;
-	int pokemonid = 0;
+    int pokemonid = 0;
     Linerbar *hpline;
     void loading();
     int hps = 100;

@@ -1,4 +1,4 @@
-#include <mybattlemap.h>
+#include <mywidgets/mybattlemap.h>
 
 #include "mybattlemap_internal.h"
 #include "mybattlemap_p.h"
@@ -29,9 +29,9 @@ MyBattleMap::MyBattleMap(QWidget *parent)
     , d_ptr(new MyBattleMapPrivate(this))
 {
     d_func()->init();
-    //QTimer *timer = new QTimer(this);
-    //connect(timer, &QTimer::timeout, this, [&] { update(); });
-    //timer->start(1);
+    // QTimer *timer = new QTimer(this);
+    // connect(timer, &QTimer::timeout, this, [&] { update(); });
+    // timer->start(1);
 }
 MyBattleMap::~MyBattleMap() {}
 void MyBattleMap::paintEvent(QPaintEvent *event)
@@ -52,4 +52,3 @@ void MyBattleMap::enermyAttack()
     Q_D(MyBattleMap);
     emit d->stateMachine->signamAnermyAttack();
 }
-

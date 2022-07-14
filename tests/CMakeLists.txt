@@ -7,25 +7,27 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 file(GLOB_RECURSE SRCS "*.cpp")
 
 file(GLOB_RECURSE WIDGETS 
-	../src/game/pokemengwidgets/linerbar.cpp
-	../src/game/pokemengwidgets/pokemengmap.cpp
-	../src/game/pokemengwidgets/pokemongtable.cpp
-	)
+  ../src/game/pokemengwidgets/linerbar.cpp
+  ../src/game/pokemengwidgets/pokemengmap.cpp
+  ../src/game/pokemengwidgets/pokemongtable.cpp
+)
 
 find_package(Qt5 COMPONENTS Widgets Test DBus Network Concurrent REQUIRED)
 find_package(GTest REQUIRED)
 add_executable(${PROJECT_NAME} ${SRCS} ${WIDGETS} ${INTERFACES})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-	Qt5::Test
-	Qt5::Widgets
-	Qt5::DBus
-	Qt5::Network
-	Qt5::Concurrent
-	${GTEST_LIBRARIES}
-	-lpthread
-	-lm
-	)
+  Qt5::Test 
+  Qt5::Widgets
+  Qt5::DBus
+  Qt5::Network
+  Qt5::Concurrent
+  neobutton
+  ${GTEST_LIBRARIES}
+  -lpthread
+  -lm
+  )
 target_include_directories(${PROJECT_NAME} PUBLIC
-	../src/game/pokemengwidgets/
+  ../src/game/pokemengwidgets/
+  ../include/
 )

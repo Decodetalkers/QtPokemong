@@ -1,5 +1,5 @@
 #include "mypopupwindow_internal.h"
-#include <mypopupwindow.h>
+#include <mywidgets/mypopupwindow.h>
 
 #include <QPainter>
 #include <QStackedLayout>
@@ -112,7 +112,7 @@ bool MyStateTransition::eventTest(QEvent *event)
     if (event->type() != QEvent::Type(QEvent::User + 1)) {
         return false;
     }
-    MyTransitionEvent *transition = static_cast<MyTransitionEvent*>(event);
+    MyTransitionEvent *transition = static_cast<MyTransitionEvent *>(event);
     return (m_type == transition->type);
 }
 

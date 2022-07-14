@@ -1,5 +1,5 @@
 #pragma once
-#include "myprogress.h"
+#include "mywidgets/myprogress.h"
 #include <QObject>
 class MyProgressDelegate : public QObject
 {

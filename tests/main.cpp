@@ -11,6 +11,5 @@ int main(int argc, char **argv)
 
     int ret = RUN_ALL_TESTS();
 
-
     return ret;
 }

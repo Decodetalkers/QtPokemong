@@ -2,6 +2,7 @@
 #include <QAbstractItemModel>
 #include <QDebug>
 #include <QFutureWatcher>
+#include <QGSettings/QGSettings>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QObject>
@@ -10,7 +11,6 @@
 #include <QStringListModel>
 #include <QtConcurrent>
 #include <QtWidgets>
-#include <QGSettings/QGSettings>
 
 QT_BEGIN_NAMESPACE
 class QLabel;
@@ -85,8 +85,8 @@ void Player::refrash()
     update();
 }
 Player::Player(QWidget *parent, QSharedPointer<PokeMonModel> model)
-    : QWidget(parent),
-	pokemonmodel(model)
+    : QWidget(parent)
+    , pokemonmodel(model)
 {
     QHBoxLayout *panel = new QHBoxLayout();
 
@@ -125,7 +125,7 @@ Player::Player(QWidget *parent, QSharedPointer<PokeMonModel> model)
     icons << PokemongIcon();
     QList<QString> names;
     names << "shadoxi";
-    //pokemonmodel = new PokeMonModel(this);
+    // pokemonmodel = new PokeMonModel(this);
     pokemonmodel->populateData(icons, names);
 
     table->setModel(pokemonmodel.data());
@@ -263,8 +263,8 @@ void Enermy::trybecatched()
         QFutureWatcher<QByteArray> *watcher = new QFutureWatcher<QByteArray>(this);
         connect(watcher, &QFutureWatcher<QByteArray>::finished, this, [watcher, this] {
             auto array = watcher->result();
-			// here pokemon send be catched message to player
-            emit beencatched(PokemongIcon(QVariant::fromValue(array),this->pokemonid), "NewPokemong");
+            // here pokemon send be catched message to player
+            emit beencatched(PokemongIcon(QVariant::fromValue(array), this->pokemonid), "NewPokemong");
             watcher->deleteLater();
             emit beendefeated();
         });

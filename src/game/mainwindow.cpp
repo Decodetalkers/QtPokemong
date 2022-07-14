@@ -1,5 +1,6 @@
 #include <interface/myinterface.h>
 #include <interface/plugin.h>
+#include <mywidgets/mybattlemap.h>
 
 #include "game.h"
 #include "mainwindow.h"
@@ -32,21 +33,23 @@ GamePanel::GamePanel(QWidget *parent)
     QVBoxLayout *root = new QVBoxLayout();
     enermy = new Enermy();
     root->addWidget(enermy);
-    grid = new QGridLayout;
-    grid->setAlignment(Qt::AlignmentFlag::AlignCenter);
+    // grid = new QGridLayout;
+    // grid->setAlignment(Qt::AlignmentFlag::AlignCenter);
     QPushButton *b1 = new QPushButton("a");
     connect(b1, &QPushButton::clicked, this, [&] { emit exit(); });
 
     // TODO , change it to battle map
     QPushButton *a1 = new QPushButton("b");
+
     QHBoxLayout *middle = new QHBoxLayout();
     {
-        a1->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        b1->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        grid->addWidget(b1, 0, 0, 1, 1);
-        grid->addWidget(a1, 0, 1, 1, 1);
-        middle->addLayout(grid);
-        loadPlugins();
+        battlemap = new MyBattleMap;
+        battlemap->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        battlemap->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        // grid->addWidget(b1, 0, 0, 1, 1);
+        // grid->addWidget(a1, 0, 1, 1, 1);
+        middle->addWidget(battlemap);
+        // loadPlugins();
 
         // make a model for the message
         messagemodel = new QStringListModel(this);
@@ -62,7 +65,9 @@ GamePanel::GamePanel(QWidget *parent)
     root->addWidget(player);
     // attack
     connect(player, &Player::attack, enermy, &Enermy::beenAttack);
+    connect(player, &Player::attack, battlemap, &MyBattleMap::myAttack);
     connect(enermy, &Enermy::attack, player, &Player::beenAttack);
+    connect(enermy, &Enermy::attack, battlemap, &MyBattleMap::enermyAttack);
 
     // defeated
     connect(player, &Player::beendefeated, this, [&] { emit exit(); });
@@ -101,26 +106,26 @@ void GamePanel::refresh()
 }
 
 // TODO move plugins to the map
-void GamePanel::loadPlugins()
-{
-    QDir pluginsDir = QDir(QCoreApplication::applicationDirPath());
-    if (!pluginsDir.cd("plugins"))
-        return;
-    int count = 0;
-    foreach (QString filename, pluginsDir.entryList(QDir::Files)) {
-        QPluginLoader pluginLoader(pluginsDir.absoluteFilePath(filename));
-        QObject *plugin = pluginLoader.instance();
-        if (plugin) {
-            // qDebug() << "gamma";
-            auto interface = qobject_cast<QtPluginInterface *>(plugin);
-            if (interface) {
-                // qDebug() << "beta";
-                grid->addWidget(interface->thebutton(), 2, count, 1, 1);
-                count++;
-            }
-        }
-    }
-}
+// void GamePanel::loadPlugins()
+//{
+//    QDir pluginsDir = QDir(QCoreApplication::applicationDirPath());
+//    if (!pluginsDir.cd("plugins"))
+//        return;
+//    int count = 0;
+//    foreach (QString filename, pluginsDir.entryList(QDir::Files)) {
+//        QPluginLoader pluginLoader(pluginsDir.absoluteFilePath(filename));
+//        QObject *plugin = pluginLoader.instance();
+//        if (plugin) {
+//            // qDebug() << "gamma";
+//            auto interface = qobject_cast<QtPluginInterface *>(plugin);
+//            if (interface) {
+//                // qDebug() << "beta";
+//                grid->addWidget(interface->thebutton(), 2, count, 1, 1);
+//                count++;
+//            }
+//        }
+//    }
+//}
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {

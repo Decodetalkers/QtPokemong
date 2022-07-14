@@ -1,4 +1,4 @@
-#include <mybattlemap.h>
+#include <mywidgets/mybattlemap.h>
 
 #include "mybattlemap_internal.h"
 

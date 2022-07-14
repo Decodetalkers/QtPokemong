@@ -1,4 +1,4 @@
-#include <mypopupwindow.h>
+#include <mywidgets/mypopupwindow.h>
 
 #include "mypopupwindow_internal.h"
 #include "mypopupwindow_p.h"

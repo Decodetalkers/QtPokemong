@@ -1,15 +1,15 @@
-#include "mybutton.h"
+#include "mywidgets/mybutton.h"
 #include "mybutton_p.h"
 #include <mybutton_internal.h>
 
 #include <QColor>
 #include <QCoreApplication>
 #include <QDebug>
+#include <QEventTransition>
 #include <QPainter>
 #include <QPropertyAnimation>
 #include <QSignalTransition>
 #include <QStateMachine>
-#include <QEventTransition>
 
 const QColor green = QColor(30, 100, 0);
 const QColor black = QColor(0, 0, 0);
@@ -24,7 +24,7 @@ MyButtonPrivate::~MyButtonPrivate() {}
 void MyButtonPrivate::init()
 {
     Q_Q(MyButton);
-	
+
     toggletrack = new MybuttonToggleTrack(q);
     // toggletrack->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
     toggle = new MybuttonToggle(q);
@@ -40,10 +40,9 @@ void MyButtonPrivate::init()
 
     q->setCheckable(true);
     q->setChecked(false);
-	// can be clicked once
-	q->setAutoExclusive(true);
+    // can be clicked once
+    q->setAutoExclusive(true);
     q->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-	
 
     offState->assignProperty(toggle, "shift", -4);
     offState->assignProperty(toggletrack, "trackColor", black);
@@ -72,8 +71,8 @@ void MyButtonPrivate::init()
     animation->setDuration(150);
     // animation->setEasingCurve(QEasingCurve::OutCurve);
     transition->addAnimation(animation);
-    
-	// onstate to offstate
+
+    // onstate to offstate
     transition = new QSignalTransition(q, &MyButton::toggled);
     transition->setTargetState(offState);
     onState->addTransition(transition);
@@ -102,7 +101,6 @@ MyButton::MyButton(QWidget *parent)
     : QAbstractButton(parent)
     , d_ptr(new MyButtonPrivate(this))
 {
-
     d_func()->init();
 }
 MyButton::~MyButton() {}
@@ -120,7 +118,7 @@ void MyButton::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
 }
-//void MyButton::mousePressEvent(QMouseEvent *event)
+// void MyButton::mousePressEvent(QMouseEvent *event)
 //{
-//    setChecked(!isChecked());
-//}
+//     setChecked(!isChecked());
+// }

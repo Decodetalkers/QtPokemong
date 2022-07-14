@@ -3,8 +3,10 @@
 #include <QPainter>
 #include <QPainterPath>
 #include <QPixmap>
+#include <QPushButton>
 #include <QRandomGenerator>
 #include <QTimer>
+#include <QVBoxLayout>
 const QString grass = ":/resources/grass.jpg";
 const QString playerred = ":/resources/red.png";
 const QColor white = QColor(255, 255, 255);
@@ -13,6 +15,14 @@ PokemonMap::PokemonMap(QWidget *parent)
 {
     //[0] make it can be focused by clicked
     setFocusPolicy(Qt::ClickFocus);
+    mydrawer = new MyDrawer;
+    mydrawer->setParent(this);
+    QVBoxLayout *drawerlayout = new QVBoxLayout;
+    QPushButton *exit = new QPushButton("exit");
+    drawerlayout->addWidget(exit);
+    mydrawer->setDrawerLayout(drawerlayout);
+    connect(exit, &QPushButton::pressed, mydrawer, &MyDrawer::closeDrawer);
+
     qrand = QRandomGenerator::global();
     QTimer *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, [&] {
@@ -42,13 +52,13 @@ void PokemonMap::paintEvent(QPaintEvent *event)
     painter.drawPixmap(playerposition.x() * scalesize + startpointx, playerposition.y() * scalesize + startpointy, player);
 
     // message draw
-	// it will draw a white message block on the right corner of the page
+    // it will draw a white message block on the right corner of the page
     if (hasmessage) {
         QPainterPath messagetext;
         messagetext.addRoundedRect(QRectF(size().width() - 100, 0, 100, 50), 0, 0);
-		painter.setPen(QPen(white, 10));
-		painter.fillPath(messagetext, white);
-		painter.setPen(QPen(Qt::black, 10));
+        painter.setPen(QPen(white, 10));
+        painter.fillPath(messagetext, white);
+        painter.setPen(QPen(Qt::black, 10));
         painter.drawText(size().width() - 100, 25, message);
     }
     // painter.drawPixmap
@@ -92,6 +102,9 @@ void PokemonMap::keyPressEvent(QKeyEvent *event)
             }
             break;
         }
+        case Qt::Key_F: {
+            mydrawer->openDrawer();
+        } break;
         default:
             break;
     }
