@@ -2,6 +2,7 @@
 #include "mybattlemap.h"
 #include "mybutton.h"
 #include "mydrawer.h"
+#include "mylinerbar.h"
 #include "mypopupwindow.h"
 #include "myprogress.h"
 #include <QObject>
@@ -121,6 +122,29 @@ MainWindow::MainWindow(QWidget *parent)
         connect(enermyattack, &QPushButton::clicked, map, &MyBattleMap::enermyAttack);
     }
 
+    {
+        list->addItem("life");
+        QWidget *thewidget = new QWidget;
+        QVBoxLayout *mainlayout = new QVBoxLayout;
+        QHBoxLayout *buttons = new QHBoxLayout;
+
+        QPushButton *attack = new QPushButton("You attack");
+        QPushButton *rebase = new QPushButton("rebase");
+
+        buttons->addWidget(attack);
+        buttons->addWidget(rebase);
+
+        MyLinerBar *linerbar = new MyLinerBar;
+        connect(attack, &QPushButton::clicked, linerbar, [=] { linerbar->damage(40); });
+        mainlayout->addWidget(linerbar);
+        mainlayout->addLayout(buttons);
+
+        thewidget->setLayout(mainlayout);
+
+        stack->addWidget(thewidget);
+
+        connect(rebase, &QPushButton::clicked, linerbar, &MyLinerBar::rebase);
+    }
     connect(list, &QListWidget::currentItemChanged, stack, [=] { stack->setCurrentIndex(list->currentRow()); });
     // QWidget *centerwidget = new QWidget;
 

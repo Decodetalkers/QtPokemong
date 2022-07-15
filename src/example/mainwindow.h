@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
+//#include "mylinerbar.h"
 class MainWindow : public QMainWindow
 {
     Q_OBJECT

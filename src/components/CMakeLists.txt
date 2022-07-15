@@ -26,6 +26,7 @@ set(PROJECT_SOURCES
     ../../include/mywidgets/mypopupwindow.h
 		../../include/mywidgets/mydrawer.h
 		../../include/mywidgets/mybattlemap.h
+		../../include/mywidgets/mylinerbar.h
  
     mybutton.cpp
     mybutton_p.h
@@ -53,6 +54,11 @@ set(PROJECT_SOURCES
     mybattlemap_p.h
     mybattlemap_internal.h
     mybattlemap_internal.cpp
+
+    mylinerbar.cpp
+    mylinerbar_p.h
+    mylinerbar_internal.h
+    mylinerbar_internal.cpp
 
 )
 set(RCC_FILES res.qrc)
