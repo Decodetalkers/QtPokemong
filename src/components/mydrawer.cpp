@@ -19,7 +19,7 @@ MyDrawerPrivate::MyDrawerPrivate(MyDrawer *q)
 
 /* !
  * @internal
- *
+ * @brief init the privite class
  */
 
 void MyDrawerPrivate::init()

@@ -38,7 +38,6 @@ GamePanel::GamePanel(QWidget *parent)
     QPushButton *b1 = new QPushButton("a");
     connect(b1, &QPushButton::clicked, this, [&] { emit exit(); });
 
-    // TODO , change it to battle map
     QPushButton *a1 = new QPushButton("b");
 
     QHBoxLayout *middle = new QHBoxLayout();
@@ -46,12 +45,9 @@ GamePanel::GamePanel(QWidget *parent)
         battlemap = new MyBattleMap;
         battlemap->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         battlemap->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        // grid->addWidget(b1, 0, 0, 1, 1);
-        // grid->addWidget(a1, 0, 1, 1, 1);
         middle->addWidget(battlemap);
         // loadPlugins();
 
-        // make a model for the message
         messagemodel = new QStringListModel(this);
         QStringList List;
         List << "Game Start";

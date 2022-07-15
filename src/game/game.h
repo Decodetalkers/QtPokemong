@@ -1,6 +1,7 @@
 #pragma once
 
 #include "pokemengwidgets/pokemongtable.h"
+#include "models/pokemongmodel.h"
 
 #include <QNetworkAccessManager>
 #include <QSharedPointer>
@@ -27,15 +28,19 @@ public:
 signals:
     /*
      * @brief attacked
-     * @param how much is attacked
+     * @param signal
      */
     void attack(int);
+	/* @brief beendefeated 
+	 * @param signal
+	 */
     void beendefeated();
     /*
      * @brief try to catch the pokemon
+	 * @param signal
      */
     void trycatch();
-    void sendmessage(const QString message);
+    void sendmessage(const QString &message);
 public slots:
     void beenAttack(int attack);
     void updatePokemonodel(PokemongIcon pokemon, QString name);
@@ -61,7 +66,7 @@ signals:
     void attack(int);
     void beencatched(PokemongIcon pokemon, QString name);
     void beendefeated();
-    void sendmessage(const QString message);
+    void sendmessage(const QString &message);
 public slots:
     void beenAttack(int attack);
     void trybecatched();

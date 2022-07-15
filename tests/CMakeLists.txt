@@ -9,6 +9,8 @@ file(GLOB_RECURSE SRCS "*.cpp")
 file(GLOB_RECURSE WIDGETS 
   ../src/game/pokemengwidgets/pokemengmap.cpp
   ../src/game/pokemengwidgets/pokemongtable.cpp
+  ../src/game/models/pokemongmodel.h
+  ../src/game/models/pokemongmodel.cpp
 )
 
 find_package(Qt5 COMPONENTS Widgets Test DBus Network Concurrent REQUIRED)
@@ -28,5 +30,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
   )
 target_include_directories(${PROJECT_NAME} PUBLIC
   ../src/game/pokemengwidgets/
+  ../src/game/models
   ../include/
 )

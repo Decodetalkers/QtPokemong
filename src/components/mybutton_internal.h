@@ -37,27 +37,28 @@ inline qreal MybuttonToggle::shift() const
 
 class MybuttonToggleTrack : public QWidget
 {
-	Q_OBJECT 
+    Q_OBJECT
 
-	Q_PROPERTY(QColor trackColor WRITE setTrackColor READ trackColor)
+    Q_PROPERTY(QColor trackColor WRITE setTrackColor READ trackColor)
 public:
-	MybuttonToggleTrack(MyButton *parent);
-	~MybuttonToggleTrack();
+    MybuttonToggleTrack(MyButton *parent);
+    ~MybuttonToggleTrack();
 
-	void setTrackColor(const QColor &color);
-	inline QColor trackColor() const;
+    void setTrackColor(const QColor &color);
+    inline QColor trackColor() const;
+
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
     void paintEvent(QPaintEvent *event) override;
+
 private:
     Q_DISABLE_COPY(MybuttonToggleTrack)
 
     MyButton *const m_button;
     QColor m_trackColor;
-
 };
 
-inline QColor MybuttonToggleTrack::trackColor() const 
+inline QColor MybuttonToggleTrack::trackColor() const
 {
-	return m_trackColor;
+    return m_trackColor;
 }
