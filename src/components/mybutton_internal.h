@@ -26,6 +26,10 @@ private:
     qreal m_shift;
 };
 
+/*
+ * Get the shift value
+ *
+ */
 inline qreal MybuttonToggle::shift() const
 {
     return m_shift;

@@ -1,11 +1,11 @@
 #pragma once
 
-#include "pokemengwidgets/linerbar.h"
 #include "pokemengwidgets/pokemongtable.h"
 
 #include <QNetworkAccessManager>
 #include <QSharedPointer>
 #include <QStringListModel>
+#include <mywidgets/mylinerbar.h>
 // use namespace to import these
 QT_BEGIN_NAMESPACE
 class QLabel;
@@ -44,7 +44,7 @@ private:
     void download(const QUrl url);
     QLabel *player;
     QLabel *hplabel;
-    Linerbar *hpline;
+    MyLinerBar *hpline;
     int hps = 100;
     bool yourturn = true;
     // QStringListModel *mymodel;
@@ -70,7 +70,7 @@ private:
     QLabel *enermy;
     QLabel *hplabel;
     int pokemonid = 0;
-    Linerbar *hpline;
+    MyLinerBar *hpline;
     void loading();
     int hps = 100;
 };

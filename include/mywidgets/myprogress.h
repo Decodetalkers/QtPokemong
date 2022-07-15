@@ -9,7 +9,7 @@ class MyProgress : public QProgressBar
     Q_OBJECT
 
 public:
-    explicit MyProgress(QWidget *parent=nullptr);
+    explicit MyProgress(QWidget *parent = nullptr);
     ~MyProgress();
 
 protected:

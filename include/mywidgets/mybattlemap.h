@@ -14,8 +14,8 @@ public slots:
     void enermyAttack();
 
 protected:
-    //bool event(QEvent *event) override;
-    //bool eventFilter(QObject *obj, QEvent *event) override;
+    // bool event(QEvent *event) override;
+    // bool eventFilter(QObject *obj, QEvent *event) override;
     void paintEvent(QPaintEvent *event) override;
 
     const QScopedPointer<MyBattleMapPrivate> d_ptr;

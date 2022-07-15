@@ -10,7 +10,7 @@ class MyLinerBar : public QWidget
 public:
     MyLinerBar(QWidget *parent = nullptr);
     ~MyLinerBar();
-
+    qreal life() const;
 public slots:
     void damage(qreal);
     void rebase();

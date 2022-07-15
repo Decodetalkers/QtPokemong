@@ -28,28 +28,28 @@ file(GLOB POKEMONG "pokemengwidgets/*")
 SET(RCC_FILES res.qrc)
 
 add_executable(
-	${PROJECT_NAME}
-	${HEADER}
-	${RSOURCE}
-	${POKEMONG}
+  ${PROJECT_NAME}
+  ${HEADER}
+  ${RSOURCE}
+  ${POKEMONG}
   ${RCC_FILES}
 )
 
 
 add_subdirectory(plugins)
 target_include_directories(${PROJECT_NAME} PUBLIC
-	../../include/
-	${QGSettings_INCLUED_DIRS}
+  ../../include/
+  ${QGSettings_INCLUED_DIRS}
 )
 target_link_libraries(
-	${PROJECT_NAME} PRIVATE
-	Qt${QT_VERSION_MAJOR}::Widgets
-	Qt${QT_VERSION_MAJOR}::Network
-	Qt${QT_VERSION_MAJOR}::Concurrent
-	Qt${QT_VERSION_MAJOR}::Core
-	Qt${QT_VERSION_MAJOR}::DBus
+  ${PROJECT_NAME} PRIVATE
+  Qt${QT_VERSION_MAJOR}::Widgets
+  Qt${QT_VERSION_MAJOR}::Network
+  Qt${QT_VERSION_MAJOR}::Concurrent
+  Qt${QT_VERSION_MAJOR}::Core
+  Qt${QT_VERSION_MAJOR}::DBus
   ${QGSettings_LIBRARIES}
-	neobutton
+  neobutton
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES

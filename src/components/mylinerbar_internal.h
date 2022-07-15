@@ -12,6 +12,7 @@ public:
     explicit MyLinerBarStateMachine(MyLinerBar *parent, MyLinerBarLife *mylife);
     ~MyLinerBarStateMachine();
     void updatePropertyAssignment();
+	inline qreal getlife() const;
 public slots:
 	void updateAfterAssignment(qreal);
 	void rebase();
@@ -26,6 +27,9 @@ private:
 signals:
     void attack();
 };
+inline qreal MyLinerBarStateMachine::getlife() const {
+	return life;
+}
 class MyLinerBarLife : public QWidget
 {
     Q_OBJECT

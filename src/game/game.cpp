@@ -1,4 +1,5 @@
 #include "game.h"
+#include "mywidgets/mylinerbar.h"
 #include <QAbstractItemModel>
 #include <QDebug>
 #include <QFutureWatcher>
@@ -60,7 +61,7 @@ void Player::beenAttack(int attack)
 {
     yourturn = true;
     hps = attack >= hps ? 0 : hps - attack;
-    hpline->lifeUpdate(hps);
+    hpline->damage(attack);
     hplabel->setText(QString("hp = %1").arg(hps));
     update();
     // dead
@@ -79,7 +80,7 @@ void Player::beenAttack(int attack)
 void Player::refrash()
 {
     hps = 100;
-    hpline->lifeUpdate(hps);
+    hpline->rebase();
     hplabel->setText(QString("hp = %1").arg(hps));
     yourturn = true;
     update();
@@ -138,7 +139,7 @@ Player::Player(QWidget *parent, QSharedPointer<PokeMonModel> model)
     panel->addWidget(selections);
     QVBoxLayout *hp = new QVBoxLayout();
     {
-        hpline = new Linerbar();
+        hpline = new MyLinerBar;
         hplabel = new QLabel(QString("hp = %1").arg(hps));
         hplabel->setAlignment(Qt::AlignRight);
         hp->addWidget(hpline);
@@ -174,8 +175,6 @@ Player::Player(QWidget *parent, QSharedPointer<PokeMonModel> model)
             emit trycatch();
         }
     });
-    // auto a = QRandomGenerator::global()->bounded(100);
-    // download(QUrl(QString(baseurl).arg(a)));
 }
 
 // download new pixmap from www
@@ -208,7 +207,7 @@ Enermy::Enermy(QWidget *parent)
     QHBoxLayout *panel = new QHBoxLayout();
     QVBoxLayout *hp = new QVBoxLayout();
     {
-        hpline = new Linerbar();
+        hpline = new MyLinerBar;
         hplabel = new QLabel(QString("hp = %1").arg(hps));
         hp->addWidget(hpline);
         hp->addWidget(hplabel);
@@ -247,7 +246,7 @@ void Enermy::loading()
 void Enermy::refresh()
 {
     hps = 100;
-    hpline->lifeUpdate(hps);
+    hpline->rebase();
     hplabel->setText(QString("hp = %1").arg(hps));
     update();
     loading();
@@ -282,7 +281,7 @@ void Enermy::trybecatched()
 void Enermy::beenAttack(int attacked)
 {
     hps = attacked >= hps ? 0 : hps - attacked;
-    hpline->lifeUpdate(hps);
+    hpline->damage(attacked);
     hplabel->setText(QString("hp = %1").arg(hps));
     update();  // dead
     if (hps == 0) {

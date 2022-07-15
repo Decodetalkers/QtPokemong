@@ -24,9 +24,9 @@ set(PROJECT_SOURCES
     ../../include/mywidgets/mybutton.h
     ../../include/mywidgets/myprogress.h
     ../../include/mywidgets/mypopupwindow.h
-		../../include/mywidgets/mydrawer.h
-		../../include/mywidgets/mybattlemap.h
-		../../include/mywidgets/mylinerbar.h
+    ../../include/mywidgets/mydrawer.h
+    ../../include/mywidgets/mybattlemap.h
+    ../../include/mywidgets/mylinerbar.h
  
     mybutton.cpp
     mybutton_p.h
@@ -65,15 +65,15 @@ set(RCC_FILES res.qrc)
 
 add_library(${PROJECT_NAME} SHARED
     ${PROJECT_SOURCES}
-		${RCC_FILES}
+    ${RCC_FILES}
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE 
-	Qt${QT_VERSION_MAJOR}::Widgets
-	Qt${QT_VERSION_MAJOR}::Core
+  Qt${QT_VERSION_MAJOR}::Widgets
+  Qt${QT_VERSION_MAJOR}::Core
 )
 target_include_directories(${PROJECT_NAME} PUBLIC
-	../../include/
+  ../../include/
 )
 set_target_properties(${PROJECT_NAME} PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com

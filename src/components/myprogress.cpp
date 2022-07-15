@@ -13,7 +13,7 @@ void MyProgressPrivate::init()
 {
     Q_Q(MyProgress);
 
-    //q->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    // q->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     delegate = new MyProgressDelegate(q);
 
     QPropertyAnimation *animation = new QPropertyAnimation(q);

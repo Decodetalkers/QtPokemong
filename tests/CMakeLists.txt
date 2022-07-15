@@ -7,7 +7,6 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 file(GLOB_RECURSE SRCS "*.cpp")
 
 file(GLOB_RECURSE WIDGETS 
-  ../src/game/pokemengwidgets/linerbar.cpp
   ../src/game/pokemengwidgets/pokemengmap.cpp
   ../src/game/pokemengwidgets/pokemongtable.cpp
 )

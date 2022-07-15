@@ -21,6 +21,10 @@ MyButtonPrivate::MyButtonPrivate(MyButton *q)
 
 MyButtonPrivate::~MyButtonPrivate() {}
 
+/*
+ * it is for init
+ * for the begening
+ */
 void MyButtonPrivate::init()
 {
     Q_Q(MyButton);
@@ -118,7 +122,3 @@ void MyButton::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
 }
-// void MyButton::mousePressEvent(QMouseEvent *event)
-//{
-//     setChecked(!isChecked());
-// }

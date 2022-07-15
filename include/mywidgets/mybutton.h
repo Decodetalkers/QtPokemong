@@ -1,7 +1,7 @@
 #pragma once
 
-#include <QtWidgets/QAbstractButton>
 #include <QPushButton>
+#include <QtWidgets/QAbstractButton>
 class MyButtonPrivate;
 class MyButton : public QAbstractButton
 {
@@ -14,7 +14,7 @@ protected:
     bool event(QEvent *event) override;
     bool eventFilter(QObject *obj, QEvent *event) override;
     void paintEvent(QPaintEvent *event) override;
-    //void mousePressEvent(QMouseEvent *event) override;
+    // void mousePressEvent(QMouseEvent *event) override;
 
     const QScopedPointer<MyButtonPrivate> d_ptr;
 

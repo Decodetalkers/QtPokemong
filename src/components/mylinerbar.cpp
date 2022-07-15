@@ -2,8 +2,8 @@
 #include "mylinerbar_p.h"
 #include <mywidgets/mylinerbar.h>
 
-#include <QDebug>
 #include <QCoreApplication>
+#include <QDebug>
 MyLinerBarPrivate::MyLinerBarPrivate(MyLinerBar *q)
     : q_ptr(q)
 {
@@ -24,6 +24,7 @@ MyLinerBar::MyLinerBar(QWidget *parent)
     , d_ptr(new MyLinerBarPrivate(this))
 {
     d_func()->init();
+    setMinimumWidth(500);
 }
 
 void MyLinerBar::damage(qreal damage)
@@ -48,3 +49,8 @@ void MyLinerBar::paintEvent(QPaintEvent *event)
     painter.fillPath(path, Qt::darkGray);
 }
 MyLinerBar::~MyLinerBar() {}
+qreal MyLinerBar::life() const
+{
+    Q_D(const MyLinerBar);
+    return d_func()->statemachine->getlife();
+}

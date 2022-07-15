@@ -4,13 +4,13 @@
 #include "mypopupwindow_p.h"
 
 #include <QCoreApplication>
+#include <QDebug>
 #include <QGraphicsDropShadowEffect>
 #include <QPainter>
 #include <QPropertyAnimation>
 #include <QStackedLayout>
 #include <QStateMachine>
 #include <QVBoxLayout>
-#include <QDebug>
 /*!
  * @class MyPopupwindowPrivate
  * @internal
@@ -151,4 +151,3 @@ void MyPopWindow::paintEvent(QPaintEvent *event)
     painter.setOpacity(d->proxy->opacity() / 2.4);
     painter.drawRect(rect());
 }
-

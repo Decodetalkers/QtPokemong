@@ -6,7 +6,7 @@ class QStackedLayout;
 class MyPopWindow;
 class MyPopWindowDialog;
 
-/*! 
+/*!
  * @class MyTransitionType
  *
  * About the transiton of popupwindow
@@ -27,6 +27,10 @@ struct MyTransitionEvent : public QEvent
     MyTransitionType type;
 };
 
+/*
+ * @class Proxy
+ * provide shadow
+ */
 class MyPopWindowProxy : public QWidget
 {
     Q_OBJECT

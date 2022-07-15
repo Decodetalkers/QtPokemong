@@ -17,9 +17,9 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
 #
 set(PROJECT_SOURCES
-	main.cpp
-	mainwindow.cpp
-	mainwindow.h
+  main.cpp
+  mainwindow.cpp
+  mainwindow.h
 )
 
 add_executable(${PROJECT_NAME}
@@ -27,12 +27,12 @@ add_executable(${PROJECT_NAME}
 )
 
 target_link_libraries(mybuttons PRIVATE 
-	Qt${QT_VERSION_MAJOR}::Widgets
-	Qt${QT_VERSION_MAJOR}::Core
-	neobutton
+  Qt${QT_VERSION_MAJOR}::Widgets
+  Qt${QT_VERSION_MAJOR}::Core
+  neobutton
 )
 target_include_directories(${PROJECT_NAME} PUBLIC
-	../../include/mywidgets/
+  ../../include/mywidgets/
 )
 set_target_properties(mybuttons PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
