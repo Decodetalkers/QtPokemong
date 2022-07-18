@@ -1,4 +1,5 @@
-#include "pokemongmodel.h"
+#include <mywidgets/models/pokemongmodel.h>
+
 const QString loadinged = ":/resources/yousaki.jpg";
 PokemongIcon::PokemongIcon(QVariant icon, int id)
     : m_icon(icon)

@@ -1,12 +1,21 @@
 #include "pokemengmap.h"
-#include <QDebug>
+
+#include <interface/gameinterface.h>
+#include <mywidgets/models/pokemongmodel.h>
+#include <mywidgets/mypopupwindow.h>
+
+#include <QCoreApplication>
+#include <QDir>
+#include <QLabel>
 #include <QPainter>
 #include <QPainterPath>
 #include <QPixmap>
+#include <QPluginLoader>
 #include <QPushButton>
 #include <QRandomGenerator>
 #include <QTimer>
 #include <QVBoxLayout>
+#include <QtPlugin>
 const QString grass = ":/resources/grass.jpg";
 const QString playerred = ":/resources/red.png";
 const QColor white = QColor(255, 255, 255);
@@ -20,6 +29,35 @@ PokemonMap::PokemonMap(QWidget *parent)
     QVBoxLayout *drawerlayout = new QVBoxLayout;
     QPushButton *exit = new QPushButton("exit");
     drawerlayout->addWidget(exit);
+	m_model = QSharedPointer<PokeMonModel>(new PokeMonModel);
+	QList<PokemongIcon> icons;
+	icons << PokemongIcon();
+	QList<QString> names;
+	names << "shadoxi";
+	m_model->populateData(icons, names);;
+    QDir pluginsDir = QDir(QCoreApplication::applicationDirPath());
+    if (!pluginsDir.cd("plugins"))
+        return;
+    foreach (QString filename, pluginsDir.entryList(QDir::Files)) {
+        QPluginLoader pluginLoader(pluginsDir.absoluteFilePath(filename));
+        QObject *plugin = pluginLoader.instance();
+        if (plugin) {
+            auto interface = qobject_cast<GamePluginInterface *>(plugin);
+            if (interface) {
+                QPushButton *pb = new QPushButton(interface->pluginname());
+                MyPopWindow *popup = new MyPopWindow;
+                popup->setParent(this);
+                QVBoxLayout *poplayout = new QVBoxLayout;
+                poplayout->addWidget(interface->gamepanel(m_model));
+                popup->setWindowLayout(poplayout);
+                drawerlayout->addWidget(pb);
+                connect(pb, &QPushButton::clicked, this, [=] {
+                    popup->showDialog();
+                    mydrawer->closeDrawer();
+                });
+            }
+        }
+    }
     mydrawer->setDrawerLayout(drawerlayout);
     connect(exit, &QPushButton::pressed, mydrawer, &MyDrawer::closeDrawer);
 

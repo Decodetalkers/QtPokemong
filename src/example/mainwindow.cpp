@@ -74,7 +74,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     // enddrawer
     // popup
-
     {
         list->addItem("Popup");
         QWidget *thewidget = new QWidget;

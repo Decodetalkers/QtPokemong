@@ -50,12 +50,12 @@ MyBattleMapStateMachine::MyBattleMapStateMachine(MyBattleMap *battlemap, MyBattl
     m_meattackingState->addTransition(transition);
 
     animation = new QPropertyAnimation(m_mime, "positionx", this);
-    animation->setDuration(100);
+    animation->setDuration(300);
     animation->setEasingCurve(QEasingCurve::OutCurve);
     transition->addAnimation(animation);
 
     animation = new QPropertyAnimation(m_mime, "positiony", this);
-    animation->setDuration(100);
+    animation->setDuration(300);
     animation->setEasingCurve(QEasingCurve::OutCurve);
     transition->addAnimation(animation);
     // end back
@@ -99,12 +99,12 @@ MyBattleMapStateMachine::MyBattleMapStateMachine(MyBattleMap *battlemap, MyBattl
     m_enermyattackingState->addTransition(transition);
 
     animation = new QPropertyAnimation(m_enermy, "positionx", this);
-    animation->setDuration(100);
+    animation->setDuration(300);
     animation->setEasingCurve(QEasingCurve::OutCurve);
     transition->addAnimation(animation);
 
     animation = new QPropertyAnimation(m_enermy, "positiony", this);
-    animation->setDuration(100);
+    animation->setDuration(300);
     animation->setEasingCurve(QEasingCurve::OutCurve);
     transition->addAnimation(animation);
     // end staying

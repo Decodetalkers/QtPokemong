@@ -101,27 +101,7 @@ void GamePanel::refresh()
     update();
 }
 
-// TODO move plugins to the map
-// void GamePanel::loadPlugins()
-//{
-//    QDir pluginsDir = QDir(QCoreApplication::applicationDirPath());
-//    if (!pluginsDir.cd("plugins"))
-//        return;
-//    int count = 0;
-//    foreach (QString filename, pluginsDir.entryList(QDir::Files)) {
-//        QPluginLoader pluginLoader(pluginsDir.absoluteFilePath(filename));
-//        QObject *plugin = pluginLoader.instance();
-//        if (plugin) {
-//            // qDebug() << "gamma";
-//            auto interface = qobject_cast<QtPluginInterface *>(plugin);
-//            if (interface) {
-//                // qDebug() << "beta";
-//                grid->addWidget(interface->thebutton(), 2, count, 1, 1);
-//                count++;
-//            }
-//        }
-//    }
-//}
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {

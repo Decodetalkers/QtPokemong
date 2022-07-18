@@ -20,9 +20,7 @@ public slots:
 
 protected:
     void paintEvent(QPaintEvent *event) override;
-    // bool event(QEvent *event) override;
-    // bool eventFilter(QObject *obj, QEvent *event) override;
-
+	bool eventFilter(QObject *obj, QEvent *event) override;
     const QScopedPointer<MyPopWindowPrivate> d_ptr;
 
 private:

@@ -13,29 +13,42 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
-file(GLOB HEADER "*.h")
-file(GLOB RSOURCE "*.cpp")
-#set(PROJECT_SOURCES
-#        main.cpp
-#        mainwindow.cpp
-#        mainwindow.h
-#)
-add_library(${PROJECT_NAME} SHARED ${HEADER} ${RSOURCE})
-#    set_property(TARGET myplugin APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 
-target_include_directories(${PROJECT_NAME} PUBLIC
-	../../../include/
+# Plugina
+set(BIN_NAME1 myplugina)
+
+set(PROJECT_SOURCES 
+  demo.h
+  demo.cpp
 )
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
-
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
-    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
-    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
-    MACOSX_BUNDLE TRUE
-    WIN32_EXECUTABLE TRUE
+add_library(
+  ${BIN_NAME1} SHARED 
+  ${PROJECT_SOURCES}
 )
 
+target_include_directories(${BIN_NAME1} PUBLIC
+  ../../../include/
+)
+target_link_libraries(
+  ${BIN_NAME1} PRIVATE
+  Qt${QT_VERSION_MAJOR}::Widgets
+)
+# pluginb
+SET(RCC_FILES ../res.qrc)
 
+set(BIN_NAME2 mypluginb)
+
+add_library(
+  ${BIN_NAME2} SHARED
+  showmodel.cpp
+  showmodel.h
+)
+
+target_include_directories(${BIN_NAME2} PUBLIC
+  ../../../include/
+)
+target_link_libraries(
+  ${BIN_NAME2} PRIVATE
+  Qt${QT_VERSION_MAJOR}::Widgets
+  neobutton
+)

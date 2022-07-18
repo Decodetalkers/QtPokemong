@@ -1,41 +1,11 @@
 #include "pokemongtable.h"
-#include "pokemongmodel.h"
+#include <mywidgets/models/pokemongmodel.h>
 
-#include <QFutureWatcher>
-#include <QNetworkAccessManager>
-#include <QNetworkReply>
-#include <QVariant>
-#include <QtConcurrent>
 #include <QtWidgets>
-#include <optional>
-const QString baseurl = "https://raw.githubusercontent.com/PokeAPI/sprites/"
-                        "master/sprites/pokemon/%1.png";
+//const QString baseurl = "https://raw.githubusercontent.com/PokeAPI/sprites/"
+//                        "master/sprites/pokemon/%1.png";
 const QString loadinged = ":/resources/yousaki.jpg";
-// dowmload the picture
-QFuture<QByteArray> download(const QUrl url)
-{
-    return QtConcurrent::run([=] {
-        QNetworkAccessManager qam = QNetworkAccessManager();
-        QNetworkRequest request(url);
-        auto before = qam.get(request);
-        // await , oh ,sorry , cpp does have await now ,:(;
-        {
-            QEventLoop loop;
-            QObject::connect(before, &QNetworkReply::finished, &loop, &QEventLoop::quit);
-            loop.exec();
-        }
-        // it will alive in the scope
-        auto newbefore = QScopedPointer(before);
-        auto res = newbefore->readAll();
-        if (before->error() != QNetworkReply::NoError) {
-            qDebug() << "error";
-        }
-        QThread::sleep(1);
-        return res;
-    });
-}
 
-// paint the table
 void PokemonTableDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     // if is pokemong , drawPixmap

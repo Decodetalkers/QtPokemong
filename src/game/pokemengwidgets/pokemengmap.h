@@ -6,6 +6,7 @@
 #include <QPaintEvent>
 #include <QRandomGenerator>
 #include <QWidget>
+#include <mywidgets/models/pokemongmodel.h>
 class PokemonMap : public QWidget
 {
     Q_OBJECT
@@ -13,7 +14,8 @@ public:
     PokemonMap(QWidget *parent = nullptr);
 
 public slots:
-	void drawMessageUpdate(QString weather);
+    void drawMessageUpdate(QString weather);
+
 protected:
     void paintEvent(QPaintEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
@@ -40,9 +42,9 @@ private:
         {1, 1},
         {1, 1},
     };
+    QSharedPointer<PokeMonModel> m_model;
     MyDrawer *mydrawer;
     QPoint playerposition = {0, 0};
     bool hasmessage = false;
     QString message = "";
 };
-

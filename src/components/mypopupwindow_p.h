@@ -1,26 +1,28 @@
 #pragma once
 
+#include <QWidget>
 #include <Qt>
 class MyPopWindow;
 class QStateMachine;
 class QStackedLayout;
 class MyPopWindowProxy;
 class MyPopWindowDialog;
-class MyPopWindowPrivate 
+class MyPopWindowPrivate
 {
-	Q_DISABLE_COPY(MyPopWindowPrivate)
-	Q_DECLARE_PUBLIC(MyPopWindow)
+    Q_DISABLE_COPY(MyPopWindowPrivate)
+    Q_DECLARE_PUBLIC(MyPopWindow)
 
 public:
-	MyPopWindowPrivate(MyPopWindow *q);
-	~MyPopWindowPrivate();
+    MyPopWindowPrivate(MyPopWindow *q);
+    ~MyPopWindowPrivate();
 
-	void init();
+    void init();
 
-	MyPopWindow *const q_ptr;
+    MyPopWindow *const q_ptr;
 
-	MyPopWindowDialog *dialogWindow;
-	QStackedLayout *proxyStack;
-	QStateMachine *stateMachine;
-	MyPopWindowProxy *proxy;
+    QWidget *widget;
+    MyPopWindowDialog *dialogWindow;
+    QStackedLayout *proxyStack;
+    QStateMachine *stateMachine;
+    MyPopWindowProxy *proxy;
 };

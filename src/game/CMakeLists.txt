@@ -25,10 +25,10 @@ pkg_check_modules(QGSettings REQUIRED gsettings-qt)
 file(GLOB HEADER "*.h")
 file(GLOB RSOURCE "*.cpp")
 file(GLOB POKEMONG "pokemengwidgets/*")
-set(POKEMONGMODEL
-  models/pokemongmodel.h
-  models/pokemongmodel.cpp
-)
+#set(POKEMONGMODEL
+#  models/pokemongmodel.h
+#  models/pokemongmodel.cpp
+#)
 SET(RCC_FILES res.qrc)
 
 add_executable(
@@ -37,14 +37,14 @@ add_executable(
   ${RSOURCE}
   ${POKEMONG}
   ${RCC_FILES}
-  ${POKEMONGMODEL}
+	# ${POKEMONGMODEL}
 )
 
 
 add_subdirectory(plugins)
 target_include_directories(${PROJECT_NAME} PUBLIC
   ../../include/
-  models/
+	#models/
   ${QGSettings_INCLUED_DIRS}
 )
 target_link_libraries(

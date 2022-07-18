@@ -3,7 +3,6 @@
 #include <QAbstractTableModel>
 #include <QDirIterator>
 #include <QStyledItemDelegate>
-#include <optional>
 class PokemongIcon;
 class PokeMonModel;
 class PokemonTableDelegate : public QStyledItemDelegate

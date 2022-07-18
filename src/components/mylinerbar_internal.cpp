@@ -35,7 +35,7 @@ MyLinerBarStateMachine::MyLinerBarStateMachine(MyLinerBar *parent, MyLinerBarLif
     animation->setEasingCurve(QEasingCurve::OutCurve);
     QSequentialAnimationGroup *animationgroup = new QSequentialAnimationGroup;
     animationgroup->addAnimation(animation);
-    animationgroup->addPause(400);
+    animationgroup->addPause(1000);
     transition->addAnimation(animationgroup);
 
     animation = new QPropertyAnimation(mylife, "life", this);

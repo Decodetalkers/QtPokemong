@@ -29,7 +29,7 @@ struct MyTransitionEvent : public QEvent
 
 /*
  * @class Proxy
- * provide shadow
+ * @brief provide shadow
  */
 class MyPopWindowProxy : public QWidget
 {
@@ -68,6 +68,11 @@ private:
     qreal m_opacity;
     TransparencyMode m_mode;
 };
+
+/*
+ * @class MyPopWindowProxy
+ * @brief get the opacity
+ */
 inline qreal MyPopWindowProxy::opacity() const
 {
     return m_opacity;

@@ -21,6 +21,10 @@ set(PROJECT_SOURCES
 
     basewidgets/myoverlaywidget.cpp
 
+    ../../include/mywidgets/models/pokemongmodel.h
+
+    models/pokemongmodel.cpp
+
     ../../include/mywidgets/mybutton.h
     ../../include/mywidgets/myprogress.h
     ../../include/mywidgets/mypopupwindow.h

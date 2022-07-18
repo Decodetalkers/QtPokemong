@@ -10,6 +10,7 @@
 #include <QPropertyAnimation>
 #include <QStackedLayout>
 #include <QStateMachine>
+#include <QMouseEvent>
 #include <QVBoxLayout>
 /*!
  * @class MyPopupwindowPrivate
@@ -35,7 +36,7 @@ void MyPopWindowPrivate::init()
     QVBoxLayout *layout = new QVBoxLayout;
     q->setLayout(layout);
 
-    QWidget *widget = new QWidget;
+    widget = new QWidget;
     widget->setLayout(proxyStack);
     widget->setMinimumWidth(400);
 
@@ -151,3 +152,26 @@ void MyPopWindow::paintEvent(QPaintEvent *event)
     painter.setOpacity(d->proxy->opacity() / 2.4);
     painter.drawRect(rect());
 }
+bool MyPopWindow::eventFilter(QObject *obj, QEvent *event)
+{
+    Q_D(MyPopWindow);
+
+    switch (event->type()) {
+        case QEvent::MouseButtonPress: {
+            QMouseEvent *mouseEvent;
+            if ((mouseEvent = static_cast<QMouseEvent *>(event))) {
+                // check canClose
+                // auto close location
+                if (!d->widget->geometry().contains(mouseEvent->pos())) {
+					hideDialog();
+				}
+            }
+            break;
+        }
+
+        default:
+            break;
+    }
+    return MyOverlayWidget::eventFilter(obj, event);
+}
+
