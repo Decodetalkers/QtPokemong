@@ -53,7 +53,6 @@ private:
     MyLinerBar *hpline;
     int hps = 100;
     bool yourturn = true;
-    // QStringListModel *mymodel;
     QSharedPointer<PokeMonModel> pokemonmodel;
 };
 

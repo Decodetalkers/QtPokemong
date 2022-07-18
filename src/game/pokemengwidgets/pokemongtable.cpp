@@ -2,8 +2,7 @@
 #include <mywidgets/models/pokemongmodel.h>
 
 #include <QtWidgets>
-//const QString baseurl = "https://raw.githubusercontent.com/PokeAPI/sprites/"
-//                        "master/sprites/pokemon/%1.png";
+
 const QString loadinged = ":/resources/yousaki.jpg";
 
 void PokemonTableDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -31,4 +30,3 @@ QSize PokemonTableDelegate::sizeHint(const QStyleOptionViewItem &option, const Q
 }
 
 PokemonTableDelegate::~PokemonTableDelegate() {}
-

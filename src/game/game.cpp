@@ -122,12 +122,7 @@ Player::Player(QWidget *parent, QSharedPointer<PokeMonModel> model)
     table->verticalHeader()->setDefaultSectionSize(100);
     table->verticalHeader()->setVisible(false);
     table->horizontalHeader()->setVisible(false);
-    QList<PokemongIcon> icons;
-    icons << PokemongIcon();
-    QList<QString> names;
-    names << "shadoxi";
-    // pokemonmodel = new PokeMonModel(this);
-    pokemonmodel->populateData(icons, names);
+
 
     table->setModel(pokemonmodel.data());
     table->setEditTriggers(QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked);

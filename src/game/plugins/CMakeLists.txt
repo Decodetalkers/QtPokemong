@@ -13,6 +13,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(QGSettings REQUIRED gsettings-qt)
 
 # Plugina
 set(BIN_NAME1 myplugina)
@@ -50,5 +52,27 @@ target_include_directories(${BIN_NAME2} PUBLIC
 target_link_libraries(
   ${BIN_NAME2} PRIVATE
   Qt${QT_VERSION_MAJOR}::Widgets
+  neobutton
+)
+
+# pluginb
+#SET(RCC_FILES ../res.qrc)
+
+set(BIN_NAME3 mypluginc)
+
+add_library(
+  ${BIN_NAME3} SHARED
+  savemodel.cpp
+  savemodel.h
+)
+
+target_include_directories(${BIN_NAME2} PUBLIC
+  ../../../include/
+  ${QGSettings_INCLUED_DIRS}
+)
+target_link_libraries(
+  ${BIN_NAME3} PRIVATE
+  Qt${QT_VERSION_MAJOR}::Widgets
+  ${QGSettings_LIBRARIES}
   neobutton
 )

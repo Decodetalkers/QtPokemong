@@ -11,7 +11,7 @@ class PokemonMap : public QWidget
 {
     Q_OBJECT
 public:
-    PokemonMap(QWidget *parent = nullptr);
+    PokemonMap(QWidget *parent = nullptr, QSharedPointer<PokeMonModel> model = QSharedPointer<PokeMonModel>(new PokeMonModel));
 
 public slots:
     void drawMessageUpdate(QString weather);

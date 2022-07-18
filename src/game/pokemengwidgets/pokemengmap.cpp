@@ -19,8 +19,9 @@
 const QString grass = ":/resources/grass.jpg";
 const QString playerred = ":/resources/red.png";
 const QColor white = QColor(255, 255, 255);
-PokemonMap::PokemonMap(QWidget *parent)
+PokemonMap::PokemonMap(QWidget *parent, QSharedPointer<PokeMonModel> model)
     : QWidget(parent)
+    , m_model(model)
 {
     //[0] make it can be focused by clicked
     setFocusPolicy(Qt::ClickFocus);
@@ -29,12 +30,6 @@ PokemonMap::PokemonMap(QWidget *parent)
     QVBoxLayout *drawerlayout = new QVBoxLayout;
     QPushButton *exit = new QPushButton("exit");
     drawerlayout->addWidget(exit);
-	m_model = QSharedPointer<PokeMonModel>(new PokeMonModel);
-	QList<PokemongIcon> icons;
-	icons << PokemongIcon();
-	QList<QString> names;
-	names << "shadoxi";
-	m_model->populateData(icons, names);;
     QDir pluginsDir = QDir(QCoreApplication::applicationDirPath());
     if (!pluginsDir.cd("plugins"))
         return;

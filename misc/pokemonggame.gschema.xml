@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE schemalist>
+<schemalist>
+    <schema id="apps.eightplus.pokemongame" path="/apps/eightplus/pokemongame/">
+        <!--<key type="i" name="age">
+            <default>18</default>
+            <summary>Age</summary>
+            <description>Age</description>
+        </key>
+        <key type="s" name="name">
+            <default>'lixiang'</default>
+            <summary>User name</summary>
+            <description>User name</description>
+        </key>-->
+        <key type="b" name="weather">
+            <default>true</default>
+            <summary>Weather</summary>
+            <description>Weather</description>
+        </key>
+    </schema>
+</schemalist>

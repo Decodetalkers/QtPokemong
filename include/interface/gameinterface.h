@@ -4,6 +4,10 @@
 #include <QWidget>
 #include <QAbstractTableModel>
 class PokeMonModel;
+/*
+ * @class GamePluginInterface
+ * @brief define the interface of panel
+ */
 class GamePluginInterface
 {
 public:

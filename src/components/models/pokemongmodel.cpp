@@ -107,3 +107,11 @@ bool PokeMonModel::setData(const QModelIndex &index, const QVariant &value, int 
     }
     return false;
 }
+QList<int> PokeMonModel::get_ids() const
+{
+    QList<int> output;
+    for (auto const id : m_ids) {
+        output.push_back(id.getid());
+    }
+    return output;
+}
