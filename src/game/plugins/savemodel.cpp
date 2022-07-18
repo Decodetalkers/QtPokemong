@@ -32,11 +32,10 @@ QWidget *PluginSaveModel::gamepanel(QSharedPointer<PokeMonModel> model)
 
         QPushButton *button = new QPushButton("Save");
         connect(button, &QPushButton::clicked, mainwidget, [=] {
-            qDebug() << "Saved";
-            qDebug() << model->get_names();
-			QStringList list = model->get_names();
-            mainwidget->m_gsettings->set("ids", QVariant::fromValue(list));
-            mainwidget->m_gsettings->set("names", QVariant::fromValue(model->get_names()));
+            QStringList list = model->get_names();
+            QStringList listids = model->get_ids_str();
+            mainwidget->m_gsettings->set("ids", QVariant::fromValue(listids));
+            mainwidget->m_gsettings->set("names", QVariant::fromValue(list));
             mainwidget->m_gsettings->set("weather", true);
         });
         QVBoxLayout *layout = new QVBoxLayout;

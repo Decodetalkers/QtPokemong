@@ -35,6 +35,7 @@ public:
     bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
     inline QList<QString> get_names() const;
 	QList<int> get_ids() const;
+	QList<QString> get_ids_str() const;
 
 private:
     QList<PokemongIcon> m_ids;

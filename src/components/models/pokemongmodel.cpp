@@ -115,3 +115,11 @@ QList<int> PokeMonModel::get_ids() const
     }
     return output;
 }
+QList<QString> PokeMonModel::get_ids_str() const
+{
+    QList<QString> output;
+    for (auto const id : m_ids) {
+        output.push_back(QString::number(id.getid()));
+    }
+    return output;
+}
