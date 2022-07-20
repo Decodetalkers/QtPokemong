@@ -41,7 +41,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(QWidget *parent = nullptr,QSharedPointer<PokeMonModel> model = QSharedPointer<PokeMonModel>(new PokeMonModel));
     ~MainWindow();
 private slots:
     void battle();

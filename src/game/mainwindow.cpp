@@ -52,7 +52,7 @@ GamePanel::GamePanel(QWidget *parent, QSharedPointer<PokeMonModel> model)
         QStringList List;
         List << "Game Start";
         messagemodel->setStringList(List);
-        auto mylistview = new QListView();
+        QListView *mylistview = new QListView();
         mylistview->setModel(messagemodel);
         middle->addWidget(mylistview);
     }
@@ -101,17 +101,27 @@ void GamePanel::refresh()
     update();
 }
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(QWidget *parent, QSharedPointer<PokeMonModel> model)
     : QMainWindow(parent)
 {
-    // realize the models
-    auto model = QSharedPointer<PokeMonModel>(new PokeMonModel(this));
-    QList<PokemongIcon> icons;
-    icons << PokemongIcon();
-    QList<QString> names;
-    names << "shadoxi";
-    // pokemonmodel = new PokeMonModel(this);
-    model->populateData(icons, names);
+    if (QGSettings::isSchemaInstalled("apps.eightplus.pokemongame")) {
+        m_gsettings = new QGSettings("apps.eightplus.pokemongame");
+        connect(m_gsettings, &QGSettings::changed, this, [=](const QString &key) {
+            if (key == "weather") {
+                qDebug() << "changed";
+            }
+        });
+    }
+    if (model->get_ids().size() == 0) {
+        // realize the models
+        // auto model = QSharedPointer<PokeMonModel>(new PokeMonModel(this));
+        QList<PokemongIcon> icons;
+        icons << PokemongIcon();
+        QList<QString> names;
+        names << "shadoxi";
+        // pokemonmodel = new PokeMonModel(this);
+        model->populateData(icons, names);
+    }
     // above the stack
     aboveall = new QStackedWidget(this);
     panel = new GamePanel(this, model);
@@ -149,14 +159,6 @@ MainWindow::MainWindow(QWidget *parent)
         });
         // every ten second tick once to get the message
         timer->start(10);
-    }
-    if (QGSettings::isSchemaInstalled("apps.eightplus.pokemongame")) {
-        m_gsettings = new QGSettings("apps.eightplus.pokemongame");
-        connect(m_gsettings, &QGSettings::changed, this, [=](const QString &key) {
-            if (key == "weather") {
-                qDebug() << "changed";
-            }
-        });
     }
 }
 
