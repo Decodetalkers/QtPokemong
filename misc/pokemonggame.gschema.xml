@@ -17,5 +17,13 @@
             <summary>Weather</summary>
             <description>Weather</description>
         </key>
+        <key type="as" name="ids">
+            <default>[]</default>
+            <summary>storage for id</summary>
+        </key>
+        <key type="as" name="names">
+            <default>[]</default>
+            <summary>storage for name</summary>
+        </key>
     </schema>
 </schemalist>
