@@ -56,7 +56,7 @@ QString PluginSaveModel::pluginname() const
 }
 // const QString baseurl = "https://raw.githubusercontent.com/PokeAPI/sprites/"
 //                         "master/sprites/pokemon/%1.png";
-const QString loadinged = ":/resources/yousaki.jpg";
+//const QString loadinged = ":/resources/yousaki.jpg";
 
 void PokemonTableDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {

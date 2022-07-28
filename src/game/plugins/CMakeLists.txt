@@ -36,7 +36,7 @@ target_link_libraries(
   Qt${QT_VERSION_MAJOR}::Widgets
 )
 # pluginb
-SET(RCC_FILES ../res.qrc)
+#SET(RCC_FILES ../res.qrc)
 
 set(BIN_NAME2 mypluginb)
 
@@ -64,6 +64,7 @@ add_library(
   ${BIN_NAME3} SHARED
   savemodel.cpp
   savemodel.h
+  ../theme-icons/theme-icons.qrc
 )
 
 target_include_directories(${BIN_NAME2} PUBLIC
