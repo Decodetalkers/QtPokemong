@@ -30,7 +30,7 @@ QWidget *PluginSaveModel::gamepanel(QSharedPointer<PokeMonModel> model)
         QGSettings *gsettings = new QGSettings("apps.eightplus.pokemongame");
         GSettingSaver *mainwidget = new GSettingSaver(nullptr, gsettings);
 
-        QPushButton *button = new QPushButton("Save");
+        QPushButton *button = new QPushButton(QIcon::fromTheme("icon_button"),"Save");
         connect(button, &QPushButton::clicked, mainwidget, [=] {
             QStringList list = model->get_names();
             QStringList listids = model->get_ids_str();

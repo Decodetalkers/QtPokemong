@@ -2,7 +2,7 @@
 
 #include "game.h"
 #include "pokemengwidgets/pokemengmap.h"
-#include "pokemengwidgets/pokemongtable.h"
+//#include "pokemengwidgets/pokemongtable.h"
 
 #include <mywidgets/models/pokemongmodel.h>
 #include <mywidgets/mybattlemap.h>

@@ -5,7 +5,7 @@
 #include "game.h"
 #include "mainwindow.h"
 #include "pokemengwidgets/pokemengmap.h"
-#include "pokemengwidgets/pokemongtable.h"
+//#include "pokemengwidgets/pokemongtable.h"
 
 #include <QCoreApplication>
 #include <QDBusInterface>

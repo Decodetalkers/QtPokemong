@@ -1,6 +1,6 @@
 #pragma once
 
-#include "pokemengwidgets/pokemongtable.h"
+
 
 #include <mywidgets/models/pokemongmodel.h>
 
