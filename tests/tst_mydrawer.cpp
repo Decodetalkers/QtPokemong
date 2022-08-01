@@ -17,7 +17,6 @@ public:
 
 TEST_F(Tst_Drawer, DrawerTest)
 {
-    // kill 10 life should get 90
     obj->openDrawer();
     obj->closeDrawer();
 }

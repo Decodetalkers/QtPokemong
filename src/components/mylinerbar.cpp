@@ -49,8 +49,10 @@ void MyLinerBar::paintEvent(QPaintEvent *event)
     painter.fillPath(path, Qt::darkGray);
 }
 MyLinerBar::~MyLinerBar() {}
+#if TEST
 qreal MyLinerBar::life() const
 {
     Q_D(const MyLinerBar);
     return d_func()->statemachine->getlife();
 }
+#endif  // TEST

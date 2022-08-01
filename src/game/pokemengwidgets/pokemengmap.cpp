@@ -31,6 +31,8 @@ PokemonMap::PokemonMap(QWidget *parent, QSharedPointer<PokeMonModel> model)
     QPushButton *exit = new QPushButton("exit");
     drawerlayout->addWidget(exit);
     QDir pluginsDir = QDir(QCoreApplication::applicationDirPath());
+#ifdef TEST
+#else  //
     if (!pluginsDir.cd("plugins"))
         return;
     foreach (QString filename, pluginsDir.entryList(QDir::Files)) {
@@ -66,6 +68,7 @@ PokemonMap::PokemonMap(QWidget *parent, QSharedPointer<PokeMonModel> model)
     });
     timer->start(100);
     setMinimumSize(500, 500);
+#endif
 }
 
 void PokemonMap::paintEvent(QPaintEvent *event)

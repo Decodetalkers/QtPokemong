@@ -12,7 +12,10 @@ class PokemonMap : public QWidget
     Q_OBJECT
 public:
     PokemonMap(QWidget *parent = nullptr, QSharedPointer<PokeMonModel> model = QSharedPointer<PokeMonModel>(new PokeMonModel));
-
+#ifdef TEST
+    inline QPoint position() const;
+    inline void reset();
+#endif  //
 public slots:
     void drawMessageUpdate(QString weather);
 
@@ -48,3 +51,13 @@ private:
     bool hasmessage = false;
     QString message = "";
 };
+#ifdef TEST
+inline QPoint PokemonMap::position() const
+{
+    return playerposition;
+}
+inline void PokemonMap::reset()
+{
+    playerposition = {0, 0};
+}
+#endif

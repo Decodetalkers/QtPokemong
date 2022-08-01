@@ -10,7 +10,10 @@ class MyLinerBar : public QWidget
 public:
     MyLinerBar(QWidget *parent = nullptr);
     ~MyLinerBar();
+#ifdef TEST
+    // only can use when is defined as test
     qreal life() const;
+#endif
 public slots:
     void damage(qreal);
     void rebase();

@@ -99,8 +99,6 @@ Qt::ItemFlags PokeMonModel::flags(const QModelIndex &index) const
 bool PokeMonModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     Q_UNUSED(role)
-    // qDebug() << index.column();
-    // qDebug() << index.row();
     if (index.column() == 1) {
         m_names[index.row()] = value.value<QString>();
         return true;

@@ -18,5 +18,6 @@ public:
 TEST_F(Tst_MyPopWindow, PopWindowTest)
 {
     obj->showDialog();
+    obj->setWindowLayout(new QHBoxLayout);
     obj->hideDialog();
 }

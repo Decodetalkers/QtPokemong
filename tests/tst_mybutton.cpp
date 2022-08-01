@@ -1,6 +1,7 @@
 #include "mywidgets/mybutton.h"
+#include <QTest>
 #include <gtest/gtest.h>
-
+#include <qtestkeyboard.h>
 class Tst_MyButton : public testing::Test
 {
 public:
@@ -15,4 +16,7 @@ public:
     MyButton *obj = nullptr;
 };
 
-TEST_F(Tst_MyButton, BattleMapTest) {}
+TEST_F(Tst_MyButton, MyButtonTest)
+{
+    QTest::mouseClick(obj, Qt::LeftButton);
+}

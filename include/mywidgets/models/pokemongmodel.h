@@ -34,8 +34,8 @@ public:
     Qt::ItemFlags flags(const QModelIndex &index) const override;
     bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
     inline QList<QString> get_names() const;
-	QList<int> get_ids() const;
-	QList<QString> get_ids_str() const;
+    QList<int> get_ids() const;
+    QList<QString> get_ids_str() const;
 
 private:
     QList<PokemongIcon> m_ids;
@@ -45,4 +45,3 @@ inline QList<QString> PokeMonModel::get_names() const
 {
     return m_names;
 }
-
