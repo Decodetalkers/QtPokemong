@@ -1,6 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
-
-project(backend VERSION 0.1 LANGUAGES CXX)
+set(BACKEND_NAME backend)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -16,16 +14,16 @@ find_package(Qt5 REQUIRED COMPONENTS DBus)
 find_package(Qt5 REQUIRED COMPONENTS Core)
 
 add_executable(
-	${PROJECT_NAME}
+	${BACKEND_NAME}
 	dbusserver.h
 	dbusserver.cpp
 	)
-target_include_directories(${PROJECT_NAME} PUBLIC
+target_include_directories(${BACKEND_NAME} PUBLIC
 	../../include/
 )
 target_link_libraries(
-	${PROJECT_NAME} PRIVATE
+	${BACKEND_NAME} PRIVATE
 	Qt5::Core
 	Qt5::DBus
 )
-install(TARGETS ${BIN_NAME} DESTINATION bin)
+install(TARGETS ${BACKEND_NAME} DESTINATION bin)

@@ -1,7 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
-
-project(mybuttons VERSION 0.1 LANGUAGES CXX)
-
+set(EXAMPLE_NAME mybuttons)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(CMAKE_AUTOUIC ON)
@@ -22,22 +19,15 @@ set(PROJECT_SOURCES
   mainwindow.h
 )
 
-add_executable(${PROJECT_NAME}
+add_executable(${EXAMPLE_NAME}
     ${PROJECT_SOURCES}
 )
 
-target_link_libraries(mybuttons PRIVATE 
+target_link_libraries(${EXAMPLE_NAME} PRIVATE 
   Qt${QT_VERSION_MAJOR}::Widgets
   Qt${QT_VERSION_MAJOR}::Core
   neobutton
 )
-target_include_directories(${PROJECT_NAME} PUBLIC
+target_include_directories(${EXAMPLE_NAME} PUBLIC
   ../../include/mywidgets/
-)
-set_target_properties(mybuttons PROPERTIES
-    MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
-    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
-    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
-    MACOSX_BUNDLE TRUE
-    WIN32_EXECUTABLE TRUE
 )

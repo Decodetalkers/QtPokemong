@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(neobutton VERSION 0.1 LANGUAGES CXX)
+#project(neobutton VERSION 0.1 LANGUAGES CXX)
+
+set(COMPONENT_NAME neobutton)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -67,22 +69,15 @@ set(PROJECT_SOURCES
 )
 set(RCC_FILES res.qrc)
 
-add_library(${PROJECT_NAME} SHARED
+add_library(${COMPONENT_NAME} SHARED
     ${PROJECT_SOURCES}
     ${RCC_FILES}
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE 
+target_link_libraries(${COMPONENT_NAME} PRIVATE 
   Qt${QT_VERSION_MAJOR}::Widgets
   Qt${QT_VERSION_MAJOR}::Core
 )
-target_include_directories(${PROJECT_NAME} PUBLIC
+target_include_directories(${COMPONENT_NAME} PUBLIC
   ../../include/
-)
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
-    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
-    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
-    MACOSX_BUNDLE TRUE
-    WIN32_EXECUTABLE TRUE
 )

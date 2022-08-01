@@ -1,7 +1,7 @@
 #include "mywidgets/mylinerbar.h"
 #include <gtest/gtest.h>
 
-class Tst_Table : public testing::Test
+class Tst_LinerBar : public testing::Test
 {
 public:
     void SetUp() override { obj = new MyLinerBar; }
@@ -15,7 +15,7 @@ public:
     MyLinerBar *obj = nullptr;
 };
 
-TEST_F(Tst_Table, tabletest)
+TEST_F(Tst_LinerBar, linerbartest)
 {
     // kill 10 life should get 90
     obj->damage(10);

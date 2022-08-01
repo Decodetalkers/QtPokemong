@@ -1,7 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
-
-project(pingit VERSION 0.1 LANGUAGES CXX)
-
+set(PINNAME pinit)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -16,14 +13,14 @@ find_package(Qt5 REQUIRED COMPONENTS DBus)
 find_package(Qt5 REQUIRED COMPONENTS Core)
 
 add_executable(
-	${PROJECT_NAME}
+	${PINNAME}
 	dbusclient.cpp
 	)
-target_include_directories(${PROJECT_NAME} PUBLIC
+target_include_directories(${PINNAME} PUBLIC
 	../../include/
 )
 target_link_libraries(
-	${PROJECT_NAME} PRIVATE
+	${PINNAME} PRIVATE
 	Qt5::Core
 	Qt5::DBus
 )
