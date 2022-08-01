@@ -1,7 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
-
-project(pokemongbattle VERSION 0.1 LANGUAGES CXX)
-
+set(GAMENAME pokemongbattle)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
@@ -32,23 +29,22 @@ file(GLOB POKEMONG "pokemengwidgets/*")
 SET(RCC_FILES res.qrc)
 
 add_executable(
-  ${PROJECT_NAME}
+  ${GAMENAME}
   ${HEADER}
   ${RSOURCE}
   ${POKEMONG}
   ${RCC_FILES}
-	# ${POKEMONGMODEL}
 )
 
+add_definitions(-DPLUGINDIR="${CMAKE_INSTALL_DATAROOTDIR}/pokemongbattle/plugins")
 
 add_subdirectory(plugins)
-target_include_directories(${PROJECT_NAME} PUBLIC
+target_include_directories(${GAMENAME} PUBLIC
   ../../include/
-	#models/
   ${QGSettings_INCLUED_DIRS}
 )
 target_link_libraries(
-  ${PROJECT_NAME} PRIVATE
+  ${GAMENAME} PRIVATE
   Qt${QT_VERSION_MAJOR}::Widgets
   Qt${QT_VERSION_MAJOR}::Network
   Qt${QT_VERSION_MAJOR}::Concurrent
@@ -57,18 +53,8 @@ target_link_libraries(
   ${QGSettings_LIBRARIES}
   neobutton
 )
-
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
-    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
-    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
-    MACOSX_BUNDLE TRUE
-
-)
-
 #bin
-install(TARGETS ${BIN_NAME} DESTINATION bin)
-
+install(TARGETS ${GAMENAME} DESTINATION ${CMAKE_INSTALL_BINDIR})
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(myplugin)
 endif()

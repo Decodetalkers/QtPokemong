@@ -26,4 +26,4 @@ target_link_libraries(
 	Qt5::Core
 	Qt5::DBus
 )
-install(TARGETS ${BACKEND_NAME} DESTINATION bin)
+install(TARGETS ${BACKEND_NAME} DESTINATION ${CMAKE_INSTALL_BINDIR})

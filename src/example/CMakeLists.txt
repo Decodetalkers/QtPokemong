@@ -31,3 +31,4 @@ target_link_libraries(${EXAMPLE_NAME} PRIVATE
 target_include_directories(${EXAMPLE_NAME} PUBLIC
   ../../include/mywidgets/
 )
+install(TARGETS ${EXAMPLE_NAME} DESTINATION ${CMAKE_INSTALL_BINDIR})

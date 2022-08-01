@@ -5,6 +5,7 @@
 #include <mywidgets/mypopupwindow.h>
 
 #include <QCoreApplication>
+#include <QDebug>
 #include <QDir>
 #include <QLabel>
 #include <QPainter>
@@ -33,6 +34,29 @@ PokemonMap::PokemonMap(QWidget *parent, QSharedPointer<PokeMonModel> model)
     QDir pluginsDir = QDir(QCoreApplication::applicationDirPath());
 #ifdef TEST
 #else  //
+    // plugin default path
+    if (QDir(PLUGINDIR).exists()) {
+        foreach (QString filename, QDir(PLUGINDIR).entryList(QDir::Files)) {
+            QPluginLoader pluginLoader(pluginsDir.absoluteFilePath(filename));
+            QObject *plugin = pluginLoader.instance();
+            if (plugin) {
+                auto interface = qobject_cast<GamePluginInterface *>(plugin);
+                if (interface) {
+                    QPushButton *pb = new QPushButton(interface->pluginname());
+                    MyPopWindow *popup = new MyPopWindow;
+                    popup->setParent(this);
+                    QVBoxLayout *poplayout = new QVBoxLayout;
+                    poplayout->addWidget(interface->gamepanel(m_model));
+                    popup->setWindowLayout(poplayout);
+                    drawerlayout->addWidget(pb);
+                    connect(pb, &QPushButton::clicked, this, [=] {
+                        popup->showDialog();
+                        mydrawer->closeDrawer();
+                    });
+                }
+            }
+        }
+    }
     if (!pluginsDir.cd("plugins"))
         return;
     foreach (QString filename, pluginsDir.entryList(QDir::Files)) {
