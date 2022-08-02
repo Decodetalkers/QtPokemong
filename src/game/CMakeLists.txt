@@ -36,7 +36,7 @@ add_executable(
   ${RCC_FILES}
 )
 
-add_definitions(-DPLUGINDIR="${CMAKE_INSTALL_DATAROOTDIR}/pokemongbattle/plugins")
+add_definitions(-DPLUGINDIR="${CMAKE_INSTALL_DATAROOTDIR}/pokemengbattle/plugins")
 
 add_subdirectory(plugins)
 target_include_directories(${GAMENAME} PUBLIC

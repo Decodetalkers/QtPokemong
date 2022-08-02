@@ -32,12 +32,13 @@ PokemonMap::PokemonMap(QWidget *parent, QSharedPointer<PokeMonModel> model)
     QPushButton *exit = new QPushButton("exit");
     drawerlayout->addWidget(exit);
     QDir pluginsDir = QDir(QCoreApplication::applicationDirPath());
+    QDir pluginsDefaultDir = QDir(PLUGINDIR);
 #ifdef TEST
 #else  //
     // plugin default path
-    if (QDir(PLUGINDIR).exists()) {
-        foreach (QString filename, QDir(PLUGINDIR).entryList(QDir::Files)) {
-            QPluginLoader pluginLoader(pluginsDir.absoluteFilePath(filename));
+    if (pluginsDefaultDir.exists()) {
+        foreach (QString filename, pluginsDefaultDir.entryList(QDir::Files)) {
+            QPluginLoader pluginLoader(pluginsDefaultDir.absoluteFilePath(filename));
             QObject *plugin = pluginLoader.instance();
             if (plugin) {
                 auto interface = qobject_cast<GamePluginInterface *>(plugin);

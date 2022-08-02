@@ -11,24 +11,25 @@ find_package(PkgConfig REQUIRED)
 pkg_check_modules(QGSettings REQUIRED gsettings-qt)
 
 # Plugina
-set(BIN_NAME1 myplugina)
-
-set(PROJECT_SOURCES 
-  demo.h
-  demo.cpp
-)
-add_library(
-  ${BIN_NAME1} SHARED 
-  ${PROJECT_SOURCES}
-)
-
-target_include_directories(${BIN_NAME1} PUBLIC
-  ../../../include/
-)
-target_link_libraries(
-  ${BIN_NAME1} PRIVATE
-  Qt${QT_VERSION_MAJOR}::Widgets
-)
+#set(BIN_NAME1 myplugina)
+#
+#set(PROJECT_SOURCES 
+#  demo.h
+#  demo.cpp
+#)
+#add_library(
+#  ${BIN_NAME1} SHARED 
+#  ${PROJECT_SOURCES}
+#)
+#
+#target_include_directories(${BIN_NAME1} PUBLIC
+#  ../../../include/
+#)
+#target_link_libraries(
+#  ${BIN_NAME1} PRIVATE
+#  Qt${QT_VERSION_MAJOR}::Widgets
+#)
+#install(TARGETS ${BIN_NAME1} DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/pokemengbattle/plugins/")
 # pluginb
 #SET(RCC_FILES ../res.qrc)
 
@@ -49,6 +50,7 @@ target_link_libraries(
   neobutton
 )
 
+install(TARGETS ${BIN_NAME2} DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/pokemengbattle/plugins/")
 # pluginb
 #SET(RCC_FILES ../res.qrc)
 
@@ -71,3 +73,4 @@ target_link_libraries(
   ${QGSettings_LIBRARIES}
   neobutton
 )
+install(TARGETS ${BIN_NAME3} DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/pokemengbattle/plugins/")
