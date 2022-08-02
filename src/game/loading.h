@@ -1,6 +1,7 @@
 #pragma once
 
 #include "mywidgets/models/pokemongmodel.h"
+
 #include <QGSettings/QGSettings>
 #include <QWidget>
 class Loading : public QWidget

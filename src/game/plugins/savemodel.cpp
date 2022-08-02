@@ -1,5 +1,5 @@
 #include "savemodel.h"
-#include <QDebug>
+
 #include <QGSettings/QGSettings>
 #include <QPushButton>
 #include <QVBoxLayout>

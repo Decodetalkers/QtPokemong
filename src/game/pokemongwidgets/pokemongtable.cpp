@@ -1,4 +1,6 @@
+// the head of pokemongtable
 #include "pokemongtable.h"
+
 #include <mywidgets/models/pokemongmodel.h>
 
 #include <QtWidgets>

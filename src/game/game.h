@@ -1,13 +1,11 @@
 #pragma once
 
-
-
 #include <mywidgets/models/pokemongmodel.h>
+#include <mywidgets/mylinerbar.h>
 
 #include <QNetworkAccessManager>
 #include <QSharedPointer>
 #include <QStringListModel>
-#include <mywidgets/mylinerbar.h>
 // use namespace to import these
 QT_BEGIN_NAMESPACE
 class QLabel;

@@ -1,4 +1,5 @@
 #include "showmodel.h"
+
 #include <QtWidgets>
 QWidget *PluginShowModel::gamepanel(QSharedPointer<PokeMonModel> model)
 {
