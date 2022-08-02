@@ -1,7 +1,7 @@
 #pragma once
 
 #include "game.h"
-#include "pokemengwidgets/pokemengmap.h"
+#include "pokemongwidgets/pokemongmap.h"
 //#include "pokemengwidgets/pokemongtable.h"
 
 #include <mywidgets/models/pokemongmodel.h>

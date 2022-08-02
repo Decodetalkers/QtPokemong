@@ -21,7 +21,7 @@ pkg_check_modules(QGSettings REQUIRED gsettings-qt)
 
 file(GLOB HEADER "*.h")
 file(GLOB RSOURCE "*.cpp")
-file(GLOB POKEMONG "pokemengwidgets/*")
+file(GLOB POKEMONG "pokemongwidgets/*")
 #set(POKEMONGMODEL
 #  models/pokemongmodel.h
 #  models/pokemongmodel.cpp
@@ -36,7 +36,7 @@ add_executable(
   ${RCC_FILES}
 )
 
-add_definitions(-DPLUGINDIR="${CMAKE_INSTALL_DATAROOTDIR}/pokemengbattle/plugins")
+add_definitions(-DPLUGINDIR="/usr/share/pokemongbattle/plugins")
 
 add_subdirectory(plugins)
 target_include_directories(${GAMENAME} PUBLIC

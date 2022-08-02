@@ -1,6 +1,6 @@
 #include "game.h"
 #include "mywidgets/mylinerbar.h"
-#include "pokemengwidgets/pokemongtable.h"
+#include "pokemongwidgets/pokemongtable.h"
 
 #include <QAbstractItemModel>
 #include <QDebug>

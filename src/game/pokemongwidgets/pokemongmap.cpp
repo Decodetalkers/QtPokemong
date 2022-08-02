@@ -1,4 +1,4 @@
-#include "pokemengmap.h"
+#include "pokemongmap.h"
 
 #include <interface/gameinterface.h>
 #include <mywidgets/models/pokemongmodel.h>
@@ -32,9 +32,10 @@ PokemonMap::PokemonMap(QWidget *parent, QSharedPointer<PokeMonModel> model)
     QPushButton *exit = new QPushButton("exit");
     drawerlayout->addWidget(exit);
     QDir pluginsDir = QDir(QCoreApplication::applicationDirPath());
-    QDir pluginsDefaultDir = QDir(PLUGINDIR);
+
 #ifdef TEST
 #else  //
+    QDir pluginsDefaultDir = QDir(PLUGINDIR);
     // plugin default path
     if (pluginsDefaultDir.exists()) {
         foreach (QString filename, pluginsDefaultDir.entryList(QDir::Files)) {
@@ -58,25 +59,25 @@ PokemonMap::PokemonMap(QWidget *parent, QSharedPointer<PokeMonModel> model)
             }
         }
     }
-    if (!pluginsDir.cd("plugins"))
-        return;
-    foreach (QString filename, pluginsDir.entryList(QDir::Files)) {
-        QPluginLoader pluginLoader(pluginsDir.absoluteFilePath(filename));
-        QObject *plugin = pluginLoader.instance();
-        if (plugin) {
-            auto interface = qobject_cast<GamePluginInterface *>(plugin);
-            if (interface) {
-                QPushButton *pb = new QPushButton(interface->pluginname());
-                MyPopWindow *popup = new MyPopWindow;
-                popup->setParent(this);
-                QVBoxLayout *poplayout = new QVBoxLayout;
-                poplayout->addWidget(interface->gamepanel(m_model));
-                popup->setWindowLayout(poplayout);
-                drawerlayout->addWidget(pb);
-                connect(pb, &QPushButton::clicked, this, [=] {
-                    popup->showDialog();
-                    mydrawer->closeDrawer();
-                });
+    if (pluginsDir.cd("plugins")) {
+        foreach (QString filename, pluginsDir.entryList(QDir::Files)) {
+            QPluginLoader pluginLoader(pluginsDir.absoluteFilePath(filename));
+            QObject *plugin = pluginLoader.instance();
+            if (plugin) {
+                auto interface = qobject_cast<GamePluginInterface *>(plugin);
+                if (interface) {
+                    QPushButton *pb = new QPushButton(interface->pluginname());
+                    MyPopWindow *popup = new MyPopWindow;
+                    popup->setParent(this);
+                    QVBoxLayout *poplayout = new QVBoxLayout;
+                    poplayout->addWidget(interface->gamepanel(m_model));
+                    popup->setWindowLayout(poplayout);
+                    drawerlayout->addWidget(pb);
+                    connect(pb, &QPushButton::clicked, this, [=] {
+                        popup->showDialog();
+                        mydrawer->closeDrawer();
+                    });
+                }
             }
         }
     }

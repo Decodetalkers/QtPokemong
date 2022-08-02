@@ -13,15 +13,15 @@ find_package(Qt5 REQUIRED COMPONENTS DBus)
 find_package(Qt5 REQUIRED COMPONENTS Core)
 
 add_executable(
-	${PINNAME}
-	dbusclient.cpp
-	)
+  ${PINNAME}
+  dbusclient.cpp
+  )
 target_include_directories(${PINNAME} PUBLIC
-	../../include/
+  ../../include/
 )
 target_link_libraries(
-	${PINNAME} PRIVATE
-	Qt5::Core
-	Qt5::DBus
+  ${PINNAME} PRIVATE
+  Qt5::Core
+  Qt5::DBus
 )
 install(TARGETS ${PINNAME} DESTINATION ${CMAKE_INSTALL_BINDIR})

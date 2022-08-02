@@ -3,11 +3,11 @@ Section: games
 Priority: optional
 Maintainer: ShootingStarDragon
 Build-Depends:
-  debhelper-compat (=11)
+  debhelper-compat (=11),
   cmake
 Standards-Version: 0.1
 
-Package: pokemongbattle 
+Package: pokemongbattle
 Architecture: any
 Depends:
   cmake

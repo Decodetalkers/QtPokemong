@@ -1,4 +1,4 @@
-#include "pokemengmap.h"
+#include "pokemongmap.h"
 #include <QtTest/qtestkeyboard.h>
 #include <gtest/gtest.h>
 #include <qtestkeyboard.h>

@@ -10,6 +10,7 @@ PokemongIcon::PokemongIcon(QVariant icon, int id)
 void PokemongIcon::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     Q_UNUSED(option)
+    Q_UNUSED(index)
     if (!m_icon.value<bool>()) {
         QPixmap image = QPixmap(loadinged).scaled(100, 100);
         painter->drawPixmap(option.rect.x(), option.rect.y(), image);
@@ -71,6 +72,7 @@ void PokeMonModel::populateData(const QList<PokemongIcon> &newids, const QList<Q
 // row can be insert
 bool PokeMonModel::insertRows(int row, int count, const QModelIndex &parent)
 {
+    Q_UNUSED(parent)
     beginInsertRows(QModelIndex(), row, row + count - 1);
     endInsertRows();
     return true;
@@ -108,7 +110,7 @@ bool PokeMonModel::setData(const QModelIndex &index, const QVariant &value, int 
 QList<int> PokeMonModel::get_ids() const
 {
     QList<int> output;
-    for (auto const id : m_ids) {
+    for (auto const &id : m_ids) {
         output.push_back(id.getid());
     }
     return output;
@@ -116,7 +118,7 @@ QList<int> PokeMonModel::get_ids() const
 QList<QString> PokeMonModel::get_ids_str() const
 {
     QList<QString> output;
-    for (auto const id : m_ids) {
+    for (auto const &id : m_ids) {
         output.push_back(QString::number(id.getid()));
     }
     return output;

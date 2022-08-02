@@ -50,7 +50,7 @@ target_link_libraries(
   neobutton
 )
 
-install(TARGETS ${BIN_NAME2} DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/pokemengbattle/plugins/")
+install(TARGETS ${BIN_NAME2} DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/pokemongbattle/plugins/")
 # pluginb
 #SET(RCC_FILES ../res.qrc)
 
@@ -73,4 +73,4 @@ target_link_libraries(
   ${QGSettings_LIBRARIES}
   neobutton
 )
-install(TARGETS ${BIN_NAME3} DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/pokemengbattle/plugins/")
+install(TARGETS ${BIN_NAME3} DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/pokemongbattle/plugins/")

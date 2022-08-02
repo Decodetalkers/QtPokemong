@@ -6,24 +6,24 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(WIDGETS 
-	../src/game/pokemengwidgets/pokemengmap.cpp
-  ../src/game/pokemengwidgets/pokemongtable.cpp
+  ../src/game/pokemongwidgets/pokemongmap.cpp
+  ../src/game/pokemongwidgets/pokemongtable.cpp
 )
 set(COMPONENT_SOURCES
-  ../../include/mywidgets/basewidgets/myoverlaywidget.h
+  ../include/mywidgets/basewidgets/myoverlaywidget.h
 
   ../src/components/basewidgets/myoverlaywidget.cpp
 
-  ../../include/mywidgets/models/pokemongmodel.h
+  ../include/mywidgets/models/pokemongmodel.h
 
   ../src/components/models/pokemongmodel.cpp
 
-  ../../include/mywidgets/mybutton.h
-  ../../include/mywidgets/myprogress.h
-  ../../include/mywidgets/mypopupwindow.h
-  ../../include/mywidgets/mydrawer.h
-  ../../include/mywidgets/mybattlemap.h
-  ../../include/mywidgets/mylinerbar.h
+  ../include/mywidgets/mybutton.h
+  ../include/mywidgets/myprogress.h
+  ../include/mywidgets/mypopupwindow.h
+  ../include/mywidgets/mydrawer.h
+  ../include/mywidgets/mybattlemap.h
+  ../include/mywidgets/mylinerbar.h
  
   ../src/components/mybutton.cpp
   ../src/components/mybutton_p.h
@@ -65,17 +65,17 @@ add_definitions(-DTEST)
 add_executable(${BIN_NAME} 
   ${WIDGETS} 
   ${INTERFACES}
-	${COMPONENT_SOURCES}
+  ${COMPONENT_SOURCES}
   main.cpp 
   tst_mylinerbar.cpp
-	tst_mydrawer.cpp
+  tst_mydrawer.cpp
   tst_myprogress.cpp
   tst_mypopupwindow.cpp
   tst_mybattlemap.cpp
   tst_mybutton.cpp
   tst_pokemongmodel.cpp
   tst_pokemongmap.cpp
-	#tst_pokemongtable.cpp
+  #tst_pokemongtable.cpp
 )
 if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     target_compile_options(${BIN_NAME} PRIVATE -fprofile-instr-generate -ftest-coverage)
@@ -97,7 +97,7 @@ target_link_libraries(${BIN_NAME} PRIVATE
   )
 target_include_directories(${BIN_NAME} PUBLIC
   ../src/components/
-  ../src/game/pokemengwidgets/
+  ../src/game/pokemongwidgets/
   ../src/game/models
   ../include/
 )

@@ -1,4 +1,4 @@
-set(BACKEND_NAME backend)
+set(BACKEND_NAME pokemongbackend)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -14,16 +14,16 @@ find_package(Qt5 REQUIRED COMPONENTS DBus)
 find_package(Qt5 REQUIRED COMPONENTS Core)
 
 add_executable(
-	${BACKEND_NAME}
-	dbusserver.h
-	dbusserver.cpp
-	)
+  ${BACKEND_NAME}
+  dbusserver.h
+  dbusserver.cpp
+  )
 target_include_directories(${BACKEND_NAME} PUBLIC
-	../../include/
+  ../../include/
 )
 target_link_libraries(
-	${BACKEND_NAME} PRIVATE
-	Qt5::Core
-	Qt5::DBus
+  ${BACKEND_NAME} PRIVATE
+  Qt5::Core
+  Qt5::DBus
 )
 install(TARGETS ${BACKEND_NAME} DESTINATION ${CMAKE_INSTALL_BINDIR})
