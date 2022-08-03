@@ -29,18 +29,18 @@ void MyButtonPrivate::init()
 {
     Q_Q(MyButton);
 
-    toggletrack = new MybuttonToggleTrack(q);
+    m_toggletrack = new MybuttonToggleTrack(q);
     // toggletrack->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-    toggle = new MybuttonToggle(q);
+    m_toggle = new MybuttonToggle(q);
     // toggle->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-    stateMachine = new QStateMachine(q);
+    m_stateMachine = new QStateMachine(q);
 
-    offState = new QState;
-    onState = new QState;
+    m_offState = new QState;
+    m_onState = new QState;
 
-    stateMachine->addState(offState);
-    stateMachine->addState(onState);
-    stateMachine->setInitialState(offState);
+    m_stateMachine->addState(m_offState);
+    m_stateMachine->addState(m_onState);
+    m_stateMachine->setInitialState(m_offState);
 
     q->setCheckable(true);
     q->setChecked(false);
@@ -48,10 +48,10 @@ void MyButtonPrivate::init()
     q->setAutoExclusive(true);
     q->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-    offState->assignProperty(toggle, "shift", -4);
-    offState->assignProperty(toggletrack, "trackColor", black);
-    onState->assignProperty(toggle, "shift", 4);
-    onState->assignProperty(toggletrack, "trackColor", green);
+    m_offState->assignProperty(m_toggle, "shift", -4);
+    m_offState->assignProperty(m_toggletrack, "trackColor", black);
+    m_onState->assignProperty(m_toggle, "shift", 4);
+    m_onState->assignProperty(m_toggletrack, "trackColor", green);
 
     QSignalTransition *transition;
     QPropertyAnimation *animation;
@@ -59,45 +59,45 @@ void MyButtonPrivate::init()
     // offState to onstate
     transition = new QSignalTransition(q, &MyButton::toggled);
 
-    transition->setTargetState(onState);
-    offState->addTransition(transition);
+    transition->setTargetState(m_onState);
+    m_offState->addTransition(transition);
 
     animation = new QPropertyAnimation(q);
     animation->setPropertyName("shift");
-    animation->setTargetObject(toggle);
+    animation->setTargetObject(m_toggle);
     animation->setDuration(150);
     animation->setEasingCurve(QEasingCurve::OutCurve);
     transition->addAnimation(animation);
 
     animation = new QPropertyAnimation(q);
     animation->setPropertyName("trackColor");
-    animation->setTargetObject(toggletrack);
+    animation->setTargetObject(m_toggletrack);
     animation->setDuration(150);
     // animation->setEasingCurve(QEasingCurve::OutCurve);
     transition->addAnimation(animation);
 
     // onstate to offstate
     transition = new QSignalTransition(q, &MyButton::toggled);
-    transition->setTargetState(offState);
-    onState->addTransition(transition);
+    transition->setTargetState(m_offState);
+    m_onState->addTransition(transition);
 
     animation = new QPropertyAnimation(q);
     animation->setPropertyName("shift");
-    animation->setTargetObject(toggle);
+    animation->setTargetObject(m_toggle);
     animation->setDuration(150);
     animation->setEasingCurve(QEasingCurve::OutCurve);
     transition->addAnimation(animation);
 
     animation = new QPropertyAnimation(q);
     animation->setPropertyName("trackColor");
-    animation->setTargetObject(toggletrack);
+    animation->setTargetObject(m_toggletrack);
     animation->setDuration(150);
     // animation->setEasingCurve(QEasingCurve::OutCurve);
     transition->addAnimation(animation);
 
     //
 
-    stateMachine->start();
+    m_stateMachine->start();
     QCoreApplication::processEvents();
 }
 

@@ -15,10 +15,10 @@ void MyBattleMapPrivate::init()
 {
     Q_Q(MyBattleMap);
 
-    mime = new MyBattleMapMime(q);
-    enermy = new MyBattleMapEnermy(q);
-    stateMachine = new MyBattleMapStateMachine(q, mime, enermy);
-    stateMachine->start();
+    m_mime = new MyBattleMapMime(q);
+    m_enermy = new MyBattleMapEnermy(q);
+    m_stateMachine = new MyBattleMapStateMachine(q, m_mime, m_enermy);
+    m_stateMachine->start();
     QCoreApplication::processEvents();
 }
 
@@ -42,10 +42,10 @@ void MyBattleMap::paintEvent(QPaintEvent *event)
 void MyBattleMap::myAttack()
 {
     Q_D(MyBattleMap);
-    emit d->stateMachine->signalMimeAttack();
+    emit d->m_stateMachine->signalMimeAttack();
 }
 void MyBattleMap::enermyAttack()
 {
     Q_D(MyBattleMap);
-    emit d->stateMachine->signamAnermyAttack();
+    emit d->m_stateMachine->signamAnermyAttack();
 }

@@ -16,9 +16,9 @@ public:
     void init();
 
     MyButton *const q_ptr;
-    MybuttonToggle *toggle;
-    MybuttonToggleTrack *toggletrack;
-    QState *offState;
-    QState *onState;
-    QStateMachine *stateMachine;
+    MybuttonToggle *m_toggle;
+    MybuttonToggleTrack *m_toggletrack;
+    QState *m_offState;
+    QState *m_onState;
+    QStateMachine *m_stateMachine;
 };

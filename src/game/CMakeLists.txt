@@ -41,7 +41,7 @@ add_definitions(-DPLUGINDIR="/usr/share/pokemongbattle/plugins")
 add_subdirectory(plugins)
 target_include_directories(${GAMENAME} PUBLIC
   ../../include/
-  ${QGSettings_INCLUED_DIRS}
+	${QGSettings_INCLUDE_DIRS}
 )
 target_link_libraries(
   ${GAMENAME} PRIVATE

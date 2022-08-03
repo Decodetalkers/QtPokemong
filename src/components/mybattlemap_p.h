@@ -18,7 +18,7 @@ public:
     void init();
 
     MyBattleMap *const q_ptr;
-    MyBattleMapMime *mime;
-    MyBattleMapEnermy *enermy;
-    MyBattleMapStateMachine *stateMachine;
+    MyBattleMapMime *m_mime;
+    MyBattleMapEnermy *m_enermy;
+    MyBattleMapStateMachine *m_stateMachine;
 };

@@ -7,12 +7,12 @@
 #include <mywidgets/models/pokemongmodel.h>
 #include <mywidgets/mybattlemap.h>
 
+#include <QGSettings/QGSettings>
 #include <QGridLayout>
 #include <QMainWindow>
 #include <QPushButton>
 #include <QStackedWidget>
 #include <QStringListModel>
-#include <QGSettings/QGSettings>
 class GamePanel : public QWidget
 {
     Q_OBJECT
@@ -24,15 +24,16 @@ public slots:
     void getWeather(QString weather);
     void messagesUpdate(QString message);
 
-private:
-    QStringListModel *messagemodel;
-    MyBattleMap *battlemap;
-    // QGridLayout *grid;
-    Enermy *enermy;
-    Player *player;
-
 signals:
     void exit();
+
+private:
+    QStringListModel *m_messagemodel;
+    MyBattleMap *m_battlemap;
+    // QGridLayout *grid;
+    Enermy *m_enermy;
+    Player *m_player;
+
     // void catchpokemong(PokemongIcon, QString);
 };
 
@@ -41,16 +42,16 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr,QSharedPointer<PokeMonModel> model = QSharedPointer<PokeMonModel>(new PokeMonModel));
+    MainWindow(QWidget *parent = nullptr, QSharedPointer<PokeMonModel> model = QSharedPointer<PokeMonModel>(new PokeMonModel));
     ~MainWindow();
 private slots:
     void battle();
 
 private:
-    GamePanel *panel;
-    PokemonMap *mainlay;
-    QStackedWidget *aboveall;
+    GamePanel *m_panel;
+    PokemonMap *m_mainlay;
+    QStackedWidget *m_aboveall;
 
-    QTimer *timer;
-	QGSettings *m_gsettings;
+    QTimer *m_timer;
+    QGSettings *m_gsettings;
 };

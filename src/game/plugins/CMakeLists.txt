@@ -65,7 +65,7 @@ add_library(
 
 target_include_directories(${BIN_NAME2} PUBLIC
   ../../../include/
-  ${QGSettings_INCLUED_DIRS}
+	${QGSettings_INCLUDE_DIRS}
 )
 target_link_libraries(
   ${BIN_NAME3} PRIVATE

@@ -52,7 +52,7 @@ Loading::Loading(QWidget *parent)
     setLayout(layout);
     if (QGSettings::isSchemaInstalled("apps.eightplus.pokemongame")) {
         m_gsettings = new QGSettings("apps.eightplus.pokemongame");
-        //qDebug() << m_gsettings->get("names").toStringList();
+        // qDebug() << m_gsettings->get("names").toStringList();
         QStringList names = m_gsettings->get("names").toStringList();
         QStringList list = m_gsettings->get("ids").toStringList();
         QList<QUrl> urls;
@@ -67,18 +67,18 @@ Loading::Loading(QWidget *parent)
             auto size = list.size();
             for (int i = 0; i < size; ++i) {
                 if (list[i].toInt() == 0) {
-                    this->icons << PokemongIcon();
+                    this->m_icons << PokemongIcon();
                 } else {
-                    this->icons << PokemongIcon(QVariant::fromValue(arrays[i]), list[i].toInt());
+                    this->m_icons << PokemongIcon(QVariant::fromValue(arrays[i]), list[i].toInt());
                 }
             }
             QSharedPointer<PokeMonModel> model = QSharedPointer<PokeMonModel>(new PokeMonModel);
-            model->populateData(this->icons, names);
+            model->populateData(this->m_icons, names);
             MainWindow *mainwindow = new MainWindow(nullptr, model);
             mainwindow->show();
             close();
         });
-		watcher->setFuture(getnames);
+        watcher->setFuture(getnames);
     } else {
         QTimer *timer = new QTimer(this);
         connect(timer, &QTimer::timeout, this, [=] {

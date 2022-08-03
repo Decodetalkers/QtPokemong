@@ -20,9 +20,9 @@ public:
 
     MyPopWindow *const q_ptr;
 
-    QWidget *widget;
-    MyPopWindowDialog *dialogWindow;
-    QStackedLayout *proxyStack;
-    QStateMachine *stateMachine;
-    MyPopWindowProxy *proxy;
+    QWidget *m_widget;
+    MyPopWindowDialog *m_dialogWindow;
+    QStackedLayout *m_proxyStack;
+    QStateMachine *m_stateMachine;
+    MyPopWindowProxy *m_proxy;
 };

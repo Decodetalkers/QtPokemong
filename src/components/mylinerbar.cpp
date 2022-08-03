@@ -12,9 +12,9 @@ MyLinerBarPrivate::MyLinerBarPrivate(MyLinerBar *q)
 void MyLinerBarPrivate::init()
 {
     Q_Q(MyLinerBar);
-    life = new MyLinerBarLife(q);
-    statemachine = new MyLinerBarStateMachine(q, life);
-    statemachine->start();
+    m_life = new MyLinerBarLife(q);
+    m_statemachine = new MyLinerBarStateMachine(q, m_life);
+    m_statemachine->start();
     QCoreApplication::processEvents();
 }
 MyLinerBarPrivate::~MyLinerBarPrivate(){};
@@ -30,13 +30,13 @@ MyLinerBar::MyLinerBar(QWidget *parent)
 void MyLinerBar::damage(qreal damage)
 {
     Q_D(MyLinerBar);
-    d->statemachine->updateAfterAssignment(damage);
-    emit d->statemachine->attack();
+    d->m_statemachine->updateAfterAssignment(damage);
+    emit d->m_statemachine->attack();
 }
 void MyLinerBar::rebase()
 {
     Q_D(MyLinerBar);
-    d->statemachine->rebase();
+    d->m_statemachine->rebase();
 }
 void MyLinerBar::paintEvent(QPaintEvent *event)
 {
@@ -53,6 +53,6 @@ MyLinerBar::~MyLinerBar() {}
 qreal MyLinerBar::life() const
 {
     Q_D(const MyLinerBar);
-    return d_func()->statemachine->getlife();
+    return d_func()->m_statemachine->getlife();
 }
 #endif  // TEST

@@ -13,5 +13,5 @@ public:
 private:
     int m_dist = 0;
     QGSettings *m_gsettings;
-    QList<PokemongIcon> icons;
+    QList<PokemongIcon> m_icons;
 };

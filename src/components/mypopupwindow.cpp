@@ -28,39 +28,39 @@ void MyPopWindowPrivate::init()
 {
     Q_Q(MyPopWindow);
 
-    dialogWindow = new MyPopWindowDialog(q);
-    proxyStack = new QStackedLayout;
-    stateMachine = new QStateMachine(q);
-    proxy = new MyPopWindowProxy(dialogWindow, proxyStack, q);
+    m_dialogWindow = new MyPopWindowDialog(q);
+    m_proxyStack = new QStackedLayout;
+    m_stateMachine = new QStateMachine(q);
+    m_proxy = new MyPopWindowProxy(m_dialogWindow, m_proxyStack, q);
 
     QVBoxLayout *layout = new QVBoxLayout;
     q->setLayout(layout);
 
-    widget = new QWidget;
-    widget->setLayout(proxyStack);
-    widget->setMinimumWidth(400);
+    m_widget = new QWidget;
+    m_widget->setLayout(m_proxyStack);
+    m_widget->setMinimumWidth(400);
 
     QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect;
     effect->setColor(QColor(0, 0, 0, 200));
     effect->setBlurRadius(64);
     effect->setOffset(0, 13);
-    widget->setGraphicsEffect(effect);
+    m_widget->setGraphicsEffect(effect);
 
-    layout->addWidget(widget);
-    layout->setAlignment(widget, Qt::AlignCenter);
+    layout->addWidget(m_widget);
+    layout->setAlignment(m_widget, Qt::AlignCenter);
 
-    proxyStack->addWidget(dialogWindow);
-    proxyStack->addWidget(proxy);
-    proxyStack->setCurrentIndex(1);
+    m_proxyStack->addWidget(m_dialogWindow);
+    m_proxyStack->addWidget(m_proxy);
+    m_proxyStack->setCurrentIndex(1);
 
     q->setAttribute(Qt::WA_TransparentForMouseEvents);
 
     QState *hiddenState = new QState;
     QState *visibleState = new QState;
 
-    stateMachine->addState(hiddenState);
-    stateMachine->addState(visibleState);
-    stateMachine->setInitialState(hiddenState);
+    m_stateMachine->addState(hiddenState);
+    m_stateMachine->addState(visibleState);
+    m_stateMachine->setInitialState(hiddenState);
 
     MyStateTransition *transiton;
     transiton = new MyStateTransition(MyTransitionType::ShowDialog);
@@ -71,32 +71,32 @@ void MyPopWindowPrivate::init()
     transiton->setTargetState(hiddenState);
     visibleState->addTransition(transiton);
 
-    visibleState->assignProperty(proxy, "opacity", 1);
+    visibleState->assignProperty(m_proxy, "opacity", 1);
     visibleState->assignProperty(effect, "color", QColor(0, 0, 0, 200));
-    visibleState->assignProperty(dialogWindow, "offset", 0);
-    hiddenState->assignProperty(proxy, "opacity", 0);
+    visibleState->assignProperty(m_dialogWindow, "offset", 0);
+    hiddenState->assignProperty(m_proxy, "opacity", 0);
     hiddenState->assignProperty(effect, "color", QColor(0, 0, 0, 0));
-    hiddenState->assignProperty(dialogWindow, "offset", 200);
+    hiddenState->assignProperty(m_dialogWindow, "offset", 200);
 
     QPropertyAnimation *animation;
 
-    animation = new QPropertyAnimation(proxy, "opacity", q);
+    animation = new QPropertyAnimation(m_proxy, "opacity", q);
     animation->setDuration(280);
-    stateMachine->addDefaultAnimation(animation);
+    m_stateMachine->addDefaultAnimation(animation);
 
     animation = new QPropertyAnimation(effect, "color", q);
     animation->setDuration(280);
-    stateMachine->addDefaultAnimation(animation);
+    m_stateMachine->addDefaultAnimation(animation);
 
-    animation = new QPropertyAnimation(dialogWindow, "offset", q);
+    animation = new QPropertyAnimation(m_dialogWindow, "offset", q);
     animation->setDuration(280);
     animation->setEasingCurve(QEasingCurve::OutCirc);
-    stateMachine->addDefaultAnimation(animation);
+    m_stateMachine->addDefaultAnimation(animation);
 
-    QObject::connect(visibleState, &QState::propertiesAssigned, proxy, &MyPopWindowProxy::makeOpaque);
-    QObject::connect(hiddenState, &QState::propertiesAssigned, proxy, &MyPopWindowProxy::makeTransparent);
+    QObject::connect(visibleState, &QState::propertiesAssigned, m_proxy, &MyPopWindowProxy::makeOpaque);
+    QObject::connect(hiddenState, &QState::propertiesAssigned, m_proxy, &MyPopWindowProxy::makeTransparent);
 
-    stateMachine->start();
+    m_stateMachine->start();
     QCoreApplication::processEvents();
 }
 
@@ -112,29 +112,29 @@ MyPopWindow::~MyPopWindow() {}
 QLayout *MyPopWindow::windowLayout() const
 {
     Q_D(const MyPopWindow);
-    return d->dialogWindow->layout();
+    return d->m_dialogWindow->layout();
 }
 
 void MyPopWindow::setWindowLayout(QLayout *layout)
 {
     Q_D(MyPopWindow);
 
-    d->dialogWindow->setLayout(layout);
+    d->m_dialogWindow->setLayout(layout);
 }
 
 void MyPopWindow::showDialog()
 {
     Q_D(MyPopWindow);
-    d->stateMachine->postEvent(new MyTransitionEvent(MyTransitionType::ShowDialog));
+    d->m_stateMachine->postEvent(new MyTransitionEvent(MyTransitionType::ShowDialog));
     setAttribute(Qt::WA_TransparentForMouseEvents, false);
     raise();
 }
 void MyPopWindow::hideDialog()
 {
     Q_D(MyPopWindow);
-    d->stateMachine->postEvent(new MyTransitionEvent(MyTransitionType::HideDialog));
+    d->m_stateMachine->postEvent(new MyTransitionEvent(MyTransitionType::HideDialog));
     setAttribute(Qt::WA_TransparentForMouseEvents);
-    d->proxyStack->setCurrentIndex(1);
+    d->m_proxyStack->setCurrentIndex(1);
 }
 void MyPopWindow::paintEvent(QPaintEvent *event)
 {
@@ -149,7 +149,7 @@ void MyPopWindow::paintEvent(QPaintEvent *event)
     brush.setColor(Qt::black);
     painter.setBrush(brush);
     painter.setPen(Qt::NoPen);
-    painter.setOpacity(d->proxy->opacity() / 2.4);
+    painter.setOpacity(d->m_proxy->opacity() / 2.4);
     painter.drawRect(rect());
 }
 bool MyPopWindow::eventFilter(QObject *obj, QEvent *event)
@@ -162,7 +162,7 @@ bool MyPopWindow::eventFilter(QObject *obj, QEvent *event)
             if ((mouseEvent = static_cast<QMouseEvent *>(event))) {
                 // check canClose
                 // auto close location
-                if (!d->widget->geometry().contains(mouseEvent->pos())) {
+                if (!d->m_widget->geometry().contains(mouseEvent->pos())) {
 					hideDialog();
 				}
             }

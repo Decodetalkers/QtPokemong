@@ -14,12 +14,12 @@ void MyProgressPrivate::init()
     Q_Q(MyProgress);
 
     // q->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    delegate = new MyProgressDelegate(q);
+    m_delegate = new MyProgressDelegate(q);
 
     QPropertyAnimation *animation = new QPropertyAnimation(q);
 
     animation->setPropertyName("offset");
-    animation->setTargetObject(delegate);
+    animation->setTargetObject(m_delegate);
     animation->setStartValue(0);
     animation->setEndValue(1);
     animation->setDuration(1000);
@@ -63,5 +63,5 @@ void MyProgress::paintEvent(QPaintEvent *event)
     painter.setBrush(brush);
 
     // set start point
-    painter.drawRect(d->delegate->offset() * width() * 2 - width(), 0, width(), height());
+    painter.drawRect(d->m_delegate->offset() * width() * 2 - width(), 0, width(), height());
 }

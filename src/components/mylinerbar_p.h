@@ -16,6 +16,6 @@ public:
     void init();
 
     MyLinerBar *const q_ptr;
-    MyLinerBarLife *life;
-    MyLinerBarStateMachine *statemachine;
+    MyLinerBarLife *m_life;
+    MyLinerBarStateMachine *m_statemachine;
 };
